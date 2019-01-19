@@ -29,199 +29,52 @@ public class MdSpi extends CThostFtdcMdSpi {
 
 	private CtpGateway ctpGateway;
 	private String mdAddress;
-	// private String tdAddress;
 	private String brokerID;
 	private String userID;
 	private String password;
-	// private String authCode;
-	// private String userProductInfo;
 	private String gatewayID;
 	private String gatewayName;
 
 	private String tradingDayStr;
 
 	private HashMap<String, String> contractExchangeMap;
-	// private HashMap<String, Integer> contractSizeMap;
 	private HashMap<String, String> contractNameMap;
 	private HashMap<String, Integer> preTickVolumeMap = new HashMap<>();
 
 	MdSpi(CtpGateway ctpGateway, MdSpiConfig config) {
 
 		this.ctpGateway = ctpGateway;
-		this.ctpGateway = ctpGateway;
 		this.mdAddress = config.getMdAddress();
 		this.brokerID = config.getBrokerId();
 		this.userID = config.getUserId();
 		this.password = config.getPassword();
-		// this.authCode = ctpGateway.getGatewaySetting().getCtpSetting().getAuthCode();
 		this.gatewayID = config.getGatewayId();
 		this.gatewayName = config.getGatewayName();
 
 	}
 
-	private CThostFtdcMdApi cThostFtdcMdApi;
-
-	private boolean connectProcessStatus = false; // 避免重复调用
-	private boolean connectionStatus = false; // 前置机连接状态
-	private boolean loginStatus = false; // 登陆状态
-
-	/**
-	 * 连接
-	 */
-	public synchronized void connect() {
-		if (isConnected() || connectProcessStatus)
-			return;
-		if (connectionStatus) {
-			login();
-			return;
-		}
-		if (cThostFtdcMdApi != null) {
-			cThostFtdcMdApi.RegisterSpi(null);
-			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread(() -> {
-				try {
-					log.warn("{} 行情接口异步释放Starting...", gatewayName);
-					cThostFtdcMdApi.Release();
-				} catch (Exception e) {
-					log.error("{} 行情接口异步释放Error...", gatewayName, e);
-				}
-			}, gatewayID + "-MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
-					.start();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-
-			}
-			connectionStatus = false;
-			loginStatus = false;
-		}
-
-		log.warn("{} 行情接口实例初始化", gatewayName);
-
-		String envTmpDir = System.getProperty("java.io.tmpdir");
-		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "MD_"
-				+ gatewayID;
-		File tempFile = new File(tempFilePath);
-		FileUtil.createMissingParentDirectories(tempFile);
-
-		log.info("{} 使用临时文件夹", gatewayName, tempFile.getParentFile().getAbsolutePath());
-
-		cThostFtdcMdApi = CThostFtdcMdApi.CreateFtdcMdApi(tempFile.getAbsolutePath());
-		cThostFtdcMdApi.RegisterSpi(this);
-		cThostFtdcMdApi.RegisterFront(mdAddress);
-		connectProcessStatus = true;
-		cThostFtdcMdApi.Init();
-	}
-
-	/**
-	 * 关闭
-	 */
-	public synchronized void close() {
-		if (cThostFtdcMdApi != null) {
-			log.warn("{} 行情接口实例开始关闭并释放", gatewayName);
-			cThostFtdcMdApi.RegisterSpi(null);
-			// 避免异步线程找不到引用
-			CThostFtdcMdApi cThostFtdcMdApiForRelease = cThostFtdcMdApi;
-			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread(() -> {
-				try {
-					log.warn("{} 行情接口异步释放启动！", gatewayName);
-					cThostFtdcMdApiForRelease.Release();
-				} catch (Exception e) {
-					log.error("{} 行情接口异步释放发生异常！", gatewayName, e);
-				}
-			}, gatewayID + "MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
-					.start();
-
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// nop
-			}
-			cThostFtdcMdApi = null;
-			connectionStatus = false;
-			loginStatus = false;
-			connectProcessStatus = false;
-			log.warn("{} 行情接口实例关闭并释放", gatewayName);
-			// 通知停止其他关联实例
-			ctpGateway.close();
-		} else
-			log.warn("{} 行情接口实例为null,无需关闭", gatewayName);
-	}
-
-	/**
-	 * 返回接口状态
-	 * 
-	 * @return
-	 */
-	public boolean isConnected() {
-		return connectionStatus && loginStatus;
-	}
-
-	/**
-	 * 获取交易日
-	 * 
-	 * @return
-	 */
-	public String getTradingDay() {
-		return tradingDayStr;
-	}
-
-	/**
-	 * 订阅行情
-	 * 
-	 * @param rtSymbol
-	 */
-	public void subscribe(String symbol) {
-		if (isConnected()) {
-			String[] symbolArray = new String[1];
-			symbolArray[0] = symbol;
-			cThostFtdcMdApi.SubscribeMarketData(symbolArray, 1);
-		} else
-			log.warn(gatewayName + "无法订阅行情,行情服务器尚未连接成功");
-	}
-
-	/**
-	 * 退订行情
-	 */
-	public void unSubscribe(String symbol) {
-		if (isConnected()) {
-			String[] symbolArray = new String[1];
-			symbolArray[0] = symbol;
-			cThostFtdcMdApi.UnSubscribeMarketData(symbolArray, 1);
-		} else
-			log.warn(gatewayName + "退订无效,行情服务器尚未连接成功");
-	}
-
-	private void login() {
-		if (StringUtils.isEmpty(brokerID) || StringUtils.isEmpty(userID) || StringUtils.isEmpty(password)) {
-			log.error(gatewayName + "BrokerID UserID Password不允许为空");
-			return;
-		}
-		// 登录
-		CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
-		userLoginField.setBrokerID(brokerID);
-		userLoginField.setUserID(userID);
-		userLoginField.setPassword(password);
-		cThostFtdcMdApi.ReqUserLogin(userLoginField, 0);
-	}
-
 	// 前置机联机回报
+	@Override
 	public void OnFrontConnected() {
 		log.info(gatewayName + "行情接口前置机已连接");
+
 		// 修改前置机连接状态为true
-		connectionStatus = true;
-		connectProcessStatus = false;
-		login();
+//		connectionStatus = true;
+//		connectProcessStatus = false;
+//		login();
+		ctpGateway.onFrontConnected();
 	}
 
 	// 前置机断开回报
+	@Override
 	public void OnFrontDisconnected(int nReason) {
 		log.info(gatewayName + "行情接口前置机已断开,Reason:" + nReason);
-		close();
+		
+		ctpGateway.onFrontDisconnected(nReason);
 	}
 
 	// 登录回报
+	@Override
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0) {
@@ -244,11 +97,13 @@ public class MdSpi extends CThostFtdcMdSpi {
 	}
 
 	// 心跳警告
+	@Override
 	public void OnHeartBeatWarning(int nTimeLapse) {
 		log.warn(gatewayName + "行情接口心跳警告 nTimeLapse:" + nTimeLapse);
 	}
 
 	// 登出回报
+	@Override
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
 		if (pRspInfo.getErrorID() != 0)
@@ -261,12 +116,14 @@ public class MdSpi extends CThostFtdcMdSpi {
 	}
 
 	// 错误回报
+	@Override
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		log.info("{}行情接口错误回报!ErrorID:{},ErrorMsg:{},RequestID:{},isLast{}", gatewayName, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg(), nRequestID, bIsLast);
 	}
 
 	// 订阅合约回报
+	@Override
 	public void OnRspSubMarketData(CThostFtdcSpecificInstrumentField pSpecificInstrument,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0)
@@ -277,6 +134,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 	}
 
 	// 退订合约回报
+	@Override
 	public void OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField pSpecificInstrument,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0)
@@ -288,6 +146,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 
 	// 合约行情推送
 	@SuppressWarnings("unused")
+	@Override
 	public void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField pDepthMarketData) {
 		if (pDepthMarketData != null) {
 

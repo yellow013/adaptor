@@ -41,6 +41,9 @@ public class CtpGateway {
 
 	private HashSet<String> subscribeSymbols = new HashSet<>();
 
+	private MdApi mdApi;
+	private TdApi tdApi;
+
 	private MdSpi mdSpi;
 	private TdSpi tdSpi;
 
@@ -72,30 +75,30 @@ public class CtpGateway {
 
 	public void subscribe(String symbol) {
 		subscribeSymbols.add(symbol);
-		if (mdSpi != null)
-			mdSpi.subscribe(symbol);
+		if (mdApi != null)
+			mdApi.subscribe(symbol);
 
 	}
 
 	public void unsubscribe(String symbol) {
 		subscribeSymbols.remove(symbol);
-		if (mdSpi != null)
-			mdSpi.unSubscribe(symbol);
+		if (mdApi != null)
+			mdApi.unsubscribe(symbol);
 	}
 
 	public void connect() {
 		if (tdSpi != null)
 			tdSpi.connect();
-		if (mdSpi != null)
-			mdSpi.connect();
+		if (mdApi != null)
+			mdApi.connect();
 	}
 
 	public void close() {
 		// 务必判断连接状态,防止死循环
 		if (tdSpi != null && tdSpi.isConnected())
 			tdSpi.close();
-		if (mdSpi != null && mdSpi.isConnected())
-			mdSpi.close();
+		if (mdApi != null && mdApi.isConnected())
+			mdApi.close();
 		// 在这里发送事件主要是由于接口可能自动断开,需要广播通知
 	}
 
@@ -124,6 +127,15 @@ public class CtpGateway {
 
 	public boolean isConnected() {
 		return tdSpi != null && mdSpi != null && tdSpi.isConnected() && mdSpi.isConnected();
+	}
+
+	public void onFrontConnected() {
+		mdApi.login();
+	}
+
+	public void onFrontDisconnected(int nReason) {
+		if (mdApi != null)
+			mdApi.close();
 	}
 
 	public static void main(String[] args) {
