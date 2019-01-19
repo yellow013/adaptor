@@ -57,10 +57,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 		this.gatewayID = config.getGatewayId();
 		this.gatewayName = config.getGatewayName();
 
-		this.contractExchangeMap = ctpGateway.getContractExchangeMap();
-		// this.contractSizeMap = ctpGateway.getContractSizeMap();
-		this.contractNameMap = ctpGateway.getContractNameMap();
-
 	}
 
 	private CThostFtdcMdApi cThostFtdcMdApi;
@@ -75,7 +71,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 	public synchronized void connect() {
 		if (isConnected() || connectProcessStatus)
 			return;
-
 		if (connectionStatus) {
 			login();
 			return;
@@ -84,15 +79,14 @@ public class MdSpi extends CThostFtdcMdSpi {
 			cThostFtdcMdApi.RegisterSpi(null);
 			// 由于CTP底层原因，部分情况下不能正确执行Release
 			new Thread(() -> {
-				Thread.currentThread().setName("网关ID-" + gatewayID + "行情接口异步释放线程"
-						+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_FORMATTER));
 				try {
-					log.warn("{} 行情接口异步释放启动！", gatewayName);
+					log.warn("{} 行情接口异步释放Starting...", gatewayName);
 					cThostFtdcMdApi.Release();
 				} catch (Exception e) {
-					log.error("{} 行情接口异步释放发生异常！", gatewayName, e);
+					log.error("{} 行情接口异步释放Error...", gatewayName, e);
 				}
-			}).start();
+			}, gatewayID + "-MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
+					.start();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -117,7 +111,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 		cThostFtdcMdApi.RegisterFront(mdAddress);
 		connectProcessStatus = true;
 		cThostFtdcMdApi.Init();
-
 	}
 
 	/**
@@ -131,15 +124,14 @@ public class MdSpi extends CThostFtdcMdSpi {
 			CThostFtdcMdApi cThostFtdcMdApiForRelease = cThostFtdcMdApi;
 			// 由于CTP底层原因，部分情况下不能正确执行Release
 			new Thread(() -> {
-				Thread.currentThread().setName("网关ID-" + gatewayID + "行情接口异步释放线程"
-						+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_FORMATTER));
 				try {
 					log.warn("{} 行情接口异步释放启动！", gatewayName);
 					cThostFtdcMdApiForRelease.Release();
 				} catch (Exception e) {
 					log.error("{} 行情接口异步释放发生异常！", gatewayName, e);
 				}
-			}).start();
+			}, gatewayID + "MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
+					.start();
 
 			try {
 				Thread.sleep(100);
@@ -153,9 +145,8 @@ public class MdSpi extends CThostFtdcMdSpi {
 			log.warn("{} 行情接口实例关闭并释放", gatewayName);
 			// 通知停止其他关联实例
 			ctpGateway.close();
-		} else {
+		} else
 			log.warn("{} 行情接口实例为null,无需关闭", gatewayName);
-		}
 	}
 
 	/**
@@ -186,9 +177,8 @@ public class MdSpi extends CThostFtdcMdSpi {
 			String[] symbolArray = new String[1];
 			symbolArray[0] = symbol;
 			cThostFtdcMdApi.SubscribeMarketData(symbolArray, 1);
-		} else {
+		} else
 			log.warn(gatewayName + "无法订阅行情,行情服务器尚未连接成功");
-		}
 	}
 
 	/**
@@ -199,9 +189,8 @@ public class MdSpi extends CThostFtdcMdSpi {
 			String[] symbolArray = new String[1];
 			symbolArray[0] = symbol;
 			cThostFtdcMdApi.UnSubscribeMarketData(symbolArray, 1);
-		} else {
+		} else
 			log.warn(gatewayName + "退订无效,行情服务器尚未连接成功");
-		}
 	}
 
 	private void login() {
@@ -249,11 +238,9 @@ public class MdSpi extends CThostFtdcMdSpi {
 						.toArray(new String[ctpGateway.getSubscribedSymbols().size()]);
 				cThostFtdcMdApi.SubscribeMarketData(subscribedSymbolsArray, subscribedSymbolsArray.length + 1);
 			}
-		} else {
+		} else
 			log.warn("{}行情接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-		}
-
 	}
 
 	// 心跳警告
@@ -264,14 +251,12 @@ public class MdSpi extends CThostFtdcMdSpi {
 	// 登出回报
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
-		if (pRspInfo.getErrorID() != 0) {
+		if (pRspInfo.getErrorID() != 0)
 			log.info("{}OnRspUserLogout!ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-		} else {
+		else
 			log.info("{}OnRspUserLogout!BrokerID:{},UserID:{}", gatewayName, pUserLogout.getBrokerID(),
 					pUserLogout.getUserID());
-
-		}
 		this.loginStatus = false;
 	}
 

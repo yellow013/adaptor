@@ -1,7 +1,6 @@
 package io.ffreedom.jctp.gateway;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,44 +14,42 @@ import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
 import io.ffreedom.jctp.gateway.dto.ReqOrder;
 
 /**
- * @author sun0x00@gmail.com
  */
 public class CtpGateway {
 
 	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
 
-	private Timer timer = new Timer();
-
 	static {
 		try {
-			if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
-				System.load("libs" + File.separator + "libiconv.dll");
-				System.load("libs" + File.separator + "thostmduserapi.dll");
-				System.load("libs" + File.separator + "jctpmdapiv6v3v11x64.dll");
-				System.load("libs" + File.separator + "thosttraderapi.dll");
-				System.load("libs" + File.separator + "jctptraderapiv6v3v11x64.dll");
+			// 判断是否是windows操作系统
+			if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+				System.load(new File("libs" + File.separator + "libiconv.dll").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "thostmduserapi.dll").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "jctpmdapiv6v3v11x64.dll").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "thosttraderapi.dll").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "jctptraderapiv6v3v11x64.dll").getAbsolutePath());
 			} else {
-				System.load("libs" + File.separator + "libthostmduserapi.so");
-				System.load("libs" + File.separator + "libjctpmdapiv6v3v11x64.so");
-				System.load("libs" + File.separator + "libthosttraderapi.so");
-				System.load("libs" + File.separator + "libjctptraderapiv6v3v11x64.so");
+				System.load(new File("libs" + File.separator + "libthostmduserapi.so").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "libjctpmdapiv6v3v11x64.so").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "libthosttraderapi.so").getAbsolutePath());
+				System.load(new File("libs" + File.separator + "libjctptraderapiv6v3v11x64.so").getAbsolutePath());
 			}
 		} catch (Exception e) {
-			log.error("加载库失败!", e);
+			log.error("Load libs error...", e);
 		}
-
 	}
 
-	private HashSet<String> subscribedSymbols = new HashSet<>();
-	private HashMap<String, String> contractExchangeMap = new HashMap<>();
-	private HashMap<String, Integer> contractSizeMap = new HashMap<>();
-	private HashMap<String, String> contractNameMap = new HashMap<>();
+	private HashSet<String> subscribeSymbols = new HashSet<>();
 
-	private MdSpi mdSpi = new MdSpi(this, new MdSpiConfig());
-	private TdSpi tdSpi = new TdSpi(this, new TdSpiConfig());
+	private MdSpi mdSpi;
+	private TdSpi tdSpi;
 
-	public CtpGateway() {
-		timer.schedule(new TimerTask() {
+	public CtpGateway(MdSpiConfig mdSpiConfig, TdSpiConfig tdSpiConfig) {
+		if (mdSpiConfig != null)
+			this.mdSpi = new MdSpi(this, mdSpiConfig);
+		if (tdSpiConfig != null)
+			this.tdSpi = new TdSpi(this, tdSpiConfig);
+		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
 				try {
@@ -69,39 +66,21 @@ public class CtpGateway {
 		}, 0, 3000);
 	}
 
-	public HashMap<String, String> getContractExchangeMap() {
-		return contractExchangeMap;
-	}
-
-	public HashMap<String, Integer> getContractSizeMap() {
-		return contractSizeMap;
-	}
-
-	public HashMap<String, String> getContractNameMap() {
-		return contractNameMap;
-	}
-
 	public HashSet<String> getSubscribedSymbols() {
-		return subscribedSymbols;
+		return subscribeSymbols;
 	}
 
 	public void subscribe(String symbol) {
-		subscribedSymbols.add(symbol);
+		subscribeSymbols.add(symbol);
 		if (mdSpi != null)
 			mdSpi.subscribe(symbol);
 
 	}
 
-	public void unSubscribe(String rtSymbol) {
-		String[] rtSymbolArray = rtSymbol.split("\\.");
-		String symbol = rtSymbol;
-		if (rtSymbolArray.length > 1)
-			symbol = rtSymbol.replace(("." + rtSymbolArray[rtSymbolArray.length - 1]), "");
-
-		subscribedSymbols.remove(symbol);
+	public void unsubscribe(String symbol) {
+		subscribeSymbols.remove(symbol);
 		if (mdSpi != null)
 			mdSpi.unSubscribe(symbol);
-
 	}
 
 	public void connect() {
@@ -141,11 +120,21 @@ public class CtpGateway {
 	public void queryPosition() {
 		if (tdSpi != null)
 			tdSpi.queryPosition();
-
 	}
 
 	public boolean isConnected() {
 		return tdSpi != null && mdSpi != null && tdSpi.isConnected() && mdSpi.isConnected();
+	}
+
+	public static void main(String[] args) {
+
+//		CtpGateway ctpGateway = new CtpGateway(new MdSpiConfig().setMdAddress("180.168.146.187:10010")
+//				.setBrokerId("9999").setUserId("005853").setPassword("jinpengpass101")
+//
+//				.setGatewayId("Simnow").setGatewayName("Simnow"), null);
+//
+//		ctpGateway.subscribe("rb1905");
+
 	}
 
 }

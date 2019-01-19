@@ -116,7 +116,6 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	private Logger log = LoggerFactory.getLogger(TdSpi.class);
 
 	private CtpGateway ctpGateway;
-	// private String mdAddress;
 	private String tdAddress;
 	private String brokerId;
 	private String userId;
@@ -126,14 +125,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	private String gatewayId;
 	private String gatewayName;
 
-
-	private HashMap<String, String> originalOrderIDMap = new HashMap<>();
+	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
 	TdSpi(CtpGateway ctpGateway, TdSpiConfig config) {
 
 		this.ctpGateway = ctpGateway;
-		// this.mdAddress =
-		// ctpGateway.getGatewaySetting().getCtpSetting().getMdAddress();
 		this.tdAddress = config.getTdAddress();
 		this.brokerId = config.getBrokerId();
 		this.userId = config.getUserId();
@@ -172,10 +168,8 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	 * 连接
 	 */
 	public synchronized void connect() {
-		if (isConnected() || connectProcessStatus) {
+		if (isConnected() || connectProcessStatus)
 			return;
-		}
-
 		if (connectionStatus) {
 			login();
 			return;
@@ -183,20 +177,15 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		if (cThostFtdcTraderApi != null) {
 			cThostFtdcTraderApi.RegisterSpi(null);
 			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread() {
-				public void run() {
-
-					Thread.currentThread().setName("网关ID-" + gatewayId + "交易接口异步释放线程"
-							+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_FORMATTER));
-
-					try {
-						log.warn("{} 交易接口异步释放启动！", gatewayName);
-						cThostFtdcTraderApi.Release();
-					} catch (Exception e) {
-						log.error("{} 交易接口异步释放发生异常！", gatewayName, e);
-					}
+			new Thread(() -> {
+				try {
+					log.warn("{} 交易接口异步释放启动！", gatewayName);
+					cThostFtdcTraderApi.Release();
+				} catch (Exception e) {
+					log.error("{} 交易接口异步释放发生异常！", gatewayName, e);
 				}
-			}.start();
+			}, gatewayId + "TdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
+					.start();
 
 			try {
 				Thread.sleep(100);
@@ -369,16 +358,14 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqID.incrementAndGet());
 		String rtOrderID = gatewayId + "." + orderRef.get();
 
-		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID())) {
-			originalOrderIDMap.put(rtOrderID, orderReq.getOriginalOrderID());
-		}
+		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID()))
+			originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
 
 		return rtOrderID;
 	}
 
 	// 撤单
 	public void cancelOrder(ReqCancelOrder reqCancelOrder) {
-
 		if (cThostFtdcTraderApi == null) {
 			log.info("{}尚未初始化,无法撤单", gatewayName);
 			return;
@@ -483,14 +470,12 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 登出回报
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
-		if (pRspInfo.getErrorID() != 0) {
+		if (pRspInfo.getErrorID() != 0)
 			log.info("{}OnRspUserLogout!ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-		} else {
+		else
 			log.info("{}OnRspUserLogout!BrokerID:{},UserID:{}", gatewayName, pUserLogout.getBrokerID(),
 					pUserLogout.getUserID());
-
-		}
 		loginStatus = false;
 	}
 
@@ -504,18 +489,13 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 验证客户端回报
 	public void OnRspAuthenticate(CThostFtdcRspAuthenticateField pRspAuthenticateField, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-
 		if (pRspInfo.getErrorID() == 0) {
 			authStatus = true;
 			log.info(gatewayName + "交易接口客户端验证成功");
-
 			login();
-
-		} else {
+		} else
 			log.error("{}交易接口客户端验证失败! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-		}
-
 	}
 
 	public void OnRspUserPasswordUpdate(CThostFtdcUserPasswordUpdateField pUserPasswordUpdate,
@@ -531,7 +511,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	public void OnRspOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
 
-		//TODO
+		// TODO
 
 		// 发送委托事件
 		log.error("{}交易接口发单错误回报(柜台)! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
@@ -550,7 +530,6 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 撤单错误回报(柜台)
 	public void OnRspOrderAction(CThostFtdcInputOrderActionField pInputOrderAction, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-
 		log.error("{}交易接口撤单错误（柜台）! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
 	}
 
@@ -561,14 +540,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 确认结算信息回报
 	public void OnRspSettlementInfoConfirm(CThostFtdcSettlementInfoConfirmField pSettlementInfoConfirm,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
-
-		if (pRspInfo.getErrorID() == 0) {
+		if (pRspInfo.getErrorID() == 0)
 			log.warn("{}交易接口结算信息确认完成!", gatewayName);
-		} else {
+		else
 			log.error("{}交易接口结算信息确认出错! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-		}
-
 		// 查询所有合约
 		log.warn("{}交易接口开始查询合约信息!", gatewayName);
 		CThostFtdcQryInstrumentField cThostFtdcQryInstrumentField = new CThostFtdcQryInstrumentField();
@@ -629,19 +605,18 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	}
 
 	// 持仓查询回报
-	//TODO Recode
+	// TODO Recode
 	public void OnRspQryInvestorPosition(CThostFtdcInvestorPositionField pInvestorPosition,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 
-		//TODO
-		
+		// TODO
 
 	}
 
 	// 账户查询回报
 	public void OnRspQryTradingAccount(CThostFtdcTradingAccountField pTradingAccount, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		//TODO
+		// TODO
 
 	}
 
@@ -672,7 +647,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 合约查询回报
 	public void OnRspQryInstrument(CThostFtdcInstrumentField pInstrument, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		//TODO
+		// TODO
 
 	}
 
@@ -810,20 +785,20 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 委托回报
 	public void OnRtnOrder(CThostFtdcOrderField pOrder) {
 
-		//TODO
+		// TODO
 
 	}
 
 	// 成交回报
 	public void OnRtnTrade(CThostFtdcTradeField pTrade) {
 
-		//TODO
+		// TODO
 	}
 
 	// 发单错误回报(交易所)
 	public void OnErrRtnOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo) {
 
-		//TODO
+		// TODO
 
 		log.error("{}交易接口发单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());
