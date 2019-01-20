@@ -15,6 +15,10 @@ import io.ffreedom.jctp.gateway.dto.ReqOrder;
 
 /**
  */
+/**
+ * @author Administrator
+ *
+ */
 public class CtpGateway {
 
 	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
@@ -47,11 +51,15 @@ public class CtpGateway {
 	private MdSpi mdSpi;
 	private TdSpi tdSpi;
 
-	public CtpGateway(MdSpiConfig mdSpiConfig, TdSpiConfig tdSpiConfig) {
+	private String gatewayId;
+
+	public CtpGateway(String gatewayId, MdSpiConfig mdSpiConfig, TdSpiConfig tdSpiConfig) {
+		this.gatewayId = gatewayId;
 		if (mdSpiConfig != null)
-			this.mdSpi = new MdSpi(this, mdSpiConfig);
+			this.mdSpi = new MdSpi(this);
 		if (tdSpiConfig != null)
 			this.tdSpi = new TdSpi(this, tdSpiConfig);
+		this.mdApi = new MdApi(gatewayId, mdSpi, mdSpiConfig);
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -67,6 +75,10 @@ public class CtpGateway {
 				}
 			}
 		}, 0, 3000);
+	}
+
+	public String getGatewayId() {
+		return gatewayId;
 	}
 
 	public HashSet<String> getSubscribedSymbols() {

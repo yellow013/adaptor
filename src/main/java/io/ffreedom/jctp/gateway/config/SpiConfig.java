@@ -10,8 +10,6 @@ public abstract class SpiConfig<T extends SpiConfig<T>> {
 	protected String userId;
 	protected String password;
 	protected String authCode;
-	protected String gatewayId;
-	protected String gatewayName;
 
 	public String getBrokerId() {
 		return brokerId;
@@ -36,17 +34,5 @@ public abstract class SpiConfig<T extends SpiConfig<T>> {
 	}
 
 	abstract public T setAuthCode(String authCode);
-
-	public String getGatewayId() {
-		return gatewayId;
-	}
-
-	abstract public T setGatewayId(String gatewayId);
-
-	public String getGatewayName() {
-		return gatewayName;
-	}
-
-	abstract public T setGatewayName(String gatewayName);
 
 }

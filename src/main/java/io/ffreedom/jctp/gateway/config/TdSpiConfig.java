@@ -43,16 +43,5 @@ public class TdSpiConfig extends SpiConfig<TdSpiConfig> {
 		return this;
 	}
 
-	@Override
-	public TdSpiConfig setGatewayId(String gatewayId) {
-		this.gatewayId = gatewayId;
-		return this;
-	}
-
-	@Override
-	public TdSpiConfig setGatewayName(String gatewayName) {
-		this.gatewayName = gatewayName;
-		return this;
-	}
 
 }

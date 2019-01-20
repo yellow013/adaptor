@@ -37,16 +37,4 @@ public class MdSpiConfig extends SpiConfig<MdSpiConfig> {
 		return this;
 	}
 
-	@Override
-	public MdSpiConfig setGatewayId(String gatewayId) {
-		this.gatewayId = gatewayId;
-		return this;
-	}
-
-	@Override
-	public MdSpiConfig setGatewayName(String gatewayName) {
-		this.gatewayName = gatewayName;
-		return this;
-	}
-
 }

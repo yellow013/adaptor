@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
+import io.ffreedom.jctp.gateway.config.MdSpiConfig;
 import io.ffreedom.jctp.jni.md.CThostFtdcMdApi;
 import io.ffreedom.jctp.jni.md.CThostFtdcReqUserLoginField;
 
@@ -24,9 +25,18 @@ public class MdApi {
 	private MdSpi mdSpi;
 	private String gatewayId;
 
-	MdApi(MdSpi mdSpi, String gatewayId) {
+	private String mdAddress;
+	private String brokerId;
+	private String userId;
+	private String password;
+
+	MdApi(String gatewayId, MdSpi mdSpi, MdSpiConfig config) {
 		this.mdSpi = mdSpi;
 		this.gatewayId = gatewayId;
+		this.mdAddress = config.getMdAddress();
+		this.brokerId = config.getBrokerId();
+		this.userId = config.getUserId();
+		this.password = config.getPassword();
 	}
 
 	/**
