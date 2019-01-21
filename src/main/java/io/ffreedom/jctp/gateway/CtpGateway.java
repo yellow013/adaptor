@@ -193,11 +193,12 @@ public class CtpGateway {
 			mdApi.setLogin(true);
 			if (!subscribeSymbols.isEmpty())
 				mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
-			break;
+			return;
 		case FromTd:
 			
+			return;
 		default:
-			break;
+			return;
 		}
 		
 	}

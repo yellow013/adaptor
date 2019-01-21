@@ -2,6 +2,7 @@ package io.ffreedom.jctp.gateway;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +41,15 @@ public class TdApi {
 	private String gatewayId;
 
 	private TdSpi tdSpi;
+	
+	private AtomicInteger reqId = new AtomicInteger(0); // 操作请求编号
+	private AtomicInteger orderRef = new AtomicInteger(0); // 订单编号
+	
+	private boolean authStatus = false; // 验证状态
+	private boolean loginFailed = false; // 是否已经使用错误的信息尝试登录过
 
+	private boolean instrumentQueried = false;
+	
 	public TdApi(String gatewayId, TdSpi tdSpi, TdApiConfig config) {
 		this.gatewayId = gatewayId;
 		this.tdSpi = tdSpi;
@@ -122,7 +131,7 @@ public class TdApi {
 			return;
 		}
 		CThostFtdcQryTradingAccountField cThostFtdcQryTradingAccountField = new CThostFtdcQryTradingAccountField();
-		cThostFtdcTraderApi.ReqQryTradingAccount(cThostFtdcQryTradingAccountField, reqID.incrementAndGet());
+		cThostFtdcTraderApi.ReqQryTradingAccount(cThostFtdcQryTradingAccountField, reqId.incrementAndGet());
 	}
 
 	/**
@@ -143,7 +152,7 @@ public class TdApi {
 		// log.info("查询持仓");
 		cThostFtdcQryInvestorPositionField.setBrokerID(brokerId);
 		cThostFtdcQryInvestorPositionField.setInvestorID(userId);
-		cThostFtdcTraderApi.ReqQryInvestorPosition(cThostFtdcQryInvestorPositionField, reqID.incrementAndGet());
+		cThostFtdcTraderApi.ReqQryInvestorPosition(cThostFtdcQryInvestorPositionField, reqId.incrementAndGet());
 	}
 
 	/**
@@ -152,10 +161,10 @@ public class TdApi {
 	 * @param orderReq
 	 * @return
 	 */
-	String sendOrder(ReqOrder orderReq) {
+	void sendOrder(ReqOrder orderReq) {
 		if (cThostFtdcTraderApi == null) {
 			log.info("{}尚未初始化,无法发单", gatewayId);
-			return null;
+			return;
 		}
 		CThostFtdcInputOrderField cThostFtdcInputOrderField = new CThostFtdcInputOrderField();
 		orderRef.incrementAndGet();
@@ -194,13 +203,14 @@ public class TdApi {
 			cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_CV);
 		}
 
-		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqID.incrementAndGet());
+		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqId.incrementAndGet());
 		String rtOrderID = gatewayId + "." + orderRef.get();
 
-		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID()))
-			originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
+		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID())) {			
+			//originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
+		}
 
-		return rtOrderID;
+		//return rtOrderID;
 	}
 
 	// 撤单
@@ -221,7 +231,7 @@ public class TdApi {
 		cThostFtdcInputOrderActionField.setBrokerID(brokerId);
 		cThostFtdcInputOrderActionField.setInvestorID(userId);
 
-		cThostFtdcTraderApi.ReqOrderAction(cThostFtdcInputOrderActionField, reqID.incrementAndGet());
+		cThostFtdcTraderApi.ReqOrderAction(cThostFtdcInputOrderActionField, reqId.incrementAndGet());
 	}
 
 	void login() {
@@ -247,7 +257,7 @@ public class TdApi {
 			authenticateField.setUserID(userId);
 			authenticateField.setBrokerID(brokerId);
 			authenticateField.setUserProductInfo(userProductInfo);
-			cThostFtdcTraderApi.ReqAuthenticate(authenticateField, reqID.incrementAndGet());
+			cThostFtdcTraderApi.ReqAuthenticate(authenticateField, reqId.incrementAndGet());
 		} else {
 			// 登录
 			CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
