@@ -124,7 +124,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		this.gatewayId = ctpGateway.getGatewayId();
 	}
 
-	private CThostFtdcTraderApi cThostFtdcTraderApi;
+	
 
 	private boolean connectProcessStatus = false; // 避免重复调用
 	private boolean connectionStatus = false; // 前置机连接状态
@@ -149,97 +149,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 登录起始阶段缓存Trade
 	// private List<Trade> tradeCacheList = new LinkedList<>();
 
-	/**
-	 * 连接
-	 */
-	public synchronized void connect() {
-		if (isConnected() || connectProcessStatus)
-			return;
-		if (connectionStatus) {
-			login();
-			return;
-		}
-		if (cThostFtdcTraderApi != null) {
-			cThostFtdcTraderApi.RegisterSpi(null);
-			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread(() -> {
-				try {
-					log.warn("{} 交易接口异步释放启动！", gatewayId);
-					cThostFtdcTraderApi.Release();
-				} catch (Exception e) {
-					log.error("{} 交易接口异步释放发生异常！", gatewayId, e);
-				}
-			}, gatewayId + "TdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
-					.start();
-
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// nop
-			}
-
-			connectionStatus = false;
-			loginStatus = false;
-
-		}
-
-		log.warn("{} 交易接口实例初始化", gatewayId);
-		String envTmpDir = System.getProperty("java.io.tmpdir");
-		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "TD_"
-				+ gatewayId;
-		File tempFile = new File(tempFilePath);
-		FileUtil.createMissingParentDirectories(tempFile);
-
-		log.info("{} 使用临时文件夹{}", gatewayId, tempFile.getParentFile().getAbsolutePath());
-		cThostFtdcTraderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(tempFile.getAbsolutePath());
-		cThostFtdcTraderApi.RegisterSpi(this);
-		cThostFtdcTraderApi.RegisterFront(tdAddress);
-		connectProcessStatus = true;
-		cThostFtdcTraderApi.Init();
-
-	}
-
-	/**
-	 * 关闭
-	 */
-	public synchronized void close() {
-		if (cThostFtdcTraderApi != null) {
-			log.warn("{} 交易接口实例开始关闭并释放", gatewayId);
-			cThostFtdcTraderApi.RegisterSpi(null);
-
-			// 避免异步线程找不到引用
-			CThostFtdcTraderApi cThostFtdcTraderApiForRelease = cThostFtdcTraderApi;
-			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread(() -> {
-				Thread.currentThread().setName("网关ID-" + gatewayId + "交易接口异步释放线程"
-						+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_FORMATTER));
-				try {
-					log.warn("{} 交易接口异步释放启动！", gatewayId);
-					cThostFtdcTraderApiForRelease.Release();
-				} catch (Exception e) {
-					log.error("{} 交易接口异步释放发生异常！", gatewayId, e);
-				}
-			}).start();
-
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// nop
-			}
-
-			cThostFtdcTraderApi = null;
-			connectionStatus = false;
-			instrumentQueried = false;
-			loginStatus = false;
-			connectProcessStatus = false;
-			log.warn("{} 交易接口实例关闭并异步释放", gatewayId);
-			// 通知停止其他关联实例
-			ctpGateway.close();
-		} else {
-			log.warn("{} 交易接口实例为null,无需关闭", gatewayId);
-		}
-
-	}
+	
 
 	/**
 	 * 返回接口状态

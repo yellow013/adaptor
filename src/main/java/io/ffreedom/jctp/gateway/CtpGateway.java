@@ -60,7 +60,7 @@ public class CtpGateway {
 		if (mdApiConfig != null)
 			this.mdApi = new MdApi(gatewayId, mdSpi, mdApiConfig);
 		if (tdApiConfig != null)
-			this.tdApi = new TdApi(gatewayId, mdSpi, tdApiConfig);
+			this.tdApi = new TdApi(gatewayId, tdSpi, tdApiConfig);
 		if (mdApi == null || tdApi == null)
 			throw new RuntimeException("Cannot init...");
 		new Timer().schedule(new TimerTask() {

@@ -22,7 +22,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 	Logger log = LoggerFactory.getLogger(MdSpi.class);
 
 	private CtpGateway ctpGateway;
-
 	private String gatewayId;
 
 	private HashMap<String, String> contractExchangeMap;

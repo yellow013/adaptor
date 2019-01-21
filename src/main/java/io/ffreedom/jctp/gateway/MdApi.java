@@ -43,22 +43,17 @@ public class MdApi {
 	/**
 	 * 连接
 	 */
-	public synchronized void connect() {
+	synchronized void connect() {
 		if (isConnected() || isConnecting)
 			return;
 		if (cThostFtdcMdApi != null) {
 			cThostFtdcMdApi.RegisterSpi(null);
 			// 由于CTP底层原因，部分情况下不能正确执行Release
-			ThreadUtil.startNewThread(() -> {
-				try {
-					log.info("{} MdApi release thread start...", gatewayId);
-					cThostFtdcMdApi.Release();
-				} catch (Exception e) {
-					log.error("{} MdApi release thread error...", gatewayId, e);
-				}
-			}, gatewayId + "-MdApiReleaseThread"
-					+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER));
-			ThreadUtil.sleep(1500);
+			ThreadUtil.startNewThread(() -> apiRelease(), gatewayId + "-MdApiReleaseThread" + LocalDateTime.now());
+			ThreadUtil.sleep(2000);
+			isConnecting = false;
+			isConnected = false;
+			isLogin = false;
 		}
 
 		log.info("{} MdApi instance init...", gatewayId);
@@ -81,23 +76,15 @@ public class MdApi {
 	/**
 	 * 关闭
 	 */
-	public synchronized void close() {
+	synchronized void close() {
 		if (cThostFtdcMdApi != null) {
 			log.info("{} MdApi close and release start.", gatewayId);
 			cThostFtdcMdApi.RegisterSpi(null);
 			// 避免异步线程找不到引用
 			// CThostFtdcMdApi cThostFtdcMdApiForRelease = cThostFtdcMdApi;
 			// 由于CTP底层原因，部分情况下不能正确执行Release
-			ThreadUtil.startNewThread(() -> {
-				try {
-					log.info("{} MdApi release thread start...", gatewayId);
-					cThostFtdcMdApi.Release();
-				} catch (Exception e) {
-					log.error("{} MdApi release thread error...", gatewayId, e);
-				}
-			}, gatewayId + "MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER));
+			ThreadUtil.startNewThread(() -> apiRelease(), gatewayId + "-MdApiReleaseThread" + LocalDateTime.now());
 			ThreadUtil.sleep(1000);
-
 			cThostFtdcMdApi = null;
 			isConnecting = false;
 			isConnected = false;
@@ -106,6 +93,15 @@ public class MdApi {
 			// 通知停止其他关联实例
 		} else
 			log.warn("{} MdApi instance is null.", gatewayId);
+	}
+
+	private void apiRelease() {
+		try {
+			log.info("{} MdApi release thread start...", gatewayId);
+			cThostFtdcMdApi.Release();
+		} catch (Exception e) {
+			log.error("{} MdApi release thread error...", gatewayId, e);
+		}
 	}
 
 	/**
