@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
+import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.gateway.config.MdApiConfig;
 import io.ffreedom.jctp.jni.md.CThostFtdcMdApi;
 import io.ffreedom.jctp.jni.md.CThostFtdcReqUserLoginField;
@@ -16,11 +17,11 @@ public class MdApi {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
-	private CThostFtdcMdApi cThostFtdcMdApi;
+	private volatile CThostFtdcMdApi cThostFtdcMdApi;
 
-	private boolean connectProcessStatus = false; // 避免重复调用
-	private boolean connectionStatus = false; // 前置机连接状态
-	private boolean loginStatus = false; // 登陆状态
+	private volatile boolean isConnecting = false; // 是否正在连接中
+	private volatile boolean isConnected = false; // 连接状态
+	private volatile boolean isLogin = false; // 登陆状态
 
 	private MdSpi mdSpi;
 	private String gatewayId;
@@ -43,34 +44,24 @@ public class MdApi {
 	 * 连接
 	 */
 	public synchronized void connect() {
-		if (isConnected() || connectProcessStatus)
+		if (isConnected() || isConnecting)
 			return;
-		if (connectionStatus) {
-			login();
-			return;
-		}
 		if (cThostFtdcMdApi != null) {
 			cThostFtdcMdApi.RegisterSpi(null);
 			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread(() -> {
+			ThreadUtil.startNewThread(() -> {
 				try {
-					log.warn("{} 行情接口异步释放Starting...", gatewayId);
+					log.info("{} MdApi release thread start...", gatewayId);
 					cThostFtdcMdApi.Release();
 				} catch (Exception e) {
-					log.error("{} 行情接口异步释放Error...", gatewayId, e);
+					log.error("{} MdApi release thread error...", gatewayId, e);
 				}
-			}, gatewayId + "-MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
-					.start();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-
-			}
-			connectionStatus = false;
-			loginStatus = false;
+			}, gatewayId + "-MdApiReleaseThread"
+					+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER));
+			ThreadUtil.sleep(1500);
 		}
 
-		log.warn("{} 行情接口实例初始化", gatewayId);
+		log.info("{} MdApi instance init...", gatewayId);
 
 		String envTmpDir = System.getProperty("java.io.tmpdir");
 		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "MD_"
@@ -78,12 +69,12 @@ public class MdApi {
 		File tempFile = new File(tempFilePath);
 		FileUtil.createMissingParentDirectories(tempFile);
 
-		log.info("{} 使用临时文件夹", gatewayId, tempFile.getParentFile().getAbsolutePath());
+		log.info("{} use temp file path ", gatewayId, tempFile.getParentFile().getAbsolutePath());
 
 		cThostFtdcMdApi = CThostFtdcMdApi.CreateFtdcMdApi(tempFile.getAbsolutePath());
 		cThostFtdcMdApi.RegisterSpi(mdSpi);
 		cThostFtdcMdApi.RegisterFront(mdAddress);
-		connectProcessStatus = true;
+		isConnecting = true;
 		cThostFtdcMdApi.Init();
 	}
 
@@ -92,35 +83,29 @@ public class MdApi {
 	 */
 	public synchronized void close() {
 		if (cThostFtdcMdApi != null) {
-			log.warn("{} 行情接口实例开始关闭并释放", gatewayId);
+			log.info("{} MdApi close and release start.", gatewayId);
 			cThostFtdcMdApi.RegisterSpi(null);
 			// 避免异步线程找不到引用
-			CThostFtdcMdApi cThostFtdcMdApiForRelease = cThostFtdcMdApi;
+			// CThostFtdcMdApi cThostFtdcMdApiForRelease = cThostFtdcMdApi;
 			// 由于CTP底层原因，部分情况下不能正确执行Release
-			new Thread(() -> {
+			ThreadUtil.startNewThread(() -> {
 				try {
-					log.warn("{} 行情接口异步释放启动！", gatewayId);
-					cThostFtdcMdApiForRelease.Release();
+					log.info("{} MdApi release thread start...", gatewayId);
+					cThostFtdcMdApi.Release();
 				} catch (Exception e) {
-					log.error("{} 行情接口异步释放发生异常！", gatewayId, e);
+					log.error("{} MdApi release thread error...", gatewayId, e);
 				}
-			}, gatewayId + "MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
-					.start();
+			}, gatewayId + "MdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER));
+			ThreadUtil.sleep(1000);
 
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// nop
-			}
 			cThostFtdcMdApi = null;
-			connectionStatus = false;
-			loginStatus = false;
-			connectProcessStatus = false;
-			log.warn("{} 行情接口实例关闭并释放", gatewayId);
+			isConnecting = false;
+			isConnected = false;
+			isLogin = false;
+			log.info("{} MdApi instance close and release end.", gatewayId);
 			// 通知停止其他关联实例
-			//ctpGateway.close();
 		} else
-			log.warn("{} 行情接口实例为null,无需关闭", gatewayId);
+			log.warn("{} MdApi instance is null.", gatewayId);
 	}
 
 	/**
@@ -129,7 +114,19 @@ public class MdApi {
 	 * @return
 	 */
 	boolean isConnected() {
-		return connectionStatus && loginStatus;
+		return isConnected;
+	}
+
+	void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
+	}
+
+	boolean isLogin() {
+		return isLogin;
+	}
+
+	void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
 	}
 
 	/**
@@ -137,24 +134,20 @@ public class MdApi {
 	 * 
 	 * @param rtSymbol
 	 */
-	void subscribe(String symbol) {
-		if (isConnected()) {
-			String[] symbolArray = new String[1];
-			symbolArray[0] = symbol;
-			cThostFtdcMdApi.SubscribeMarketData(symbolArray, 1);
-		} else
+	void subscribe(String... symbols) {
+		if (isConnected() && isLogin())
+			cThostFtdcMdApi.SubscribeMarketData(symbols, symbols.length);
+		else
 			log.warn(gatewayId + "无法订阅行情,行情服务器尚未连接成功");
 	}
 
 	/**
 	 * 退订行情
 	 */
-	void unsubscribe(String symbol) {
-		if (isConnected()) {
-			String[] symbolArray = new String[1];
-			symbolArray[0] = symbol;
-			cThostFtdcMdApi.UnSubscribeMarketData(symbolArray, 1);
-		} else
+	void unsubscribe(String... symbols) {
+		if (isConnected() && isLogin())
+			cThostFtdcMdApi.UnSubscribeMarketData(symbols, symbols.length);
+		else
 			log.warn(gatewayId + "退订无效,行情服务器尚未连接成功");
 	}
 

@@ -102,10 +102,10 @@ public class CtpGateway {
 	}
 
 	public void connect() {
-		if (tdSpi != null)
-			tdSpi.connect();
 		if (mdApi != null)
 			mdApi.connect();
+		if (tdSpi != null)
+			tdSpi.connect();
 	}
 
 	public void close() {
@@ -145,6 +145,7 @@ public class CtpGateway {
 	}
 
 	public void onFrontConnected() {
+		mdApi.setConnected(true);
 		mdApi.login();
 	}
 
@@ -161,6 +162,37 @@ public class CtpGateway {
 //				.setGatewayId("Simnow").setGatewayName("Simnow"), null);
 //
 //		ctpGateway.subscribe("rb1905");
+
+	}
+
+	public void onRspUserLogin() {
+		mdApi.setLogin(true);
+		if (!subscribeSymbols.isEmpty())
+			mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
+	}
+
+	public void onRspUserLogout() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onRspError() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onRspSubMarketData() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onRspUnSubMarketData() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onRtnDepthMarketData() {
+		// TODO Auto-generated method stub
 
 	}
 

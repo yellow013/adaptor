@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
-import io.ffreedom.jctp.gateway.config.TdSpiConfig;
 import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
 import io.ffreedom.jctp.gateway.dto.ReqOrder;
 import io.ffreedom.jctp.jni.td.CThostFtdcAccountregisterField;
@@ -116,27 +115,13 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	private Logger log = LoggerFactory.getLogger(TdSpi.class);
 
 	private CtpGateway ctpGateway;
-	private String tdAddress;
-	private String brokerId;
-	private String userId;
-	private String password;
-	private String authCode;
-	private String userProductInfo;
 	private String gatewayId;
-	private String gatewayName;
 
 	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
 	TdSpi(CtpGateway ctpGateway) {
-
 		this.ctpGateway = ctpGateway;
-		this.tdAddress = config.getTdAddress();
-		this.brokerId = config.getBrokerId();
-		this.userId = config.getUserId();
-		this.password = config.getPassword();
-		this.authCode = config.getAuthCode();
-		this.gatewayId = config.getGatewayId();
-		this.gatewayName = config.getGatewayName();
+		this.gatewayId = ctpGateway.getGatewayId();
 	}
 
 	private CThostFtdcTraderApi cThostFtdcTraderApi;
@@ -179,10 +164,10 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			// 由于CTP底层原因，部分情况下不能正确执行Release
 			new Thread(() -> {
 				try {
-					log.warn("{} 交易接口异步释放启动！", gatewayName);
+					log.warn("{} 交易接口异步释放启动！", gatewayId);
 					cThostFtdcTraderApi.Release();
 				} catch (Exception e) {
-					log.error("{} 交易接口异步释放发生异常！", gatewayName, e);
+					log.error("{} 交易接口异步释放发生异常！", gatewayId, e);
 				}
 			}, gatewayId + "TdApiReleaseThread" + LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_INT_FORMATTER))
 					.start();
@@ -198,14 +183,14 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 		}
 
-		log.warn("{} 交易接口实例初始化", gatewayName);
+		log.warn("{} 交易接口实例初始化", gatewayId);
 		String envTmpDir = System.getProperty("java.io.tmpdir");
 		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "TD_"
 				+ gatewayId;
 		File tempFile = new File(tempFilePath);
 		FileUtil.createMissingParentDirectories(tempFile);
 
-		log.info("{} 使用临时文件夹{}", gatewayName, tempFile.getParentFile().getAbsolutePath());
+		log.info("{} 使用临时文件夹{}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 		cThostFtdcTraderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(tempFile.getAbsolutePath());
 		cThostFtdcTraderApi.RegisterSpi(this);
 		cThostFtdcTraderApi.RegisterFront(tdAddress);
@@ -219,7 +204,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	 */
 	public synchronized void close() {
 		if (cThostFtdcTraderApi != null) {
-			log.warn("{} 交易接口实例开始关闭并释放", gatewayName);
+			log.warn("{} 交易接口实例开始关闭并释放", gatewayId);
 			cThostFtdcTraderApi.RegisterSpi(null);
 
 			// 避免异步线程找不到引用
@@ -229,10 +214,10 @@ public class TdSpi extends CThostFtdcTraderSpi {
 				Thread.currentThread().setName("网关ID-" + gatewayId + "交易接口异步释放线程"
 						+ LocalDateTime.now().format(Constant.DT_FORMAT_WITH_MS_FORMATTER));
 				try {
-					log.warn("{} 交易接口异步释放启动！", gatewayName);
+					log.warn("{} 交易接口异步释放启动！", gatewayId);
 					cThostFtdcTraderApiForRelease.Release();
 				} catch (Exception e) {
-					log.error("{} 交易接口异步释放发生异常！", gatewayName, e);
+					log.error("{} 交易接口异步释放发生异常！", gatewayId, e);
 				}
 			}).start();
 
@@ -247,11 +232,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			instrumentQueried = false;
 			loginStatus = false;
 			connectProcessStatus = false;
-			log.warn("{} 交易接口实例关闭并异步释放", gatewayName);
+			log.warn("{} 交易接口实例关闭并异步释放", gatewayId);
 			// 通知停止其他关联实例
 			ctpGateway.close();
 		} else {
-			log.warn("{} 交易接口实例为null,无需关闭", gatewayName);
+			log.warn("{} 交易接口实例为null,无需关闭", gatewayId);
 		}
 
 	}
@@ -279,7 +264,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	 */
 	public void queryAccount() {
 		if (cThostFtdcTraderApi == null) {
-			log.info("{}尚未初始化,无法查询账户", gatewayName);
+			log.info("{}尚未初始化,无法查询账户", gatewayId);
 			return;
 		}
 		CThostFtdcQryTradingAccountField cThostFtdcQryTradingAccountField = new CThostFtdcQryTradingAccountField();
@@ -291,12 +276,12 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	 */
 	public void queryPosition() {
 		if (cThostFtdcTraderApi == null) {
-			log.info("{}尚未初始化,无法查询持仓", gatewayName);
+			log.info("{}尚未初始化,无法查询持仓", gatewayId);
 			return;
 		}
 
 		if (!instrumentQueried) {
-			log.info("{}交易接口尚未获取到合约信息,无法查询持仓", gatewayName);
+			log.info("{}交易接口尚未获取到合约信息,无法查询持仓", gatewayId);
 			return;
 		}
 
@@ -315,7 +300,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	 */
 	public String sendOrder(ReqOrder orderReq) {
 		if (cThostFtdcTraderApi == null) {
-			log.info("{}尚未初始化,无法发单", gatewayName);
+			log.info("{}尚未初始化,无法发单", gatewayId);
 			return null;
 		}
 		CThostFtdcInputOrderField cThostFtdcInputOrderField = new CThostFtdcInputOrderField();
@@ -367,7 +352,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 撤单
 	public void cancelOrder(ReqCancelOrder reqCancelOrder) {
 		if (cThostFtdcTraderApi == null) {
-			log.info("{}尚未初始化,无法撤单", gatewayName);
+			log.info("{}尚未初始化,无法撤单", gatewayId);
 			return;
 		}
 		CThostFtdcInputOrderActionField cThostFtdcInputOrderActionField = new CThostFtdcInputOrderActionField();
@@ -387,17 +372,17 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	private void login() {
 		if (loginFailed) {
-			log.warn(gatewayName + "交易接口登录曾发生错误,不再登录,以防被锁");
+			log.warn(gatewayId + "交易接口登录曾发生错误,不再登录,以防被锁");
 			return;
 		}
 
 		if (cThostFtdcTraderApi == null) {
-			log.warn("{} 交易接口实例已经释放", gatewayName);
+			log.warn("{} 交易接口实例已经释放", gatewayId);
 			return;
 		}
 
-		if (StringUtils.isEmpty(brokerId) || StringUtils.isEmpty(userId) || StringUtils.isEmpty(password)) {
-			log.error(gatewayName + "BrokerID UserID Password不允许为空");
+		if (StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(password)) {
+			log.error(gatewayId + "BrokerID UserID Password不允许为空");
 			return;
 		}
 
@@ -421,7 +406,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	// 前置机联机回报
 	public void OnFrontConnected() {
-		log.info("{} 交易接口前置机已连接", gatewayName);
+		log.info("{} 交易接口前置机已连接", gatewayId);
 		// 修改前置机连接状态为true
 		connectionStatus = true;
 		connectProcessStatus = false;
@@ -430,7 +415,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	// 前置机断开回报
 	public void OnFrontDisconnected(int nReason) {
-		log.info("{} 交易接口前置机已断开, Reason:{}", gatewayName, nReason);
+		log.info("{} 交易接口前置机已断开, Reason:{}", gatewayId, nReason);
 		close();
 	}
 
@@ -446,7 +431,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			// 修改登录状态为true
 			loginStatus = true;
 			tradingDayStr = pRspUserLogin.getTradingDay();
-			log.info("{}交易接口获取到的交易日为{}", gatewayName, tradingDayStr);
+			log.info("{}交易接口获取到的交易日为{}", gatewayId, tradingDayStr);
 
 			// 确认结算单
 			CThostFtdcSettlementInfoConfirmField settlementInfoConfirmField = new CThostFtdcSettlementInfoConfirmField();
@@ -455,7 +440,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			cThostFtdcTraderApi.ReqSettlementInfoConfirm(settlementInfoConfirmField, reqID.incrementAndGet());
 
 		} else {
-			log.error("{}交易接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+			log.error("{}交易接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
 			loginFailed = true;
 		}
@@ -464,24 +449,24 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	// 心跳警告
 	public void OnHeartBeatWarning(int nTimeLapse) {
-		log.warn("{} 交易接口心跳警告, Time Lapse:{}", gatewayName, nTimeLapse);
+		log.warn("{} 交易接口心跳警告, Time Lapse:{}", gatewayId, nTimeLapse);
 	}
 
 	// 登出回报
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
 		if (pRspInfo.getErrorID() != 0)
-			log.info("{}OnRspUserLogout!ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+			log.info("{}OnRspUserLogout!ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
 		else
-			log.info("{}OnRspUserLogout!BrokerID:{},UserID:{}", gatewayName, pUserLogout.getBrokerID(),
+			log.info("{}OnRspUserLogout!BrokerID:{},UserID:{}", gatewayId, pUserLogout.getBrokerID(),
 					pUserLogout.getUserID());
 		loginStatus = false;
 	}
 
 	// 错误回报
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
-		log.error("{}交易接口错误回报!ErrorID:{},ErrorMsg:{},RequestID:{},isLast:{}", gatewayName, pRspInfo.getErrorID(),
+		log.error("{}交易接口错误回报!ErrorID:{},ErrorMsg:{},RequestID:{},isLast:{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg(), nRequestID, bIsLast);
 
 	}
@@ -491,10 +476,10 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0) {
 			authStatus = true;
-			log.info(gatewayName + "交易接口客户端验证成功");
+			log.info(gatewayId + "交易接口客户端验证成功");
 			login();
 		} else
-			log.error("{}交易接口客户端验证失败! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+			log.error("{}交易接口客户端验证失败! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
 	}
 
@@ -514,7 +499,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		// TODO
 
 		// 发送委托事件
-		log.error("{}交易接口发单错误回报(柜台)! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+		log.error("{}交易接口发单错误回报(柜台)! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());
 
 	}
@@ -530,7 +515,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 撤单错误回报(柜台)
 	public void OnRspOrderAction(CThostFtdcInputOrderActionField pInputOrderAction, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		log.error("{}交易接口撤单错误（柜台）! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
+		log.error("{}交易接口撤单错误（柜台）! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
 	}
 
 	public void OnRspQueryMaxOrderVolume(CThostFtdcQueryMaxOrderVolumeField pQueryMaxOrderVolume,
@@ -541,12 +526,12 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	public void OnRspSettlementInfoConfirm(CThostFtdcSettlementInfoConfirmField pSettlementInfoConfirm,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0)
-			log.warn("{}交易接口结算信息确认完成!", gatewayName);
+			log.warn("{}交易接口结算信息确认完成!", gatewayId);
 		else
-			log.error("{}交易接口结算信息确认出错! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+			log.error("{}交易接口结算信息确认出错! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
 		// 查询所有合约
-		log.warn("{}交易接口开始查询合约信息!", gatewayName);
+		log.warn("{}交易接口开始查询合约信息!", gatewayId);
 		CThostFtdcQryInstrumentField cThostFtdcQryInstrumentField = new CThostFtdcQryInstrumentField();
 		cThostFtdcTraderApi.ReqQryInstrument(cThostFtdcQryInstrumentField, reqID.incrementAndGet());
 
@@ -800,14 +785,14 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 		// TODO
 
-		log.error("{}交易接口发单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+		log.error("{}交易接口发单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());
 
 	}
 
 	// 撤单错误回报（交易所）
 	public void OnErrRtnOrderAction(CThostFtdcOrderActionField pOrderAction, CThostFtdcRspInfoField pRspInfo) {
-		log.error("{}交易接口撤单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayName, pRspInfo.getErrorID(),
+		log.error("{}交易接口撤单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());
 	}
 
