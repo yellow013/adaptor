@@ -3,13 +3,23 @@ package io.ffreedom.jctp.gateway;
 import java.io.File;
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.gateway.config.TdApiConfig;
+import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
+import io.ffreedom.jctp.gateway.dto.ReqOrder;
+import io.ffreedom.jctp.jni.td.CThostFtdcInputOrderActionField;
+import io.ffreedom.jctp.jni.td.CThostFtdcInputOrderField;
+import io.ffreedom.jctp.jni.td.CThostFtdcQryInvestorPositionField;
+import io.ffreedom.jctp.jni.td.CThostFtdcQryTradingAccountField;
+import io.ffreedom.jctp.jni.td.CThostFtdcReqAuthenticateField;
+import io.ffreedom.jctp.jni.td.CThostFtdcReqUserLoginField;
 import io.ffreedom.jctp.jni.td.CThostFtdcTraderApi;
+import io.ffreedom.jctp.jni.td.jctptraderapiv6v3v11x64Constants;
 
 public class TdApi {
 
@@ -44,7 +54,7 @@ public class TdApi {
 	/**
 	 * 连接
 	 */
-	public synchronized void connect() {
+	synchronized void connect() {
 		if (isConnected() || isConnecting)
 			return;
 		if (cThostFtdcTraderApi != null) {
@@ -75,7 +85,7 @@ public class TdApi {
 	/**
 	 * 关闭
 	 */
-	public synchronized void close() {
+	synchronized void close() {
 		if (cThostFtdcTraderApi != null) {
 			log.info("{} TdApi close and release start.", gatewayId);
 			cThostFtdcTraderApi.RegisterSpi(null);
@@ -100,6 +110,151 @@ public class TdApi {
 			cThostFtdcTraderApi.Release();
 		} catch (Exception e) {
 			log.error("{} TdApi release thread error...", gatewayId, e);
+		}
+	}
+	
+	/**
+	 * 查询账户
+	 */
+	void queryAccount() {
+		if (cThostFtdcTraderApi == null) {
+			log.info("{}尚未初始化,无法查询账户", gatewayId);
+			return;
+		}
+		CThostFtdcQryTradingAccountField cThostFtdcQryTradingAccountField = new CThostFtdcQryTradingAccountField();
+		cThostFtdcTraderApi.ReqQryTradingAccount(cThostFtdcQryTradingAccountField, reqID.incrementAndGet());
+	}
+
+	/**
+	 * 查询持仓
+	 */
+	void queryPosition() {
+		if (cThostFtdcTraderApi == null) {
+			log.info("{}尚未初始化,无法查询持仓", gatewayId);
+			return;
+		}
+
+		if (!instrumentQueried) {
+			log.info("{}交易接口尚未获取到合约信息,无法查询持仓", gatewayId);
+			return;
+		}
+
+		CThostFtdcQryInvestorPositionField cThostFtdcQryInvestorPositionField = new CThostFtdcQryInvestorPositionField();
+		// log.info("查询持仓");
+		cThostFtdcQryInvestorPositionField.setBrokerID(brokerId);
+		cThostFtdcQryInvestorPositionField.setInvestorID(userId);
+		cThostFtdcTraderApi.ReqQryInvestorPosition(cThostFtdcQryInvestorPositionField, reqID.incrementAndGet());
+	}
+
+	/**
+	 * 发单
+	 * 
+	 * @param orderReq
+	 * @return
+	 */
+	String sendOrder(ReqOrder orderReq) {
+		if (cThostFtdcTraderApi == null) {
+			log.info("{}尚未初始化,无法发单", gatewayId);
+			return null;
+		}
+		CThostFtdcInputOrderField cThostFtdcInputOrderField = new CThostFtdcInputOrderField();
+		orderRef.incrementAndGet();
+		cThostFtdcInputOrderField.setInstrumentID(orderReq.getSymbol());
+		cThostFtdcInputOrderField.setLimitPrice(orderReq.getPrice());
+		cThostFtdcInputOrderField.setVolumeTotalOriginal(orderReq.getVolume());
+
+		cThostFtdcInputOrderField.setOrderPriceType(
+				CtpConstant.priceTypeMap.getOrDefault(orderReq.getPriceType(), Character.valueOf('\0')));
+		cThostFtdcInputOrderField
+				.setDirection(CtpConstant.directionMap.getOrDefault(orderReq.getDirection(), Character.valueOf('\0')));
+		cThostFtdcInputOrderField.setCombOffsetFlag(
+				String.valueOf(CtpConstant.offsetMap.getOrDefault(orderReq.getOffset(), Character.valueOf('\0'))));
+		cThostFtdcInputOrderField.setOrderRef(orderRef.get() + "");
+		cThostFtdcInputOrderField.setInvestorID(userId);
+		cThostFtdcInputOrderField.setUserID(userId);
+		cThostFtdcInputOrderField.setBrokerID(brokerId);
+
+		cThostFtdcInputOrderField
+				.setCombHedgeFlag(String.valueOf(jctptraderapiv6v3v11x64Constants.THOST_FTDC_HF_Speculation));
+		cThostFtdcInputOrderField.setContingentCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_CC_Immediately);
+		cThostFtdcInputOrderField.setForceCloseReason(jctptraderapiv6v3v11x64Constants.THOST_FTDC_FCC_NotForceClose);
+		cThostFtdcInputOrderField.setIsAutoSuspend(0);
+		cThostFtdcInputOrderField.setTimeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_TC_GFD);
+		cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_AV);
+		cThostFtdcInputOrderField.setMinVolume(1);
+
+		// 判断FAK FOK市价单
+		if (Constant.PRICETYPE_FAK.equals(orderReq.getPriceType())) {
+			cThostFtdcInputOrderField.setOrderPriceType(jctptraderapiv6v3v11x64Constants.THOST_FTDC_OPT_LimitPrice);
+			cThostFtdcInputOrderField.setTimeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_TC_IOC);
+			cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_AV);
+		} else if (Constant.PRICETYPE_FOK.equals(orderReq.getPriceType())) {
+			cThostFtdcInputOrderField.setOrderPriceType(jctptraderapiv6v3v11x64Constants.THOST_FTDC_OPT_LimitPrice);
+			cThostFtdcInputOrderField.setTimeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_TC_IOC);
+			cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_CV);
+		}
+
+		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqID.incrementAndGet());
+		String rtOrderID = gatewayId + "." + orderRef.get();
+
+		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID()))
+			originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
+
+		return rtOrderID;
+	}
+
+	// 撤单
+	void cancelOrder(ReqCancelOrder reqCancelOrder) {
+		if (cThostFtdcTraderApi == null) {
+			log.info("{}尚未初始化,无法撤单", gatewayId);
+			return;
+		}
+		CThostFtdcInputOrderActionField cThostFtdcInputOrderActionField = new CThostFtdcInputOrderActionField();
+
+		cThostFtdcInputOrderActionField.setInstrumentID(reqCancelOrder.getSymbol());
+		cThostFtdcInputOrderActionField.setExchangeID(reqCancelOrder.getExchange());
+		cThostFtdcInputOrderActionField.setOrderRef(reqCancelOrder.getOrderID());
+		cThostFtdcInputOrderActionField.setFrontID(reqCancelOrder.getFrontID());
+		cThostFtdcInputOrderActionField.setSessionID(reqCancelOrder.getSessionID());
+
+		cThostFtdcInputOrderActionField.setActionFlag(jctptraderapiv6v3v11x64Constants.THOST_FTDC_AF_Delete);
+		cThostFtdcInputOrderActionField.setBrokerID(brokerId);
+		cThostFtdcInputOrderActionField.setInvestorID(userId);
+
+		cThostFtdcTraderApi.ReqOrderAction(cThostFtdcInputOrderActionField, reqID.incrementAndGet());
+	}
+
+	void login() {
+		if (loginFailed) {
+			log.warn(gatewayId + "交易接口登录曾发生错误,不再登录,以防被锁");
+			return;
+		}
+
+		if (cThostFtdcTraderApi == null) {
+			log.warn("{} 交易接口实例已经释放", gatewayId);
+			return;
+		}
+
+		if (StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(password)) {
+			log.error(gatewayId + "BrokerID UserID Password不允许为空");
+			return;
+		}
+
+		if (!StringUtils.isEmpty(authCode) && !authStatus) {
+			// 验证
+			CThostFtdcReqAuthenticateField authenticateField = new CThostFtdcReqAuthenticateField();
+			authenticateField.setAuthCode(authCode);
+			authenticateField.setUserID(userId);
+			authenticateField.setBrokerID(brokerId);
+			authenticateField.setUserProductInfo(userProductInfo);
+			cThostFtdcTraderApi.ReqAuthenticate(authenticateField, reqID.incrementAndGet());
+		} else {
+			// 登录
+			CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
+			userLoginField.setBrokerID(brokerId);
+			userLoginField.setUserID(userId);
+			userLoginField.setPassword(password);
+			cThostFtdcTraderApi.ReqUserLogin(userLoginField, 0);
 		}
 	}
 

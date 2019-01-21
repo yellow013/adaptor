@@ -23,6 +23,10 @@ public class CtpGateway {
 
 	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
 
+	static final int FromMd = 0;
+
+	static final int FromTd = 1;
+
 	static {
 		try {
 			// 判断是否是windows操作系统
@@ -104,54 +108,72 @@ public class CtpGateway {
 	public void connect() {
 		if (mdApi != null)
 			mdApi.connect();
-		if (tdSpi != null)
-			tdSpi.connect();
+		if (tdApi != null)
+			tdApi.connect();
 	}
 
 	public void close() {
 		// 务必判断连接状态,防止死循环
-		if (tdSpi != null && tdSpi.isConnected())
-			tdSpi.close();
 		if (mdApi != null && mdApi.isConnected())
 			mdApi.close();
+		if (tdApi != null && tdSpi.isConnected())
+			tdApi.close();
 		// 在这里发送事件主要是由于接口可能自动断开,需要广播通知
 	}
 
-	public String sendOrder(ReqOrder reqOrder) {
-		if (tdSpi != null)
-			return tdSpi.sendOrder(reqOrder);
-		else
-			return null;
+	public void sendOrder(ReqOrder reqOrder) {
+		if (tdApi != null)
+			tdApi.sendOrder(reqOrder);
 	}
 
 	public void cancelOrder(ReqCancelOrder reqCancelOrder) {
-		if (tdSpi != null)
-			tdSpi.cancelOrder(reqCancelOrder);
+		if (tdApi != null)
+			tdApi.cancelOrder(reqCancelOrder);
 	}
 
 	public void queryAccount() {
-		if (tdSpi != null)
-			tdSpi.queryAccount();
-
+		if (tdApi != null)
+			tdApi.queryAccount();
 	}
 
 	public void queryPosition() {
-		if (tdSpi != null)
-			tdSpi.queryPosition();
+		if (tdApi != null)
+			tdApi.queryPosition();
 	}
 
 	public boolean isConnected() {
-		return tdSpi != null && mdSpi != null && tdSpi.isConnected() && mdApi.isConnected();
+		return tdApi.isConnected() && mdApi.isConnected();
 	}
 
-	public void onFrontConnected() {
-		mdApi.setConnected(true);
-		mdApi.login();
+	public void onFrontConnected(int from) {
+		switch (from) {
+		case FromMd:
+			mdApi.setConnected(true);
+			mdApi.login();
+			return;
+		case FromTd:
+			tdApi.setConnected(true);
+			tdApi.login();
+			return;
+		default:
+			return;
+		}
 	}
 
-	public void onFrontDisconnected(int nReason) {
-		if (mdApi != null)
-			mdApi.close();
+	public void onFrontDisconnected(int nReason, int from) {
+		switch (from) {
+		case FromMd:
+			if (mdApi != null)
+				mdApi.close();
+			return;
+		case FromTd:
+			if (tdApi != null)
+				tdApi.close();
+			return;
+		default:
+			return;
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -165,10 +187,19 @@ public class CtpGateway {
 
 	}
 
-	public void onRspUserLogin() {
-		mdApi.setLogin(true);
-		if (!subscribeSymbols.isEmpty())
-			mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
+	public void onRspUserLogin(int from) {
+		switch (from) {
+		case FromMd:
+			mdApi.setLogin(true);
+			if (!subscribeSymbols.isEmpty())
+				mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
+			break;
+		case FromTd:
+			
+		default:
+			break;
+		}
+		
 	}
 
 	public void onRspUserLogout() {

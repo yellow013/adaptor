@@ -37,14 +37,14 @@ public class MdSpi extends CThostFtdcMdSpi {
 	@Override
 	public void OnFrontConnected() {
 		log.info(gatewayId + "行情接口前置机已连接");
-		ctpGateway.onFrontConnected();
+		ctpGateway.onFrontConnected(CtpGateway.FromMd);
 	}
 
 	// 前置机断开回报
 	@Override
 	public void OnFrontDisconnected(int nReason) {
 		log.info(gatewayId + "行情接口前置机已断开,Reason:" + nReason);
-		ctpGateway.onFrontDisconnected(nReason);
+		ctpGateway.onFrontDisconnected(nReason, CtpGateway.FromMd);
 	}
 
 	// 登录回报
@@ -58,7 +58,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 		// 修改登录状态为true
 		else
 			log.warn("{}行情接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
-		ctpGateway.onRspUserLogin();
+		ctpGateway.onRspUserLogin(CtpGateway.FromMd);
 	}
 
 	// 心跳警告
@@ -139,7 +139,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 			String rtSymbol = symbol + "." + exchange;
 			String contractName = contractNameMap.get(symbol);
 			String tickID = rtSymbol + "." + gatewayId;
-			//String tradingDay = tradingDayStr;
+			// String tradingDay = tradingDayStr;
 			String actionDayStr = pDepthMarketData.getActionDay();
 			String actionTime = dateTime.toString();
 			Integer status = 0;
