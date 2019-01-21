@@ -127,7 +127,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
-	TdSpi(CtpGateway ctpGateway, TdSpiConfig config) {
+	TdSpi(CtpGateway ctpGateway) {
 
 		this.ctpGateway = ctpGateway;
 		this.tdAddress = config.getTdAddress();

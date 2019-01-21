@@ -4,7 +4,7 @@ package io.ffreedom.jctp.gateway.config;
  * @author Administrator
  *
  */
-public abstract class SpiConfig<T extends SpiConfig<T>> {
+public abstract class ApiConfig<T extends ApiConfig<T>> {
 
 	protected String brokerId;
 	protected String userId;

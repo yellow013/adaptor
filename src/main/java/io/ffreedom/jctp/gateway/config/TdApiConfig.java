@@ -4,44 +4,41 @@ package io.ffreedom.jctp.gateway.config;
  * @author Administrator
  *
  */
-public class TdSpiConfig extends SpiConfig<TdSpiConfig> {
+public class TdApiConfig extends ApiConfig<TdApiConfig> {
 
 	private String tdAddress;
-
-	
 
 	public String getTdAddress() {
 		return tdAddress;
 	}
 
-	public TdSpiConfig setTdAddress(String tdAddress) {
+	public TdApiConfig setTdAddress(String tdAddress) {
 		this.tdAddress = tdAddress;
 		return this;
 	}
 
 	@Override
-	public TdSpiConfig setBrokerId(String brokerId) {
+	public TdApiConfig setBrokerId(String brokerId) {
 		this.brokerId = brokerId;
 		return this;
 	}
 
 	@Override
-	public TdSpiConfig setUserId(String userId) {
+	public TdApiConfig setUserId(String userId) {
 		this.userId = userId;
 		return this;
 	}
 
 	@Override
-	public TdSpiConfig setPassword(String password) {
+	public TdApiConfig setPassword(String password) {
 		this.password = password;
 		return this;
 	}
 
 	@Override
-	public TdSpiConfig setAuthCode(String authCode) {
+	public TdApiConfig setAuthCode(String authCode) {
 		this.authCode = authCode;
 		return this;
 	}
-
 
 }

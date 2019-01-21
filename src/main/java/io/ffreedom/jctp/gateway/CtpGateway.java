@@ -8,8 +8,8 @@ import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.ffreedom.jctp.gateway.config.MdSpiConfig;
-import io.ffreedom.jctp.gateway.config.TdSpiConfig;
+import io.ffreedom.jctp.gateway.config.MdApiConfig;
+import io.ffreedom.jctp.gateway.config.TdApiConfig;
 import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
 import io.ffreedom.jctp.gateway.dto.ReqOrder;
 
@@ -53,13 +53,16 @@ public class CtpGateway {
 
 	private String gatewayId;
 
-	public CtpGateway(String gatewayId, MdSpiConfig mdSpiConfig, TdSpiConfig tdSpiConfig) {
+	public CtpGateway(String gatewayId, MdApiConfig mdApiConfig, TdApiConfig tdApiConfig) {
 		this.gatewayId = gatewayId;
-		if (mdSpiConfig != null)
-			this.mdSpi = new MdSpi(this);
-		if (tdSpiConfig != null)
-			this.tdSpi = new TdSpi(this, tdSpiConfig);
-		this.mdApi = new MdApi(gatewayId, mdSpi, mdSpiConfig);
+		this.mdSpi = new MdSpi(this);
+		this.tdSpi = new TdSpi(this);
+		if (mdApiConfig != null)
+			this.mdApi = new MdApi(gatewayId, mdSpi, mdApiConfig);
+		if (tdApiConfig != null)
+			this.tdApi = new TdApi(gatewayId, mdSpi, tdApiConfig);
+		if (mdApi == null || tdApi == null)
+			throw new RuntimeException("Cannot init...");
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -138,7 +141,7 @@ public class CtpGateway {
 	}
 
 	public boolean isConnected() {
-		return tdSpi != null && mdSpi != null && tdSpi.isConnected() && mdSpi.isConnected();
+		return tdSpi != null && mdSpi != null && tdSpi.isConnected() && mdApi.isConnected();
 	}
 
 	public void onFrontConnected() {

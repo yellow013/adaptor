@@ -1,6 +1,6 @@
 package io.ffreedom.jctp.gateway.config;
 
-public class MdSpiConfig extends SpiConfig<MdSpiConfig> {
+public class MdApiConfig extends ApiConfig<MdApiConfig> {
 
 	private String mdAddress;
 
@@ -8,31 +8,31 @@ public class MdSpiConfig extends SpiConfig<MdSpiConfig> {
 		return mdAddress;
 	}
 
-	public MdSpiConfig setMdAddress(String mdAddress) {
+	public MdApiConfig setMdAddress(String mdAddress) {
 		this.mdAddress = mdAddress;
 		return this;
 	}
 
 	@Override
-	public MdSpiConfig setBrokerId(String brokerId) {
+	public MdApiConfig setBrokerId(String brokerId) {
 		this.brokerId = brokerId;
 		return this;
 	}
 
 	@Override
-	public MdSpiConfig setUserId(String userId) {
+	public MdApiConfig setUserId(String userId) {
 		this.userId = userId;
 		return this;
 	}
 
 	@Override
-	public MdSpiConfig setPassword(String password) {
+	public MdApiConfig setPassword(String password) {
 		this.password = password;
 		return this;
 	}
 
 	@Override
-	public MdSpiConfig setAuthCode(String authCode) {
+	public MdApiConfig setAuthCode(String authCode) {
 		this.authCode = authCode;
 		return this;
 	}

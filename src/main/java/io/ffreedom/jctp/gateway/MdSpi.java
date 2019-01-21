@@ -39,8 +39,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 
 	MdSpi(CtpGateway ctpGateway) {
 		this.ctpGateway = ctpGateway;
-		
-
 	}
 
 	// 前置机联机回报

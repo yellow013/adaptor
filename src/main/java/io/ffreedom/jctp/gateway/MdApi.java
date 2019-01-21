@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
-import io.ffreedom.jctp.gateway.config.MdSpiConfig;
+import io.ffreedom.jctp.gateway.config.MdApiConfig;
 import io.ffreedom.jctp.jni.md.CThostFtdcMdApi;
 import io.ffreedom.jctp.jni.md.CThostFtdcReqUserLoginField;
 
@@ -30,7 +30,7 @@ public class MdApi {
 	private String userId;
 	private String password;
 
-	MdApi(String gatewayId, MdSpi mdSpi, MdSpiConfig config) {
+	MdApi(String gatewayId, MdSpi mdSpi, MdApiConfig config) {
 		this.mdSpi = mdSpi;
 		this.gatewayId = gatewayId;
 		this.mdAddress = config.getMdAddress();
@@ -118,7 +118,7 @@ public class MdApi {
 			connectProcessStatus = false;
 			log.warn("{} 行情接口实例关闭并释放", gatewayId);
 			// 通知停止其他关联实例
-			ctpGateway.close();
+			//ctpGateway.close();
 		} else
 			log.warn("{} 行情接口实例为null,无需关闭", gatewayId);
 	}
