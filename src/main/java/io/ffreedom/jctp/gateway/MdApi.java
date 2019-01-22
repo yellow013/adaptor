@@ -18,10 +18,10 @@ public class MdApi {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private volatile CThostFtdcMdApi cThostFtdcMdApi;
-
 	private volatile boolean isConnecting = false; // 是否正在连接中
 	private volatile boolean isConnected = false; // 连接状态
-	private volatile boolean isLogin = false; // 登陆状态
+	
+	private boolean isLogin = false; // 登陆状态
 
 	private MdSpi mdSpi;
 	private String gatewayId;

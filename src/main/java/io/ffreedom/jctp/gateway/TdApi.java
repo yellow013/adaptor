@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
+import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.gateway.config.TdApiConfig;
 import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
@@ -27,10 +28,12 @@ public class TdApi {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private volatile CThostFtdcTraderApi cThostFtdcTraderApi;
-
 	private volatile boolean isConnecting = false; // 是否正在连接中
 	private volatile boolean isConnected = false; // 连接状态
-	private volatile boolean isLogin = false; // 登陆状态
+
+	private boolean isLogin = false; // 登陆状态
+	private boolean isLoginFailed = false; // 是否已经使用错误的信息尝试登录过
+	private boolean isAuth = false; // 验证状态
 
 	private String tdAddress;
 	private String brokerId;
@@ -44,9 +47,6 @@ public class TdApi {
 
 	private AtomicInteger reqId = new AtomicInteger(0); // 操作请求编号
 	private AtomicInteger orderRef = new AtomicInteger(0); // 订单编号
-
-	private boolean authStatus = false; // 验证状态
-	private boolean loginFailed = false; // 是否已经使用错误的信息尝试登录过
 
 	private boolean instrumentQueried = false;
 
@@ -119,6 +119,41 @@ public class TdApi {
 			cThostFtdcTraderApi.Release();
 		} catch (Exception e) {
 			log.error("{} TdApi release thread error...", gatewayId, e);
+		}
+	}
+
+	void authenticate() {
+		if (!StringUtil.notNullAndEmpty(authCode) && !isAuth) {
+			// 验证
+			CThostFtdcReqAuthenticateField authenticateField = new CThostFtdcReqAuthenticateField();
+			authenticateField.setUserID(userId);
+			authenticateField.setBrokerID(brokerId);
+			authenticateField.setAuthCode(authCode);
+			authenticateField.setUserProductInfo(userProductInfo);
+			cThostFtdcTraderApi.ReqAuthenticate(authenticateField, reqId.incrementAndGet());
+		}
+	}
+
+	void login() {
+		if (isLoginFailed) {
+			log.warn(gatewayId + "交易接口登录曾发生错误,不再登录,以防被锁");
+			return;
+		}
+		if (cThostFtdcTraderApi == null) {
+			log.warn("{} 交易接口实例已经释放", gatewayId);
+			return;
+		}
+		if (StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(password)) {
+			log.error(gatewayId + "BrokerID UserID Password不允许为空");
+			return;
+		}
+		if (StringUtils.isEmpty(authCode) && isAuth) {
+			// 登录
+			CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
+			userLoginField.setBrokerID(brokerId);
+			userLoginField.setUserID(userId);
+			userLoginField.setPassword(password);
+			cThostFtdcTraderApi.ReqUserLogin(userLoginField, 0);
 		}
 	}
 
@@ -237,40 +272,6 @@ public class TdApi {
 		cThostFtdcTraderApi.ReqOrderAction(cThostFtdcInputOrderActionField, reqId.incrementAndGet());
 	}
 
-	void login() {
-		if (loginFailed) {
-			log.warn(gatewayId + "交易接口登录曾发生错误,不再登录,以防被锁");
-			return;
-		}
-
-		if (cThostFtdcTraderApi == null) {
-			log.warn("{} 交易接口实例已经释放", gatewayId);
-			return;
-		}
-
-		if (StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(password)) {
-			log.error(gatewayId + "BrokerID UserID Password不允许为空");
-			return;
-		}
-
-		if (!StringUtils.isEmpty(authCode) && !authStatus) {
-			// 验证
-			CThostFtdcReqAuthenticateField authenticateField = new CThostFtdcReqAuthenticateField();
-			authenticateField.setAuthCode(authCode);
-			authenticateField.setUserID(userId);
-			authenticateField.setBrokerID(brokerId);
-			authenticateField.setUserProductInfo(userProductInfo);
-			cThostFtdcTraderApi.ReqAuthenticate(authenticateField, reqId.incrementAndGet());
-		} else {
-			// 登录
-			CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
-			userLoginField.setBrokerID(brokerId);
-			userLoginField.setUserID(userId);
-			userLoginField.setPassword(password);
-			cThostFtdcTraderApi.ReqUserLogin(userLoginField, 0);
-		}
-	}
-
 	/**
 	 * 返回接口状态
 	 * 
@@ -284,12 +285,16 @@ public class TdApi {
 		this.isConnected = isConnected;
 	}
 
-	boolean isLogin() {
-		return isLogin;
-	}
-
 	void setLogin(boolean isLogin) {
 		this.isLogin = isLogin;
+	}
+
+	void setLoginFailed(boolean isLoginFailed) {
+		this.isLoginFailed = isLoginFailed;
+	}
+
+	void setAuth(boolean isAuth) {
+		this.isAuth = isAuth;
 	}
 
 }

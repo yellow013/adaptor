@@ -1,17 +1,8 @@
 package io.ffreedom.jctp.gateway;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.core.util.FileUtil;
-import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
-import io.ffreedom.jctp.gateway.dto.ReqOrder;
 import io.ffreedom.jctp.jni.td.CThostFtdcAccountregisterField;
 import io.ffreedom.jctp.jni.td.CThostFtdcBatchOrderActionField;
 import io.ffreedom.jctp.jni.td.CThostFtdcBrokerTradingAlgosField;
@@ -73,20 +64,15 @@ import io.ffreedom.jctp.jni.td.CThostFtdcParkedOrderField;
 import io.ffreedom.jctp.jni.td.CThostFtdcProductExchRateField;
 import io.ffreedom.jctp.jni.td.CThostFtdcProductField;
 import io.ffreedom.jctp.jni.td.CThostFtdcProductGroupField;
-import io.ffreedom.jctp.jni.td.CThostFtdcQryInstrumentField;
-import io.ffreedom.jctp.jni.td.CThostFtdcQryInvestorPositionField;
-import io.ffreedom.jctp.jni.td.CThostFtdcQryTradingAccountField;
 import io.ffreedom.jctp.jni.td.CThostFtdcQueryCFMMCTradingAccountTokenField;
 import io.ffreedom.jctp.jni.td.CThostFtdcQueryMaxOrderVolumeField;
 import io.ffreedom.jctp.jni.td.CThostFtdcQuoteActionField;
 import io.ffreedom.jctp.jni.td.CThostFtdcQuoteField;
 import io.ffreedom.jctp.jni.td.CThostFtdcRemoveParkedOrderActionField;
 import io.ffreedom.jctp.jni.td.CThostFtdcRemoveParkedOrderField;
-import io.ffreedom.jctp.jni.td.CThostFtdcReqAuthenticateField;
 import io.ffreedom.jctp.jni.td.CThostFtdcReqQueryAccountField;
 import io.ffreedom.jctp.jni.td.CThostFtdcReqRepealField;
 import io.ffreedom.jctp.jni.td.CThostFtdcReqTransferField;
-import io.ffreedom.jctp.jni.td.CThostFtdcReqUserLoginField;
 import io.ffreedom.jctp.jni.td.CThostFtdcRspAuthenticateField;
 import io.ffreedom.jctp.jni.td.CThostFtdcRspInfoField;
 import io.ffreedom.jctp.jni.td.CThostFtdcRspRepealField;
@@ -97,7 +83,6 @@ import io.ffreedom.jctp.jni.td.CThostFtdcSecAgentCheckModeField;
 import io.ffreedom.jctp.jni.td.CThostFtdcSettlementInfoConfirmField;
 import io.ffreedom.jctp.jni.td.CThostFtdcSettlementInfoField;
 import io.ffreedom.jctp.jni.td.CThostFtdcTradeField;
-import io.ffreedom.jctp.jni.td.CThostFtdcTraderApi;
 import io.ffreedom.jctp.jni.td.CThostFtdcTraderSpi;
 import io.ffreedom.jctp.jni.td.CThostFtdcTradingAccountField;
 import io.ffreedom.jctp.jni.td.CThostFtdcTradingAccountPasswordUpdateField;
@@ -108,7 +93,6 @@ import io.ffreedom.jctp.jni.td.CThostFtdcTransferBankField;
 import io.ffreedom.jctp.jni.td.CThostFtdcTransferSerialField;
 import io.ffreedom.jctp.jni.td.CThostFtdcUserLogoutField;
 import io.ffreedom.jctp.jni.td.CThostFtdcUserPasswordUpdateField;
-import io.ffreedom.jctp.jni.td.jctptraderapiv6v3v11x64Constants;
 
 public class TdSpi extends CThostFtdcTraderSpi {
 
@@ -117,7 +101,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	private CtpGateway gateway;
 	private String gatewayId;
 
-	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
+	// private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
 	TdSpi(CtpGateway gateway) {
 		this.gateway = gateway;
@@ -148,17 +132,18 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			log.info("{} TdApi login success. tradingDay==[{}], sessionId==[{}], brokerId==[{}], userId==[{}]",
 					gatewayId, pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
 					pRspUserLogin.getUserID());
-			gateway.onRspUserLoginOfTdSpi();
 			gateway.setTdFrontId(pRspUserLogin.getFrontID());
 			gateway.setTdSessionId(pRspUserLogin.getSessionID());
+			gateway.onRspUserLoginOfTdSpi(true);
 //			// 确认结算单
 //			CThostFtdcSettlementInfoConfirmField settlementInfoConfirmField = new CThostFtdcSettlementInfoConfirmField();
 //			settlementInfoConfirmField.setBrokerID(brokerId);
 //			settlementInfoConfirmField.setInvestorID(userId);
 //			cThostFtdcTraderApi.ReqSettlementInfoConfirm(settlementInfoConfirmField, reqID.incrementAndGet());
 		} else {
-			log.error("{} TdApi login ,errorId==[{}], errorMsg==[{}]", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
-			loginFailed = true;
+			log.error("{} TdApi login failure, errorId==[{}], errorMsg==[{}]", gatewayId, pRspInfo.getErrorID(),
+					pRspInfo.getErrorMsg());
+			gateway.onRspUserLoginOfTdSpi(false);
 		}
 
 	}
@@ -177,7 +162,6 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		else
 			log.info("{}OnRspUserLogout!BrokerID:{},UserID:{}", gatewayId, pUserLogout.getBrokerID(),
 					pUserLogout.getUserID());
-		loginStatus = false;
 	}
 
 	// 错误回报
@@ -191,9 +175,8 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	public void OnRspAuthenticate(CThostFtdcRspAuthenticateField pRspAuthenticateField, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0) {
-			authStatus = true;
 			log.info(gatewayId + "交易接口客户端验证成功");
-			login();
+			gateway.onRspAuthenticate();
 		} else
 			log.error("{}交易接口客户端验证失败! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
@@ -247,8 +230,8 @@ public class TdSpi extends CThostFtdcTraderSpi {
 					pRspInfo.getErrorMsg());
 		// 查询所有合约
 		log.warn("{}交易接口开始查询合约信息!", gatewayId);
-		CThostFtdcQryInstrumentField cThostFtdcQryInstrumentField = new CThostFtdcQryInstrumentField();
-		cThostFtdcTraderApi.ReqQryInstrument(cThostFtdcQryInstrumentField, reqID.incrementAndGet());
+//		CThostFtdcQryInstrumentField cThostFtdcQryInstrumentField = new CThostFtdcQryInstrumentField();
+//		cThostFtdcTraderApi.ReqQryInstrument(cThostFtdcQryInstrumentField, reqId.incrementAndGet());
 
 	}
 
@@ -505,7 +488,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	}
 
-	// 撤单错误回报（交易所）
+	// 撤单错误回报(交易所)
 	public void OnErrRtnOrderAction(CThostFtdcOrderActionField pOrderAction, CThostFtdcRspInfoField pRspInfo) {
 		log.error("{}交易接口撤单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());

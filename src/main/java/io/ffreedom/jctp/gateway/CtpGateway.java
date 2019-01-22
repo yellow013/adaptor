@@ -24,6 +24,8 @@ public class CtpGateway {
 		try {
 			// 判断是否是windows操作系统
 			if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+				String absolutePath = new File("libs" + File.separator + "libiconv.dll").getAbsolutePath();
+				System.out.println(absolutePath);
 				System.load(new File("libs" + File.separator + "libiconv.dll").getAbsolutePath());
 				System.load(new File("libs" + File.separator + "thostmduserapi.dll").getAbsolutePath());
 				System.load(new File("libs" + File.separator + "jctpmdapiv6v3v11x64.dll").getAbsolutePath());
@@ -168,14 +170,17 @@ public class CtpGateway {
 			tdApi.close();
 	}
 
-	public void onRspUserLoginOfMdSpi() {
+	void onRspUserLoginOfMdSpi() {
 		mdApi.setLogin(true);
 		if (!subscribeSymbols.isEmpty())
 			mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
 	}
 
-	public void onRspUserLoginOfTdSpi() {
-		tdApi.setLogin(true);
+	void onRspUserLoginOfTdSpi(boolean isSuccess) {
+		if (isSuccess)
+			tdApi.setLogin(true);
+		else
+			tdApi.setLoginFailed(true);
 		// tdApi.queryAccount();
 		// tdApi.queryPosition();
 	}
@@ -200,15 +205,23 @@ public class CtpGateway {
 		// TODO Auto-generated method stub
 	}
 
+	void onRspAuthenticate() {
+		tdApi.setAuth(true);
+		tdApi.login();
+	}
+
 	public static void main(String[] args) {
 
-//		CtpGateway ctpGateway = new CtpGateway(new MdSpiConfig().setMdAddress("180.168.146.187:10010")
-//				.setBrokerId("9999").setUserId("005853").setPassword("jinpengpass101")
-//
-//				.setGatewayId("Simnow").setGatewayName("Simnow"), null);
+//		CtpGateway ctpGateway = new CtpGateway("simnow-test",
+//				new MdApiConfig().setMdAddress("180.168.146.187:10010").setBrokerId("9999").setUserId("005853")
+//						.setPassword("jinpengpass101"),
+//				new TdApiConfig().setTdAddress("180.168.146.187:10000").setBrokerId("9999").setUserId("005853")
+//						.setPassword("jinpengpass101"));
 //
 //		ctpGateway.subscribe("rb1905");
 
+		System.out.println(System.getProperty("java.library.path"));
+		
 	}
 
 }
