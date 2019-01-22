@@ -55,7 +55,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 			log.info("{} OnRspUserLogin, TradingDay:{}, SessionID:{}, BrokerID:{}, UserID:{}", gatewayId,
 					pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
 					pRspUserLogin.getUserID());
-		// 修改登录状态为true
 		else
 			log.warn("{} OnRspUserLogin error ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
@@ -85,7 +84,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 	// 错误回报
 	@Override
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
-		log.info("{}行情接口错误回报!ErrorID:{},ErrorMsg:{},RequestID:{},isLast{}", gatewayId, pRspInfo.getErrorID(),
+		log.info("{} 行情接口错误回报!ErrorID:{}, ErrorMsg:{}, RequestID:{}, isLast{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg(), nRequestID, bIsLast);
 		ctpGateway.onRspError();
 	}

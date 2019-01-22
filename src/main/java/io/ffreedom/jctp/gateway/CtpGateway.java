@@ -50,6 +50,9 @@ public class CtpGateway {
 
 	private HashSet<String> subscribeSymbols = new HashSet<>();
 
+	private int tdFrontId = 0; // 前置机编号
+	private int tdSessionId = 0; // 会话编号
+
 	public CtpGateway(String gatewayId, MdApiConfig mdApiConfig, TdApiConfig tdApiConfig) {
 		this.gatewayId = gatewayId;
 		this.mdSpi = new MdSpi(this);
@@ -133,6 +136,16 @@ public class CtpGateway {
 			tdApi.queryPosition();
 	}
 
+	CtpGateway setTdFrontId(int tdFrontId) {
+		this.tdFrontId = tdFrontId;
+		return this;
+	}
+
+	CtpGateway setTdSessionId(int tdSessionId) {
+		this.tdSessionId = tdSessionId;
+		return this;
+	}
+
 	void onFrontConnectedOfMdSpi() {
 		mdApi.setConnected(true);
 		mdApi.login();
@@ -140,7 +153,7 @@ public class CtpGateway {
 
 	void onFrontConnectedOfTdSpi() {
 		tdApi.setConnected(true);
-		tdApi.login();
+		mdApi.login();
 	}
 
 	void onFrontDisconnectedOfMdSpi(int nReason) {

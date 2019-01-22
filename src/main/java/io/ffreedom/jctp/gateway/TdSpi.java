@@ -114,22 +114,15 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	private Logger log = LoggerFactory.getLogger(TdSpi.class);
 
-	private CtpGateway ctpGateway;
+	private CtpGateway gateway;
 	private String gatewayId;
 
 	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
-	TdSpi(CtpGateway ctpGateway) {
-		this.ctpGateway = ctpGateway;
-		this.gatewayId = ctpGateway.getGatewayId();
+	TdSpi(CtpGateway gateway) {
+		this.gateway = gateway;
+		this.gatewayId = gateway.getGatewayId();
 	}
-
-	private String tradingDayStr;
-
-	@SuppressWarnings("unused")
-	private int frontID = 0; // 前置机编号
-	@SuppressWarnings("unused")
-	private int sessionID = 0; // 会话编号
 
 	// 登录起始阶段缓存Order
 	// private List<Order> orderCacheList = new LinkedList<>();
@@ -139,38 +132,32 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 前置机联机回报
 	public void OnFrontConnected() {
 		log.info("{}-TdApi front connected.", gatewayId);
-		ctpGateway.onFrontConnectedOfTdSpi();
+		gateway.onFrontConnectedOfTdSpi();
 	}
 
 	// 前置机断开回报
 	public void OnFrontDisconnected(int nReason) {
-		log.info("{}-TdApi front disconnected, Reason: {}", gatewayId, nReason);
-		ctpGateway.onFrontDisconnectedOfTdSpi(nReason);
+		log.info("{}-TdApi front disconnected, Reason : {}", gatewayId, nReason);
+		gateway.onFrontDisconnectedOfTdSpi(nReason);
 	}
 
 	// 登录回报
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0) {
-			log.info("{} 交易接口登录成功! TradingDay:{},SessionID:{},BrokerID:{},UserID:{}", gatewayId,
-					pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
+			log.info("{} TdApi login success. tradingDay==[{}], sessionId==[{}], brokerId==[{}], userId==[{}]",
+					gatewayId, pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
 					pRspUserLogin.getUserID());
-			sessionID = pRspUserLogin.getSessionID();
-			frontID = pRspUserLogin.getFrontID();
-			// 修改登录状态为true
-			loginStatus = true;
-			tradingDayStr = pRspUserLogin.getTradingDay();
-			log.info("{}交易接口获取到的交易日为{}", gatewayId, tradingDayStr);
-			ctpGateway.onRspUserLoginOfTdSpi();
-
+			gateway.onRspUserLoginOfTdSpi();
+			gateway.setTdFrontId(pRspUserLogin.getFrontID());
+			gateway.setTdSessionId(pRspUserLogin.getSessionID());
 //			// 确认结算单
 //			CThostFtdcSettlementInfoConfirmField settlementInfoConfirmField = new CThostFtdcSettlementInfoConfirmField();
 //			settlementInfoConfirmField.setBrokerID(brokerId);
 //			settlementInfoConfirmField.setInvestorID(userId);
 //			cThostFtdcTraderApi.ReqSettlementInfoConfirm(settlementInfoConfirmField, reqID.incrementAndGet());
-
 		} else {
-			log.error("{}交易接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
+			log.error("{} TdApi login ,errorId==[{}], errorMsg==[{}]", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
 			loginFailed = true;
 		}
 
