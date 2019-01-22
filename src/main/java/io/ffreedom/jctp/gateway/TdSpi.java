@@ -119,8 +119,6 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
-	private int fromTd = CtpConstant.FromTd;
-
 	TdSpi(CtpGateway ctpGateway) {
 		this.ctpGateway = ctpGateway;
 		this.gatewayId = ctpGateway.getGatewayId();
@@ -141,20 +139,20 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 前置机联机回报
 	public void OnFrontConnected() {
 		log.info("{}-TdApi front connected.", gatewayId);
-		ctpGateway.onFrontConnected(fromTd);
+		ctpGateway.onFrontConnectedOfTdSpi();
 	}
 
 	// 前置机断开回报
 	public void OnFrontDisconnected(int nReason) {
 		log.info("{}-TdApi front disconnected, Reason: {}", gatewayId, nReason);
-		ctpGateway.onFrontDisconnected(nReason, fromTd);
+		ctpGateway.onFrontDisconnectedOfTdSpi(nReason);
 	}
 
 	// 登录回报
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0) {
-			log.info("{} 交易接口登录成功! TradingDay:{},SessionID:{},BrokerID:{},UserID:{}", gatewayName,
+			log.info("{} 交易接口登录成功! TradingDay:{},SessionID:{},BrokerID:{},UserID:{}", gatewayId,
 					pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
 					pRspUserLogin.getUserID());
 			sessionID = pRspUserLogin.getSessionID();
@@ -163,7 +161,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			loginStatus = true;
 			tradingDayStr = pRspUserLogin.getTradingDay();
 			log.info("{}交易接口获取到的交易日为{}", gatewayId, tradingDayStr);
-			ctpGateway.onRspUserLogin(fromTd);
+			ctpGateway.onRspUserLoginOfTdSpi();
 
 //			// 确认结算单
 //			CThostFtdcSettlementInfoConfirmField settlementInfoConfirmField = new CThostFtdcSettlementInfoConfirmField();
@@ -180,7 +178,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	// 心跳警告
 	public void OnHeartBeatWarning(int nTimeLapse) {
-		log.warn("{} 交易接口心跳警告, Time Lapse:{}", gatewayId, nTimeLapse);
+		log.warn("{} OnHeartBeatWarning, nTimeLapse==[{}]", gatewayId, nTimeLapse);
 	}
 
 	// 登出回报

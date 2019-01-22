@@ -24,8 +24,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 	private CtpGateway ctpGateway;
 	private String gatewayId;
 
-	private int fromMd = CtpConstant.FromMd;
-
 	private HashMap<String, String> contractExchangeMap;
 	private HashMap<String, String> contractNameMap;
 	private HashMap<String, Integer> preTickVolumeMap = new HashMap<>();
@@ -39,14 +37,14 @@ public class MdSpi extends CThostFtdcMdSpi {
 	@Override
 	public void OnFrontConnected() {
 		log.info("{}-MdApi front connected.", gatewayId);
-		ctpGateway.onFrontConnected(fromMd);
+		ctpGateway.onFrontConnectedOfMdSpi();
 	}
 
 	// 前置机断开回报
 	@Override
 	public void OnFrontDisconnected(int nReason) {
 		log.info("{}-MdApi front disconnected, Reason: {}", gatewayId, nReason);
-		ctpGateway.onFrontDisconnected(nReason, fromMd);
+		ctpGateway.onFrontDisconnectedOfMdSpi(nReason);
 	}
 
 	// 登录回报
@@ -54,13 +52,14 @@ public class MdSpi extends CThostFtdcMdSpi {
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo.getErrorID() == 0)
-			log.info("{}OnRspUserLogin! TradingDay:{},SessionID:{},BrokerID:{},UserID:{}", gatewayId,
+			log.info("{} OnRspUserLogin, TradingDay:{}, SessionID:{}, BrokerID:{}, UserID:{}", gatewayId,
 					pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
 					pRspUserLogin.getUserID());
 		// 修改登录状态为true
 		else
-			log.warn("{}行情接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
-		ctpGateway.onRspUserLogin(fromMd);
+			log.warn("{} OnRspUserLogin error ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
+					pRspInfo.getErrorMsg());
+		ctpGateway.onRspUserLoginOfMdSpi();
 	}
 
 	// 心跳警告

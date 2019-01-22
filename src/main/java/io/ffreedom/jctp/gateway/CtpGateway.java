@@ -133,34 +133,38 @@ public class CtpGateway {
 			tdApi.queryPosition();
 	}
 
-	void onFrontConnected(int from) {
-		switch (from) {
-		case CtpConstant.FromMd:
-			mdApi.setConnected(true);
-			mdApi.login();
-			return;
-		case CtpConstant.FromTd:
-			tdApi.setConnected(true);
-			tdApi.login();
-			return;
-		default:
-			return;
-		}
+	void onFrontConnectedOfMdSpi() {
+		mdApi.setConnected(true);
+		mdApi.login();
 	}
 
-	void onFrontDisconnected(int nReason, int from) {
-		switch (from) {
-		case CtpConstant.FromMd:
-			if (mdApi != null)
-				mdApi.close();
-			return;
-		case CtpConstant.FromTd:
-			if (tdApi != null)
-				tdApi.close();
-			return;
-		default:
-			return;
-		}
+	void onFrontConnectedOfTdSpi() {
+		tdApi.setConnected(true);
+		tdApi.login();
+	}
+
+	void onFrontDisconnectedOfMdSpi(int nReason) {
+		log.info("Md front disconnected nReason==[{}]", nReason);
+		if (mdApi != null)
+			mdApi.close();
+	}
+
+	void onFrontDisconnectedOfTdSpi(int nReason) {
+		log.info("Td front disconnected nReason==[{}]", nReason);
+		if (tdApi != null)
+			tdApi.close();
+	}
+
+	public void onRspUserLoginOfMdSpi() {
+		mdApi.setLogin(true);
+		if (!subscribeSymbols.isEmpty())
+			mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
+	}
+
+	public void onRspUserLoginOfTdSpi() {
+		tdApi.setLogin(true);
+		// tdApi.queryAccount();
+		// tdApi.queryPosition();
 	}
 
 	void onRspUserLogout() {
@@ -192,23 +196,6 @@ public class CtpGateway {
 //
 //		ctpGateway.subscribe("rb1905");
 
-	}
-
-	public void onRspUserLogin(int from) {
-		switch (from) {
-		case CtpConstant.FromMd:
-			mdApi.setLogin(true);
-			if (!subscribeSymbols.isEmpty())
-				mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
-			return;
-		case CtpConstant.FromTd:
-			tdApi.setLogin(true);
-			// tdApi.queryAccount();
-			// tdApi.queryPosition();
-			return;
-		default:
-			return;
-		}
 	}
 
 }
