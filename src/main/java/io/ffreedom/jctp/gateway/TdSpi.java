@@ -119,25 +119,14 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	private HashMap<String, String> originalOrderIdMap = new HashMap<>();
 
+	private int fromTd = CtpConstant.FromTd;
+
 	TdSpi(CtpGateway ctpGateway) {
 		this.ctpGateway = ctpGateway;
 		this.gatewayId = ctpGateway.getGatewayId();
 	}
 
-	
-
-	private boolean connectProcessStatus = false; // 避免重复调用
-	private boolean connectionStatus = false; // 前置机连接状态
-	private boolean loginStatus = false; // 登陆状态
 	private String tradingDayStr;
-
-	private boolean instrumentQueried = false;
-
-	private AtomicInteger reqID = new AtomicInteger(0); // 操作请求编号
-	private AtomicInteger orderRef = new AtomicInteger(0); // 订单编号
-
-	private boolean authStatus = false; // 验证状态
-	private boolean loginFailed = false; // 是否已经使用错误的信息尝试登录过
 
 	@SuppressWarnings("unused")
 	private int frontID = 0; // 前置机编号
@@ -149,41 +138,16 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	// 登录起始阶段缓存Trade
 	// private List<Trade> tradeCacheList = new LinkedList<>();
 
-	
-
-	/**
-	 * 返回接口状态
-	 * 
-	 * @return
-	 */
-	public boolean isConnected() {
-		return connectionStatus && loginStatus;
-	}
-
-	/**
-	 * 获取交易日
-	 * 
-	 * @return
-	 */
-	public String getTradingDayStr() {
-		return tradingDayStr;
-	}
-
-	
-
 	// 前置机联机回报
 	public void OnFrontConnected() {
-		log.info("{} 交易接口前置机已连接", gatewayId);
-		// 修改前置机连接状态为true
-		connectionStatus = true;
-		connectProcessStatus = false;
-		login();
+		log.info("{}-TdApi front connected.", gatewayId);
+		ctpGateway.onFrontConnected(fromTd);
 	}
 
 	// 前置机断开回报
 	public void OnFrontDisconnected(int nReason) {
-		log.info("{} 交易接口前置机已断开, Reason:{}", gatewayId, nReason);
-		close();
+		log.info("{}-TdApi front disconnected, Reason: {}", gatewayId, nReason);
+		ctpGateway.onFrontDisconnected(nReason, fromTd);
 	}
 
 	// 登录回报
@@ -199,16 +163,16 @@ public class TdSpi extends CThostFtdcTraderSpi {
 			loginStatus = true;
 			tradingDayStr = pRspUserLogin.getTradingDay();
 			log.info("{}交易接口获取到的交易日为{}", gatewayId, tradingDayStr);
+			ctpGateway.onRspUserLogin(fromTd);
 
-			// 确认结算单
-			CThostFtdcSettlementInfoConfirmField settlementInfoConfirmField = new CThostFtdcSettlementInfoConfirmField();
-			settlementInfoConfirmField.setBrokerID(brokerId);
-			settlementInfoConfirmField.setInvestorID(userId);
-			cThostFtdcTraderApi.ReqSettlementInfoConfirm(settlementInfoConfirmField, reqID.incrementAndGet());
+//			// 确认结算单
+//			CThostFtdcSettlementInfoConfirmField settlementInfoConfirmField = new CThostFtdcSettlementInfoConfirmField();
+//			settlementInfoConfirmField.setBrokerID(brokerId);
+//			settlementInfoConfirmField.setInvestorID(userId);
+//			cThostFtdcTraderApi.ReqSettlementInfoConfirm(settlementInfoConfirmField, reqID.incrementAndGet());
 
 		} else {
-			log.error("{}交易接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
-					pRspInfo.getErrorMsg());
+			log.error("{}交易接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
 			loginFailed = true;
 		}
 
@@ -266,8 +230,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		// TODO
 
 		// 发送委托事件
-		log.error("{}交易接口发单错误回报(柜台)! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
-				pRspInfo.getErrorMsg());
+		log.error("{}交易接口发单错误回报(柜台)! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
 
 	}
 

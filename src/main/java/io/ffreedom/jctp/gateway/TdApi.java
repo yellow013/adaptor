@@ -41,15 +41,15 @@ public class TdApi {
 	private String gatewayId;
 
 	private TdSpi tdSpi;
-	
+
 	private AtomicInteger reqId = new AtomicInteger(0); // 操作请求编号
 	private AtomicInteger orderRef = new AtomicInteger(0); // 订单编号
-	
+
 	private boolean authStatus = false; // 验证状态
 	private boolean loginFailed = false; // 是否已经使用错误的信息尝试登录过
 
 	private boolean instrumentQueried = false;
-	
+
 	public TdApi(String gatewayId, TdSpi tdSpi, TdApiConfig config) {
 		this.gatewayId = gatewayId;
 		this.tdSpi = tdSpi;
@@ -76,14 +76,14 @@ public class TdApi {
 			isLogin = false;
 		}
 
-		log.warn("{} 交易接口实例初始化", gatewayId);
+		log.info("{} TdApi instance init...", gatewayId);
 		String envTmpDir = System.getProperty("java.io.tmpdir");
 		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "TD_"
 				+ gatewayId;
 		File tempFile = new File(tempFilePath);
 		FileUtil.createMissingParentDirectories(tempFile);
 
-		log.info("{} 使用临时文件夹{}", gatewayId, tempFile.getParentFile().getAbsolutePath());
+		log.info("{} use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 		cThostFtdcTraderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(tempFile.getAbsolutePath());
 		cThostFtdcTraderApi.RegisterSpi(tdSpi);
 		cThostFtdcTraderApi.RegisterFront(tdAddress);
@@ -121,13 +121,17 @@ public class TdApi {
 			log.error("{} TdApi release thread error...", gatewayId, e);
 		}
 	}
-	
+
 	/**
 	 * 查询账户
 	 */
 	void queryAccount() {
 		if (cThostFtdcTraderApi == null) {
-			log.info("{}尚未初始化,无法查询账户", gatewayId);
+			log.info("{} TdApi not init, cThostFtdcTraderApi == null", gatewayId);
+			return;
+		}
+		if (!isLogin) {
+			log.info("{} TdApi not login, isLogin == false", gatewayId);
 			return;
 		}
 		CThostFtdcQryTradingAccountField cThostFtdcQryTradingAccountField = new CThostFtdcQryTradingAccountField();
@@ -139,10 +143,9 @@ public class TdApi {
 	 */
 	void queryPosition() {
 		if (cThostFtdcTraderApi == null) {
-			log.info("{}尚未初始化,无法查询持仓", gatewayId);
+			log.info("{} TdApi is not init, cThostFtdcTraderApi == null", gatewayId);
 			return;
 		}
-
 		if (!instrumentQueried) {
 			log.info("{}交易接口尚未获取到合约信息,无法查询持仓", gatewayId);
 			return;
@@ -206,11 +209,11 @@ public class TdApi {
 		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqId.incrementAndGet());
 		String rtOrderID = gatewayId + "." + orderRef.get();
 
-		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID())) {			
-			//originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
+		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID())) {
+			// originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
 		}
 
-		//return rtOrderID;
+		// return rtOrderID;
 	}
 
 	// 撤单

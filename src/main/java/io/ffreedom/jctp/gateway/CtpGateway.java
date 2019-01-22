@@ -2,19 +2,16 @@ package io.ffreedom.jctp.gateway;
 
 import java.io.File;
 import java.util.HashSet;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.gateway.config.MdApiConfig;
 import io.ffreedom.jctp.gateway.config.TdApiConfig;
 import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
 import io.ffreedom.jctp.gateway.dto.ReqOrder;
 
-/**
- */
 /**
  * @author Administrator
  *
@@ -22,10 +19,6 @@ import io.ffreedom.jctp.gateway.dto.ReqOrder;
 public class CtpGateway {
 
 	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
-
-	static final int FromMd = 0;
-
-	static final int FromTd = 1;
 
 	static {
 		try {
@@ -47,8 +40,6 @@ public class CtpGateway {
 		}
 	}
 
-	private HashSet<String> subscribeSymbols = new HashSet<>();
-
 	private MdApi mdApi;
 	private TdApi tdApi;
 
@@ -56,6 +47,8 @@ public class CtpGateway {
 	private TdSpi tdSpi;
 
 	private String gatewayId;
+
+	private HashSet<String> subscribeSymbols = new HashSet<>();
 
 	public CtpGateway(String gatewayId, MdApiConfig mdApiConfig, TdApiConfig tdApiConfig) {
 		this.gatewayId = gatewayId;
@@ -67,21 +60,16 @@ public class CtpGateway {
 			this.tdApi = new TdApi(gatewayId, tdSpi, tdApiConfig);
 		if (mdApi == null || tdApi == null)
 			throw new RuntimeException("Cannot init...");
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					if (isConnected())
-						queryAccount();
-					Thread.sleep(1250);
-					if (isConnected())
-						queryPosition();
-					Thread.sleep(1250);
-				} catch (Exception e) {
-					log.error(getClass().getSimpleName() + "定时查询发生异常", e);
-				}
-			}
-		}, 0, 3000);
+		ThreadUtil.startNewTimerTask(() -> query(), 0, 2500);
+	}
+
+	private void query() {
+		if (isConnected())
+			queryAccount();
+		ThreadUtil.sleep(1250);
+		if (isConnected())
+			queryPosition();
+		ThreadUtil.sleep(1250);
 	}
 
 	public String getGatewayId() {
@@ -92,17 +80,8 @@ public class CtpGateway {
 		return subscribeSymbols;
 	}
 
-	public void subscribe(String symbol) {
-		subscribeSymbols.add(symbol);
-		if (mdApi != null)
-			mdApi.subscribe(symbol);
-
-	}
-
-	public void unsubscribe(String symbol) {
-		subscribeSymbols.remove(symbol);
-		if (mdApi != null)
-			mdApi.unsubscribe(symbol);
+	public boolean isConnected() {
+		return tdApi.isConnected() && mdApi.isConnected();
 	}
 
 	public void connect() {
@@ -116,9 +95,22 @@ public class CtpGateway {
 		// 务必判断连接状态,防止死循环
 		if (mdApi != null && mdApi.isConnected())
 			mdApi.close();
-		if (tdApi != null && tdSpi.isConnected())
+		if (tdApi != null && tdApi.isConnected())
 			tdApi.close();
 		// 在这里发送事件主要是由于接口可能自动断开,需要广播通知
+	}
+
+	public void subscribe(String symbol) {
+		subscribeSymbols.add(symbol);
+		if (mdApi != null)
+			mdApi.subscribe(symbol);
+
+	}
+
+	public void unsubscribe(String symbol) {
+		subscribeSymbols.remove(symbol);
+		if (mdApi != null)
+			mdApi.unsubscribe(symbol);
 	}
 
 	public void sendOrder(ReqOrder reqOrder) {
@@ -141,17 +133,13 @@ public class CtpGateway {
 			tdApi.queryPosition();
 	}
 
-	public boolean isConnected() {
-		return tdApi.isConnected() && mdApi.isConnected();
-	}
-
-	public void onFrontConnected(int from) {
+	void onFrontConnected(int from) {
 		switch (from) {
-		case FromMd:
+		case CtpConstant.FromMd:
 			mdApi.setConnected(true);
 			mdApi.login();
 			return;
-		case FromTd:
+		case CtpConstant.FromTd:
 			tdApi.setConnected(true);
 			tdApi.login();
 			return;
@@ -160,20 +148,39 @@ public class CtpGateway {
 		}
 	}
 
-	public void onFrontDisconnected(int nReason, int from) {
+	void onFrontDisconnected(int nReason, int from) {
 		switch (from) {
-		case FromMd:
+		case CtpConstant.FromMd:
 			if (mdApi != null)
 				mdApi.close();
 			return;
-		case FromTd:
+		case CtpConstant.FromTd:
 			if (tdApi != null)
 				tdApi.close();
 			return;
 		default:
 			return;
 		}
+	}
 
+	void onRspUserLogout() {
+		// TODO Auto-generated method stub
+	}
+
+	void onRspError() {
+		// TODO Auto-generated method stub
+	}
+
+	void onRspSubMarketData() {
+		// TODO Auto-generated method stub
+	}
+
+	void onRspUnSubMarketData() {
+		// TODO Auto-generated method stub
+	}
+
+	void onRtnDepthMarketData() {
+		// TODO Auto-generated method stub
 	}
 
 	public static void main(String[] args) {
@@ -189,43 +196,19 @@ public class CtpGateway {
 
 	public void onRspUserLogin(int from) {
 		switch (from) {
-		case FromMd:
+		case CtpConstant.FromMd:
 			mdApi.setLogin(true);
 			if (!subscribeSymbols.isEmpty())
 				mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
 			return;
-		case FromTd:
-			
+		case CtpConstant.FromTd:
+			tdApi.setLogin(true);
+			// tdApi.queryAccount();
+			// tdApi.queryPosition();
 			return;
 		default:
 			return;
 		}
-		
-	}
-
-	public void onRspUserLogout() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onRspError() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onRspSubMarketData() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onRspUnSubMarketData() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onRtnDepthMarketData() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

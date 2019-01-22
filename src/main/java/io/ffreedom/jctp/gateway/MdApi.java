@@ -64,7 +64,7 @@ public class MdApi {
 		File tempFile = new File(tempFilePath);
 		FileUtil.createMissingParentDirectories(tempFile);
 
-		log.info("{} use temp file path ", gatewayId, tempFile.getParentFile().getAbsolutePath());
+		log.info("{} use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 
 		cThostFtdcMdApi = CThostFtdcMdApi.CreateFtdcMdApi(tempFile.getAbsolutePath());
 		cThostFtdcMdApi.RegisterSpi(mdSpi);

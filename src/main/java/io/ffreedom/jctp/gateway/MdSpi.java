@@ -24,6 +24,8 @@ public class MdSpi extends CThostFtdcMdSpi {
 	private CtpGateway ctpGateway;
 	private String gatewayId;
 
+	private int fromMd = CtpConstant.FromMd;
+
 	private HashMap<String, String> contractExchangeMap;
 	private HashMap<String, String> contractNameMap;
 	private HashMap<String, Integer> preTickVolumeMap = new HashMap<>();
@@ -36,15 +38,15 @@ public class MdSpi extends CThostFtdcMdSpi {
 	// 前置机联机回报
 	@Override
 	public void OnFrontConnected() {
-		log.info(gatewayId + "行情接口前置机已连接");
-		ctpGateway.onFrontConnected(CtpGateway.FromMd);
+		log.info("{}-MdApi front connected.", gatewayId);
+		ctpGateway.onFrontConnected(fromMd);
 	}
 
 	// 前置机断开回报
 	@Override
 	public void OnFrontDisconnected(int nReason) {
-		log.info(gatewayId + "行情接口前置机已断开,Reason:" + nReason);
-		ctpGateway.onFrontDisconnected(nReason, CtpGateway.FromMd);
+		log.info("{}-MdApi front disconnected, Reason: {}", gatewayId, nReason);
+		ctpGateway.onFrontDisconnected(nReason, fromMd);
 	}
 
 	// 登录回报
@@ -58,7 +60,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 		// 修改登录状态为true
 		else
 			log.warn("{}行情接口登录回报错误! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
-		ctpGateway.onRspUserLogin(CtpGateway.FromMd);
+		ctpGateway.onRspUserLogin(fromMd);
 	}
 
 	// 心跳警告

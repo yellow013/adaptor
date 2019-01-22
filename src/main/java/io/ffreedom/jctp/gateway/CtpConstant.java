@@ -33,6 +33,10 @@ public class CtpConstant {
 	public static Map<String,Character> statusMap = new HashMap<>();
 	public static Map<Character,String> statusMapReverse = new HashMap<>();
 	
+	static final int FromMd = 0;
+
+	static final int FromTd = 1;
+	
 	static {
 		
 		// 价格类型映射
