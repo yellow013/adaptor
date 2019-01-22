@@ -155,7 +155,7 @@ public class CtpGateway {
 
 	void onFrontConnectedOfTdSpi() {
 		tdApi.setConnected(true);
-		mdApi.login();
+		tdApi.login();
 	}
 
 	void onFrontDisconnectedOfMdSpi(int nReason) {
