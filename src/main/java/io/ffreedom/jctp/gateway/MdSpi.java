@@ -6,17 +6,14 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.ffreedom.jctp.jni.md.CThostFtdcDepthMarketDataField;
-import io.ffreedom.jctp.jni.md.CThostFtdcForQuoteRspField;
-import io.ffreedom.jctp.jni.md.CThostFtdcMdSpi;
-import io.ffreedom.jctp.jni.md.CThostFtdcRspInfoField;
-import io.ffreedom.jctp.jni.md.CThostFtdcRspUserLoginField;
-import io.ffreedom.jctp.jni.md.CThostFtdcSpecificInstrumentField;
-import io.ffreedom.jctp.jni.md.CThostFtdcUserLogoutField;
+import ctp.thostapi.CThostFtdcDepthMarketDataField;
+import ctp.thostapi.CThostFtdcForQuoteRspField;
+import ctp.thostapi.CThostFtdcMdSpi;
+import ctp.thostapi.CThostFtdcRspInfoField;
+import ctp.thostapi.CThostFtdcRspUserLoginField;
+import ctp.thostapi.CThostFtdcSpecificInstrumentField;
+import ctp.thostapi.CThostFtdcUserLogoutField;
 
-/**
- * @author sun0x00@gmail.com
- */
 public class MdSpi extends CThostFtdcMdSpi {
 
 	Logger log = LoggerFactory.getLogger(MdSpi.class);

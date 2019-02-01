@@ -9,19 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
+import ctp.thostapi.CThostFtdcInputOrderActionField;
+import ctp.thostapi.CThostFtdcInputOrderField;
+import ctp.thostapi.CThostFtdcQryInvestorPositionField;
+import ctp.thostapi.CThostFtdcQryTradingAccountField;
+import ctp.thostapi.CThostFtdcReqAuthenticateField;
+import ctp.thostapi.CThostFtdcReqUserLoginField;
+import ctp.thostapi.CThostFtdcTraderApi;
+import ctp.thostapi.thosttraderapiConstants;
 import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.gateway.config.TdApiConfig;
 import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
 import io.ffreedom.jctp.gateway.dto.ReqOrder;
-import io.ffreedom.jctp.jni.td.CThostFtdcInputOrderActionField;
-import io.ffreedom.jctp.jni.td.CThostFtdcInputOrderField;
-import io.ffreedom.jctp.jni.td.CThostFtdcQryInvestorPositionField;
-import io.ffreedom.jctp.jni.td.CThostFtdcQryTradingAccountField;
-import io.ffreedom.jctp.jni.td.CThostFtdcReqAuthenticateField;
-import io.ffreedom.jctp.jni.td.CThostFtdcReqUserLoginField;
-import io.ffreedom.jctp.jni.td.CThostFtdcTraderApi;
-import io.ffreedom.jctp.jni.td.jctptraderapiv6v3v11x64Constants;
 
 public class TdApi {
 
@@ -221,24 +221,23 @@ public class TdApi {
 		cThostFtdcInputOrderField.setUserID(userId);
 		cThostFtdcInputOrderField.setBrokerID(brokerId);
 
-		cThostFtdcInputOrderField
-				.setCombHedgeFlag(String.valueOf(jctptraderapiv6v3v11x64Constants.THOST_FTDC_HF_Speculation));
-		cThostFtdcInputOrderField.setContingentCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_CC_Immediately);
-		cThostFtdcInputOrderField.setForceCloseReason(jctptraderapiv6v3v11x64Constants.THOST_FTDC_FCC_NotForceClose);
+		cThostFtdcInputOrderField.setCombHedgeFlag(String.valueOf(thosttraderapiConstants.THOST_FTDC_HF_Speculation));
+		cThostFtdcInputOrderField.setContingentCondition(thosttraderapiConstants.THOST_FTDC_CC_Immediately);
+		cThostFtdcInputOrderField.setForceCloseReason(thosttraderapiConstants.THOST_FTDC_FCC_NotForceClose);
 		cThostFtdcInputOrderField.setIsAutoSuspend(0);
-		cThostFtdcInputOrderField.setTimeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_TC_GFD);
-		cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_AV);
+		cThostFtdcInputOrderField.setTimeCondition(thosttraderapiConstants.THOST_FTDC_TC_GFD);
+		cThostFtdcInputOrderField.setVolumeCondition(thosttraderapiConstants.THOST_FTDC_VC_AV);
 		cThostFtdcInputOrderField.setMinVolume(1);
 
 		// 判断FAK FOK市价单
 		if (Constant.PRICETYPE_FAK.equals(orderReq.getPriceType())) {
-			cThostFtdcInputOrderField.setOrderPriceType(jctptraderapiv6v3v11x64Constants.THOST_FTDC_OPT_LimitPrice);
-			cThostFtdcInputOrderField.setTimeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_TC_IOC);
-			cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_AV);
+			cThostFtdcInputOrderField.setOrderPriceType(thosttraderapiConstants.THOST_FTDC_OPT_LimitPrice);
+			cThostFtdcInputOrderField.setTimeCondition(thosttraderapiConstants.THOST_FTDC_TC_IOC);
+			cThostFtdcInputOrderField.setVolumeCondition(thosttraderapiConstants.THOST_FTDC_VC_AV);
 		} else if (Constant.PRICETYPE_FOK.equals(orderReq.getPriceType())) {
-			cThostFtdcInputOrderField.setOrderPriceType(jctptraderapiv6v3v11x64Constants.THOST_FTDC_OPT_LimitPrice);
-			cThostFtdcInputOrderField.setTimeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_TC_IOC);
-			cThostFtdcInputOrderField.setVolumeCondition(jctptraderapiv6v3v11x64Constants.THOST_FTDC_VC_CV);
+			cThostFtdcInputOrderField.setOrderPriceType(thosttraderapiConstants.THOST_FTDC_OPT_LimitPrice);
+			cThostFtdcInputOrderField.setTimeCondition(thosttraderapiConstants.THOST_FTDC_TC_IOC);
+			cThostFtdcInputOrderField.setVolumeCondition(thosttraderapiConstants.THOST_FTDC_VC_CV);
 		}
 
 		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqId.incrementAndGet());
@@ -265,7 +264,7 @@ public class TdApi {
 		cThostFtdcInputOrderActionField.setFrontID(reqCancelOrder.getFrontID());
 		cThostFtdcInputOrderActionField.setSessionID(reqCancelOrder.getSessionID());
 
-		cThostFtdcInputOrderActionField.setActionFlag(jctptraderapiv6v3v11x64Constants.THOST_FTDC_AF_Delete);
+		cThostFtdcInputOrderActionField.setActionFlag(thosttraderapiConstants.THOST_FTDC_AF_Delete);
 		cThostFtdcInputOrderActionField.setBrokerID(brokerId);
 		cThostFtdcInputOrderActionField.setInvestorID(userId);
 

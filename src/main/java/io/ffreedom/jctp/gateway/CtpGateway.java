@@ -26,16 +26,16 @@ public class CtpGateway {
 			if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
 				String absolutePath = new File("libs" + File.separator + "libiconv.dll").getAbsolutePath();
 				System.out.println(absolutePath);
-				System.load(new File("libs" + File.separator + "libiconv.dll").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "thostmduserapi.dll").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "jctpmdapiv6v3v11x64.dll").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "thosttraderapi.dll").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "jctptraderapiv6v3v11x64.dll").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "libiconv.dll").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "thostmduserapi.dll").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "jctpmdapiv6v3v11x64.dll").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "thosttraderapi.dll").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "jctptraderapiv6v3v11x64.dll").getAbsolutePath());
 			} else {
-				System.load(new File("libs" + File.separator + "libthostmduserapi.so").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "libjctpmdapiv6v3v11x64.so").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "libthosttraderapi.so").getAbsolutePath());
-				System.load(new File("libs" + File.separator + "libjctptraderapiv6v3v11x64.so").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "libthostmduserapi.so").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "libjctpmdapiv6v3v11x64.so").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "libthosttraderapi.so").getAbsolutePath());
+				System.load(new File("lib" + File.separator + "libjctptraderapiv6v3v11x64.so").getAbsolutePath());
 			}
 		} catch (Exception e) {
 			log.error("Load libs error...", e);

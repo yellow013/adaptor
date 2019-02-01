@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.util.FileUtil;
+import ctp.thostapi.CThostFtdcMdApi;
+import ctp.thostapi.CThostFtdcReqUserLoginField;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.gateway.config.MdApiConfig;
-import io.ffreedom.jctp.jni.md.CThostFtdcMdApi;
-import io.ffreedom.jctp.jni.md.CThostFtdcReqUserLoginField;
 
 public class MdApi {
 
