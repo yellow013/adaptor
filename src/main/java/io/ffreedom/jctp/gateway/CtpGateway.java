@@ -1,6 +1,5 @@
 package io.ffreedom.jctp.gateway;
 
-import java.io.File;
 import java.util.HashSet;
 
 import org.slf4j.Logger;
@@ -24,18 +23,13 @@ public class CtpGateway {
 		try {
 			// 判断是否是windows操作系统
 			if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-				String absolutePath = new File("libs" + File.separator + "libiconv.dll").getAbsolutePath();
-				System.out.println(absolutePath);
-				System.load(new File("lib" + File.separator + "libiconv.dll").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "thostmduserapi.dll").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "jctpmdapiv6v3v11x64.dll").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "thosttraderapi.dll").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "jctptraderapiv6v3v11x64.dll").getAbsolutePath());
+				System.loadLibrary("lib/win64/thosttraderapi");
+				System.loadLibrary("lib/win64/thostmduserapi");
+				System.loadLibrary("lib/win64/thostapi_wrap");
 			} else {
-				System.load(new File("lib" + File.separator + "libthostmduserapi.so").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "libjctpmdapiv6v3v11x64.so").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "libthosttraderapi.so").getAbsolutePath());
-				System.load(new File("lib" + File.separator + "libjctptraderapiv6v3v11x64.so").getAbsolutePath());
+				System.loadLibrary("lib/linux64/thosttraderapi");
+				System.loadLibrary("lib/linux64/thostmduserapi");
+				System.loadLibrary("lib/linux64/thostapi_wrap");
 			}
 		} catch (Exception e) {
 			log.error("Load libs error...", e);
@@ -94,6 +88,13 @@ public class CtpGateway {
 			mdApi.connect();
 		if (tdApi != null)
 			tdApi.connect();
+	}
+
+	public void login() {
+		if (mdApi != null)
+			mdApi.login();
+		if (tdApi != null)
+			tdApi.login();
 	}
 
 	public void close() {
@@ -212,16 +213,19 @@ public class CtpGateway {
 
 	public static void main(String[] args) {
 
-//		CtpGateway ctpGateway = new CtpGateway("simnow-test",
-//				new MdApiConfig().setMdAddress("180.168.146.187:10010").setBrokerId("9999").setUserId("005853")
-//						.setPassword("jinpengpass101"),
-//				new TdApiConfig().setTdAddress("180.168.146.187:10000").setBrokerId("9999").setUserId("005853")
-//						.setPassword("jinpengpass101"));
-//
-//		ctpGateway.subscribe("rb1905");
+		CtpGateway ctpGateway = new CtpGateway("simnow-test",
+				new MdApiConfig().setMdAddress("tcp://180.168.146.187:10010").setBrokerId("9999").setUserId("005853")
+						.setPassword("jinpengpass101"),
+				new TdApiConfig().setTdAddress("tcp://180.168.146.187:10000").setBrokerId("9999").setUserId("005853")
+						.setPassword("jinpengpass101"));
+
+		ctpGateway.connect();
+		ctpGateway.login();
+
+		ctpGateway.subscribe("rb1905");
 
 		System.out.println(System.getProperty("java.library.path"));
-		
+
 	}
 
 }
