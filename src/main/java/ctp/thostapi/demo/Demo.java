@@ -19,14 +19,23 @@ import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 
+interface CtpInfo {
+
+	String TradeAddress = "tcp://180.168.146.187:10000";
+	String MdAddress = "tcp://180.168.146.187:10010";
+
+	String BrokerId = "9999";
+	String InvestorId = "005853";
+	String UserId = "005853";
+	String AccountId = "005853";
+	String Password = "jinpengpass101";
+
+	String TradingDay = "20190201";
+	String CurrencyId = "CNY";
+
+}
+
 class TraderSpiImpl extends CThostFtdcTraderSpi {
-	final static String m_BrokerId = "9999";
-	final static String m_UserId = "070624";
-	final static String m_InvestorId = "070624";
-	final static String m_PassWord = "passwd";
-	final static String m_TradingDay = "20181122";
-	final static String m_AccountId = "070624";
-	final static String m_CurrencyId = "CNY";
 
 	TraderSpiImpl(CThostFtdcTraderApi traderapi, Vector<String> instrs) {
 		m_traderapi = traderapi;
@@ -37,9 +46,9 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 	public void OnFrontConnected() {
 		System.out.println("On Front Connected");
 		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
-		field.setBrokerID(m_BrokerId);
-		field.setUserID(m_UserId);
-		field.setPassword(m_PassWord);
+		field.setBrokerID(CtpInfo.BrokerId);
+		field.setUserID(CtpInfo.UserId);
+		field.setPassword(CtpInfo.Password);
 		field.setUserProductInfo("JAVA_API");
 		m_traderapi.ReqUserLogin(field, 0);
 		System.out.println("Send login ok");
@@ -55,18 +64,17 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 		}
 		System.out.println("Login success!!!");
 		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
-		qryTradingAccount.setBrokerID(m_BrokerId);
-		qryTradingAccount.setCurrencyID(m_CurrencyId);
-		;
-		qryTradingAccount.setInvestorID(m_InvestorId);
+		qryTradingAccount.setBrokerID(CtpInfo.BrokerId);
+		qryTradingAccount.setCurrencyID(CtpInfo.CurrencyId);
+		qryTradingAccount.setInvestorID(CtpInfo.InvestorId);
 		// m_traderapi.ReqQryTradingAccount(qryTradingAccount, 1);
 
 		CThostFtdcQrySettlementInfoField qrysettlement = new CThostFtdcQrySettlementInfoField();
-		qrysettlement.setBrokerID(m_BrokerId);
-		qrysettlement.setInvestorID(m_InvestorId);
-		qrysettlement.setTradingDay(m_TradingDay);
-		qrysettlement.setAccountID(m_AccountId);
-		qrysettlement.setCurrencyID(m_CurrencyId);
+		qrysettlement.setBrokerID(CtpInfo.BrokerId);
+		qrysettlement.setInvestorID(CtpInfo.InvestorId);
+		qrysettlement.setTradingDay(CtpInfo.TradingDay);
+		qrysettlement.setAccountID(CtpInfo.AccountId);
+		qrysettlement.setCurrencyID(CtpInfo.CurrencyId);
 		// m_traderapi.ReqQrySettlementInfo(qrysettlement, 2);
 
 		CThostFtdcQryInstrumentField qryInstr = new CThostFtdcQryInstrumentField();
@@ -80,7 +88,6 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
 			System.out.printf("OnRspQryTradingAccount ErrorID[%d] ErrMsg[%s]\n", pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-
 			return;
 		}
 
@@ -127,16 +134,9 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 	private Vector<String> m_instr_vec;
 }
 
-class mdspiImpl extends CThostFtdcMdSpi {
-	final static String m_BrokerId = "9999";
-	final static String m_UserId = "070624";
-	final static String m_InvestorId = "070624";
-	final static String m_PassWord = "passwd";
-	final static String m_TradingDay = "20181122";
-	final static String m_AccountId = "070624";
-	final static String m_CurrencyId = "CNY";
+class MdSpiImpl extends CThostFtdcMdSpi {
 
-	mdspiImpl(CThostFtdcMdApi mdapi, Vector<String> instrs) {
+	MdSpiImpl(CThostFtdcMdApi mdapi, Vector<String> instrs) {
 		m_mdapi = mdapi;
 		m_instr_vec = instrs;
 	}
@@ -144,9 +144,9 @@ class mdspiImpl extends CThostFtdcMdSpi {
 	public void OnFrontConnected() {
 		System.out.println("On Front Connected");
 		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
-		field.setBrokerID(m_BrokerId);
-		field.setUserID(m_UserId);
-		field.setPassword(m_PassWord);
+		field.setBrokerID(CtpInfo.BrokerId);
+		field.setUserID(CtpInfo.UserId);
+		field.setPassword(CtpInfo.Password);
 		m_mdapi.ReqUserLogin(field, 0);
 
 	}
@@ -181,21 +181,20 @@ class mdspiImpl extends CThostFtdcMdSpi {
 public class Demo {
 
 	static {
-		System.loadLibrary("thosttraderapi");
-		System.loadLibrary("thostmduserapi");
-		System.loadLibrary("thostapi_wrap");
+		System.loadLibrary("lib/win64/thosttraderapi");
+		System.loadLibrary("lib/win64/thostmduserapi");
+		System.loadLibrary("lib/win64/thostapi_wrap");
 	}
-	final static String ctp1_TradeAddress = "tcp://180.168.146.187:10000";
-	final static String ctp1_MdAddress = "tcp://180.168.146.187:10010";
+
 	static Vector<String> instr_vec = new Vector<String>();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// System.out.println(System.getProperty("java.library.path"));
 		CThostFtdcTraderApi traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi("trade");
-		TraderSpiImpl pTraderSpi = new TraderSpiImpl(traderApi, instr_vec);
-		traderApi.RegisterSpi(pTraderSpi);
-		traderApi.RegisterFront(ctp1_TradeAddress);
+		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, instr_vec);
+		traderApi.RegisterSpi(traderSpiImpl);
+		traderApi.RegisterFront(CtpInfo.TradeAddress);
 		traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 		traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 		traderApi.Init();
@@ -206,9 +205,9 @@ public class Demo {
 			e.printStackTrace();
 		}
 		CThostFtdcMdApi mdApi = CThostFtdcMdApi.CreateFtdcMdApi("md");
-		mdspiImpl pMdspiImpl = new mdspiImpl(mdApi, instr_vec);
-		mdApi.RegisterSpi(pMdspiImpl);
-		mdApi.RegisterFront(ctp1_MdAddress);
+		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, instr_vec);
+		mdApi.RegisterSpi(mdSpiImpl);
+		mdApi.RegisterFront(CtpInfo.MdAddress);
 		mdApi.Init();
 
 		traderApi.Join();
