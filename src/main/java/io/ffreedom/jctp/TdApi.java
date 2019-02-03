@@ -1,4 +1,4 @@
-package io.ffreedom.jctp.gateway;
+package io.ffreedom.jctp;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -19,15 +19,18 @@ import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.thosttraderapiConstants;
 import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
-import io.ffreedom.jctp.gateway.config.TdApiConfig;
-import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
-import io.ffreedom.jctp.gateway.dto.ReqOrder;
+import io.ffreedom.jctp.base.Constant;
+import io.ffreedom.jctp.base.CtpConstant;
+import io.ffreedom.jctp.config.CtpConfig;
+import io.ffreedom.jctp.dto.ReqCancelOrder;
+import io.ffreedom.jctp.dto.ReqOrder;
 
 public class TdApi {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private volatile CThostFtdcTraderApi cThostFtdcTraderApi;
+
 	private volatile boolean isConnecting = false; // 是否正在连接中
 	private volatile boolean isConnected = false; // 连接状态
 
@@ -48,9 +51,7 @@ public class TdApi {
 	private AtomicInteger reqId = new AtomicInteger(0); // 操作请求编号
 	private AtomicInteger orderRef = new AtomicInteger(0); // 订单编号
 
-	private boolean instrumentQueried = false;
-
-	public TdApi(String gatewayId, TdSpi tdSpi, TdApiConfig config) {
+	public TdApi(String gatewayId, TdSpi tdSpi, CtpConfig config) {
 		this.gatewayId = gatewayId;
 		this.tdSpi = tdSpi;
 		this.tdAddress = config.getTdAddress();
@@ -136,19 +137,26 @@ public class TdApi {
 
 	void login() {
 		if (isLoginFailed) {
-			log.warn(gatewayId + "交易接口登录曾发生错误,不再登录,以防被锁");
+			log.warn("{} can not login, isLoginFailed == true", gatewayId);
 			return;
 		}
 		if (cThostFtdcTraderApi == null) {
-			log.warn("{} 交易接口实例已经释放", gatewayId);
+			log.warn("{} is not init", gatewayId);
 			return;
 		}
-		if (StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(gatewayId) || StringUtils.isEmpty(password)) {
-			log.error(gatewayId + "BrokerID UserID Password不允许为空");
+		if (StringUtil.isNullOrEmpty(brokerId)) {
+			log.error("{} can not login, brokerId is null or empty");
+			return;
+		}
+		if (StringUtil.isNullOrEmpty(userId)) {
+			log.error("{} can not login, userId is null or empty");
+			return;
+		}
+		if (StringUtil.isNullOrEmpty(password)) {
+			log.error("{} can not login, password is null or empty");
 			return;
 		}
 		if (StringUtils.isEmpty(authCode) && isAuth) {
-			// 登录
 			CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
 			userLoginField.setBrokerID(brokerId);
 			userLoginField.setUserID(userId);
@@ -157,9 +165,6 @@ public class TdApi {
 		}
 	}
 
-	/**
-	 * 查询账户
-	 */
 	void queryAccount() {
 		if (cThostFtdcTraderApi == null) {
 			log.info("{} TdApi not init, cThostFtdcTraderApi == null", gatewayId);
@@ -173,21 +178,16 @@ public class TdApi {
 		cThostFtdcTraderApi.ReqQryTradingAccount(cThostFtdcQryTradingAccountField, reqId.incrementAndGet());
 	}
 
-	/**
-	 * 查询持仓
-	 */
 	void queryPosition() {
 		if (cThostFtdcTraderApi == null) {
 			log.info("{} TdApi is not init, cThostFtdcTraderApi == null", gatewayId);
 			return;
 		}
-		if (!instrumentQueried) {
-			log.info("{}交易接口尚未获取到合约信息,无法查询持仓", gatewayId);
+		if (!isLogin) {
+			log.info("{} TdApi not login, isLogin == false", gatewayId);
 			return;
 		}
-
 		CThostFtdcQryInvestorPositionField cThostFtdcQryInvestorPositionField = new CThostFtdcQryInvestorPositionField();
-		// log.info("查询持仓");
 		cThostFtdcQryInvestorPositionField.setBrokerID(brokerId);
 		cThostFtdcQryInvestorPositionField.setInvestorID(userId);
 		cThostFtdcTraderApi.ReqQryInvestorPosition(cThostFtdcQryInvestorPositionField, reqId.incrementAndGet());
@@ -282,6 +282,10 @@ public class TdApi {
 
 	void setConnected(boolean isConnected) {
 		this.isConnected = isConnected;
+	}
+
+	boolean isLogin() {
+		return isLogin;
 	}
 
 	void setLogin(boolean isLogin) {

@@ -1,4 +1,4 @@
-package io.ffreedom.jctp.gateway;
+package io.ffreedom.jctp;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
+import io.ffreedom.jctp.base.Constant;
 
 public class MdSpi extends CThostFtdcMdSpi {
 
@@ -33,29 +34,31 @@ public class MdSpi extends CThostFtdcMdSpi {
 	// 前置机联机回报
 	@Override
 	public void OnFrontConnected() {
-		log.info("{}-MdApi front connected.", gatewayId);
-		ctpGateway.onFrontConnectedOfMdSpi();
+		log.info("{} MdApi front connected.", gatewayId);
+		ctpGateway.onMdFrontConnected();
 	}
 
 	// 前置机断开回报
 	@Override
 	public void OnFrontDisconnected(int nReason) {
-		log.info("{}-MdApi front disconnected, Reason: {}", gatewayId, nReason);
-		ctpGateway.onFrontDisconnectedOfMdSpi(nReason);
+		log.info("{} MdApi front disconnected, Reason: {}", gatewayId, nReason);
+		ctpGateway.onMdFrontDisconnected(nReason);
 	}
 
 	// 登录回报
 	@Override
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		if (pRspInfo.getErrorID() == 0)
+		if (pRspInfo.getErrorID() == 0) {
 			log.info("{} OnRspUserLogin, TradingDay:{}, SessionID:{}, BrokerID:{}, UserID:{}", gatewayId,
 					pRspUserLogin.getTradingDay(), pRspUserLogin.getSessionID(), pRspUserLogin.getBrokerID(),
 					pRspUserLogin.getUserID());
-		else
-			log.warn("{} OnRspUserLogin error ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
+			ctpGateway.onMdRspUserLogin(true);
+		} else {
+			log.warn("{} OnRspUserLogin error, ErrorID:{}, ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-		ctpGateway.onRspUserLoginOfMdSpi();
+			ctpGateway.onMdRspUserLogin(false);
+		}
 	}
 
 	// 心跳警告
@@ -69,13 +72,13 @@ public class MdSpi extends CThostFtdcMdSpi {
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
 		if (pRspInfo.getErrorID() != 0)
-			log.info("{}OnRspUserLogout!ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
+			log.info("{} OnRspUserLogout, ErrorID: {}, ErrorMsg: {}", gatewayId, pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
 		else
-			log.info("{}OnRspUserLogout!BrokerID:{},UserID:{}", gatewayId, pUserLogout.getBrokerID(),
+			log.info("{} OnRspUserLogout, BrokerID: {}, UserID: {}", gatewayId, pUserLogout.getBrokerID(),
 					pUserLogout.getUserID());
 		// this.loginStatus = false;
-		ctpGateway.onRspUserLogout();
+		ctpGateway.onMdRspUserLogout();
 	}
 
 	// 错误回报
@@ -83,7 +86,7 @@ public class MdSpi extends CThostFtdcMdSpi {
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		log.info("{} 行情接口错误回报!ErrorID:{}, ErrorMsg:{}, RequestID:{}, isLast{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg(), nRequestID, bIsLast);
-		ctpGateway.onRspError();
+		ctpGateway.onMdRspError();
 	}
 
 	// 订阅合约回报
@@ -205,18 +208,21 @@ public class MdSpi extends CThostFtdcMdSpi {
 	}
 
 	// 订阅期权询价
+	@Override
 	public void OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField pSpecificInstrument,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		log.info("{} OnRspSubForQuoteRsp!", gatewayId);
 	}
 
 	// 退订期权询价
+	@Override
 	public void OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField pSpecificInstrument,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		log.info("{} OnRspUnSubForQuoteRsp!", gatewayId);
 	}
 
 	// 期权询价推送
+	@Override
 	public void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField pForQuoteRsp) {
 		log.info("{} OnRspUnSubForQuoteRsp!", gatewayId);
 	}

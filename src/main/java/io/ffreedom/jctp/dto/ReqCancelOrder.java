@@ -1,12 +1,6 @@
-package io.ffreedom.jctp.gateway.dto;
+package io.ffreedom.jctp.dto;
 
-import java.io.Serializable;
-
-/**
- * @author sun0x00@gmail.com
- */
-public class ReqCancelOrder implements Serializable {
-	private static final long serialVersionUID = -8268383961926962032L;
+public class ReqCancelOrder {
 
 	private String gatewayID; // 网关
 
@@ -22,54 +16,71 @@ public class ReqCancelOrder implements Serializable {
 	// CTP LTS网关相关
 	private int frontID; // 前置机号
 	private int sessionID; // 回话号
+
 	public String getGatewayID() {
 		return gatewayID;
 	}
+
 	public void setGatewayID(String gatewayID) {
 		this.gatewayID = gatewayID;
 	}
+
 	public String getSymbol() {
 		return symbol;
 	}
+
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
+
 	public String getExchange() {
 		return exchange;
 	}
+
 	public void setExchange(String exchange) {
 		this.exchange = exchange;
 	}
+
 	public String getRtSymbol() {
 		return rtSymbol;
 	}
+
 	public void setRtSymbol(String rtSymbol) {
 		this.rtSymbol = rtSymbol;
 	}
+
 	public String getOperatorID() {
 		return operatorID;
 	}
+
 	public void setOperatorID(String operatorID) {
 		this.operatorID = operatorID;
 	}
+
 	public String getOrderID() {
 		return orderID;
 	}
+
 	public void setOrderID(String orderID) {
 		this.orderID = orderID;
 	}
+
 	public int getFrontID() {
 		return frontID;
 	}
+
 	public void setFrontID(int frontID) {
 		this.frontID = frontID;
 	}
+
 	public int getSessionID() {
 		return sessionID;
 	}
+
 	public void setSessionID(int sessionID) {
 		this.sessionID = sessionID;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,6 +95,7 @@ public class ReqCancelOrder implements Serializable {
 		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -129,6 +141,7 @@ public class ReqCancelOrder implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "CancelOrderReq [gatewayID=" + gatewayID + ", symbol=" + symbol + ", exchange=" + exchange

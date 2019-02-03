@@ -1,14 +1,8 @@
-package io.ffreedom.jctp.gateway.dto;
+package io.ffreedom.jctp.dto;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * @author sun0x00@gmail.com
- */
-public class ReqOrder implements Serializable {
-
-	private static final long serialVersionUID = -8783647687127541104L;
+public class ReqOrder {
 
 	private String gatewayID; // 网关
 	private String gatewayDisplayName; // 网关

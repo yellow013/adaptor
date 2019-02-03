@@ -1,4 +1,4 @@
-package io.ffreedom.jctp.gateway;
+package io.ffreedom.jctp;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import ch.qos.logback.core.util.FileUtil;
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
 import io.ffreedom.common.utils.ThreadUtil;
-import io.ffreedom.jctp.gateway.config.MdApiConfig;
+import io.ffreedom.jctp.config.CtpConfig;
 
 public class MdApi {
 
@@ -31,7 +31,7 @@ public class MdApi {
 	private String userId;
 	private String password;
 
-	MdApi(String gatewayId, MdSpi mdSpi, MdApiConfig config) {
+	MdApi(String gatewayId, MdSpi mdSpi, CtpConfig config) {
 		this.mdSpi = mdSpi;
 		this.gatewayId = gatewayId;
 		this.mdAddress = config.getMdAddress();

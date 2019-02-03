@@ -1,38 +1,70 @@
-package io.ffreedom.jctp.gateway.config;
+package io.ffreedom.jctp.config;
 
 /**
  * @author Administrator
  *
  */
-public abstract class ApiConfig<T extends ApiConfig<T>> {
+public class CtpConfig {
 
-	protected String brokerId;
-	protected String userId;
-	protected String password;
-	protected String authCode;
+	private String mdAddress;
+	private String tdAddress;
+	private String brokerId;
+	private String userId;
+	private String password;
+	private String authCode;
+
+	public String getMdAddress() {
+		return mdAddress;
+	}
+
+	public CtpConfig setMdAddress(String mdAddress) {
+		this.mdAddress = mdAddress;
+		return this;
+	}
+
+	public String getTdAddress() {
+		return tdAddress;
+	}
+
+	public CtpConfig setTdAddress(String tdAddress) {
+		this.tdAddress = tdAddress;
+		return this;
+	}
 
 	public String getBrokerId() {
 		return brokerId;
 	}
 
-	abstract public T setBrokerId(String brokerId);
+	public CtpConfig setBrokerId(String brokerId) {
+		this.brokerId = brokerId;
+		return this;
+	}
 
 	public String getUserId() {
 		return userId;
 	}
 
-	abstract public T setUserId(String userId);
+	public CtpConfig setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	abstract public T setPassword(String password);
+	public CtpConfig setPassword(String password) {
+		this.password = password;
+		return this;
+	}
 
 	public String getAuthCode() {
 		return authCode;
 	}
 
-	abstract public T setAuthCode(String authCode);
+	public CtpConfig setAuthCode(String authCode) {
+		this.authCode = authCode;
+		return this;
+	}
 
 }

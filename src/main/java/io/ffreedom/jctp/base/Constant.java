@@ -1,4 +1,4 @@
-package io.ffreedom.jctp.gateway;
+package io.ffreedom.jctp.base;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;

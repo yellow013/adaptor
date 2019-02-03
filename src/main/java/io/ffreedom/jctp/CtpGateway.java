@@ -1,4 +1,4 @@
-package io.ffreedom.jctp.gateway;
+package io.ffreedom.jctp;
 
 import java.util.HashSet;
 
@@ -6,13 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.ffreedom.common.utils.ThreadUtil;
-import io.ffreedom.jctp.gateway.config.MdApiConfig;
-import io.ffreedom.jctp.gateway.config.TdApiConfig;
-import io.ffreedom.jctp.gateway.dto.ReqCancelOrder;
-import io.ffreedom.jctp.gateway.dto.ReqOrder;
+import io.ffreedom.jctp.config.CtpConfig;
+import io.ffreedom.jctp.dto.ReqCancelOrder;
+import io.ffreedom.jctp.dto.ReqOrder;
 
 /**
- * @author Administrator
+ * @author yellow013
  *
  */
 public class CtpGateway {
@@ -44,31 +43,30 @@ public class CtpGateway {
 
 	private String gatewayId;
 
-	private HashSet<String> subscribeSymbols = new HashSet<>();
+	private HashSet<String> subscribeSymbols = new HashSet<>(); // 行情订阅列表
 
-	private int tdFrontId = 0; // 前置机编号
-	private int tdSessionId = 0; // 会话编号
+	private int tdFrontId; // 前置机编号
+	private int tdSessionId; // 会话编号
 
-	public CtpGateway(String gatewayId, MdApiConfig mdApiConfig, TdApiConfig tdApiConfig) {
+	public CtpGateway(String gatewayId, CtpConfig config) {
 		this.gatewayId = gatewayId;
 		this.mdSpi = new MdSpi(this);
 		this.tdSpi = new TdSpi(this);
-		if (mdApiConfig != null)
-			this.mdApi = new MdApi(gatewayId, mdSpi, mdApiConfig);
-		if (tdApiConfig != null)
-			this.tdApi = new TdApi(gatewayId, tdSpi, tdApiConfig);
-		if (mdApi == null || tdApi == null)
-			throw new RuntimeException("Cannot init...");
-		ThreadUtil.startNewTimerTask(() -> query(), 0, 2500);
+		if (config != null) {
+			this.mdApi = new MdApi(gatewayId, mdSpi, config);
+			this.tdApi = new TdApi(gatewayId, tdSpi, config);
+		} else
+			throw new RuntimeException("Cannot init, CtpConfig is null.");
+		// ThreadUtil.startNewTimerTask(() -> query(), 0, 2500);
 	}
 
 	private void query() {
 		if (isConnected())
 			queryAccount();
-		ThreadUtil.sleep(1250);
+		ThreadUtil.sleep(1150);
 		if (isConnected())
 			queryPosition();
-		ThreadUtil.sleep(1250);
+		ThreadUtil.sleep(1150);
 	}
 
 	public String getGatewayId() {
@@ -81,6 +79,10 @@ public class CtpGateway {
 
 	public boolean isConnected() {
 		return tdApi.isConnected() && mdApi.isConnected();
+	}
+
+	public boolean isLogin() {
+		return tdApi.isLogin() && mdApi.isLogin();
 	}
 
 	public void connect() {
@@ -98,24 +100,22 @@ public class CtpGateway {
 	}
 
 	public void close() {
-		// 务必判断连接状态,防止死循环
+		// 判断连接状态
 		if (mdApi != null && mdApi.isConnected())
 			mdApi.close();
 		if (tdApi != null && tdApi.isConnected())
 			tdApi.close();
-		// 在这里发送事件主要是由于接口可能自动断开,需要广播通知
 	}
 
 	public void subscribe(String symbol) {
 		subscribeSymbols.add(symbol);
-		if (mdApi != null)
+		if (mdApi != null && mdApi.isLogin())
 			mdApi.subscribe(symbol);
-
 	}
 
 	public void unsubscribe(String symbol) {
 		subscribeSymbols.remove(symbol);
-		if (mdApi != null)
+		if (mdApi != null && mdApi.isLogin())
 			mdApi.unsubscribe(symbol);
 	}
 
@@ -149,48 +149,55 @@ public class CtpGateway {
 		return this;
 	}
 
-	void onFrontConnectedOfMdSpi() {
+	void onMdFrontConnected() {
 		mdApi.setConnected(true);
 		mdApi.login();
 	}
 
-	void onFrontConnectedOfTdSpi() {
+	void onTdFrontConnected() {
 		tdApi.setConnected(true);
 		tdApi.login();
 	}
 
-	void onFrontDisconnectedOfMdSpi(int nReason) {
+	void onMdFrontDisconnected(int nReason) {
 		log.info("Md front disconnected nReason==[{}]", nReason);
 		if (mdApi != null)
 			mdApi.close();
 	}
 
-	void onFrontDisconnectedOfTdSpi(int nReason) {
+	void onTdFrontDisconnected(int nReason) {
 		log.info("Td front disconnected nReason==[{}]", nReason);
 		if (tdApi != null)
 			tdApi.close();
 	}
 
-	void onRspUserLoginOfMdSpi() {
+	void onMdRspUserLogin(boolean isSuccess) {
 		mdApi.setLogin(true);
 		if (!subscribeSymbols.isEmpty())
 			mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
 	}
 
-	void onRspUserLoginOfTdSpi(boolean isSuccess) {
-		if (isSuccess)
+	void onTdRspUserLogin(boolean isSuccess) {
+		if (isSuccess) {
 			tdApi.setLogin(true);
-		else
+			query();
+		} else
 			tdApi.setLoginFailed(true);
-		// tdApi.queryAccount();
-		// tdApi.queryPosition();
 	}
 
-	void onRspUserLogout() {
+	void onMdRspUserLogout() {
+		mdApi.setLogin(false);
+	}
+
+	void onTdRspUserLogout() {
+		tdApi.setLogin(false);
+	}
+
+	void onMdRspError() {
 		// TODO Auto-generated method stub
 	}
 
-	void onRspError() {
+	void onTdRspError() {
 		// TODO Auto-generated method stub
 	}
 
@@ -214,10 +221,8 @@ public class CtpGateway {
 	public static void main(String[] args) {
 
 		CtpGateway ctpGateway = new CtpGateway("simnow-test",
-				new MdApiConfig().setMdAddress("tcp://180.168.146.187:10010").setBrokerId("9999").setUserId("005853")
-						.setPassword("jinpengpass101"),
-				new TdApiConfig().setTdAddress("tcp://180.168.146.187:10000").setBrokerId("9999").setUserId("005853")
-						.setPassword("jinpengpass101"));
+				new CtpConfig().setMdAddress("tcp://180.168.146.187:10010").setTdAddress("tcp://180.168.146.187:10000")
+						.setBrokerId("9999").setUserId("005853").setPassword("jinpengpass101"));
 
 		ctpGateway.connect();
 		ctpGateway.login();
