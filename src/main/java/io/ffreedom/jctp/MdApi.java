@@ -20,7 +20,7 @@ public class MdApi {
 	private volatile CThostFtdcMdApi cThostFtdcMdApi;
 	private volatile boolean isConnecting = false; // 是否正在连接中
 	private volatile boolean isConnected = false; // 连接状态
-	
+
 	private boolean isLogin = false; // 登陆状态
 
 	private MdSpi mdSpi;
@@ -55,17 +55,13 @@ public class MdApi {
 			isConnected = false;
 			isLogin = false;
 		}
-
 		log.info("{} MdApi instance init...", gatewayId);
-
-		String envTmpDir = System.getProperty("java.io.tmpdir");
-		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "MD_"
-				+ gatewayId;
-		File tempFile = new File(tempFilePath);
-		FileUtil.createMissingParentDirectories(tempFile);
-
-		log.info("{} use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
-
+		String ctpTempFileHome = System.getProperty("user.home") + File.separator + "jctp";
+		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId + File.separator + "md");
+		if (!ctpTempFilePath.exists())
+			ctpTempFilePath.mkdirs();
+		File tempFile = new File(ctpTempFilePath, "null");
+		log.info("{} md use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 		cThostFtdcMdApi = CThostFtdcMdApi.CreateFtdcMdApi(tempFile.getAbsolutePath());
 		cThostFtdcMdApi.RegisterSpi(mdSpi);
 		cThostFtdcMdApi.RegisterFront(mdAddress);

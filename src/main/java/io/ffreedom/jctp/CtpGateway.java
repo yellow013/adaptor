@@ -1,6 +1,10 @@
 package io.ffreedom.jctp;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +34,7 @@ public class CtpGateway {
 				System.loadLibrary("lib/linux64/thostmduserapi");
 				System.loadLibrary("lib/linux64/thostapi_wrap");
 			}
+			log.info("Load libs success...");
 		} catch (Exception e) {
 			log.error("Load libs error...", e);
 		}
@@ -172,9 +177,13 @@ public class CtpGateway {
 	}
 
 	void onMdRspUserLogin(boolean isSuccess) {
-		mdApi.setLogin(true);
-		if (!subscribeSymbols.isEmpty())
-			mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
+		if (isSuccess) {
+			mdApi.setLogin(true);
+			if (!subscribeSymbols.isEmpty())
+				mdApi.subscribe(subscribeSymbols.toArray(new String[subscribeSymbols.size()]));
+		} else {
+			// TODO 添加行情登录失败处理
+		}
 	}
 
 	void onTdRspUserLogin(boolean isSuccess) {
@@ -223,13 +232,18 @@ public class CtpGateway {
 		CtpGateway ctpGateway = new CtpGateway("simnow-test",
 				new CtpConfig().setMdAddress("tcp://180.168.146.187:10010").setTdAddress("tcp://180.168.146.187:10000")
 						.setBrokerId("9999").setUserId("005853").setPassword("jinpengpass101"));
-
 		ctpGateway.connect();
 		ctpGateway.login();
-
 		ctpGateway.subscribe("rb1905");
 
-		System.out.println(System.getProperty("java.library.path"));
+//		Properties properties = System.getProperties();
+//
+//		Iterator<Entry<Object, Object>> iterator = properties.entrySet().iterator();
+//
+//		while (iterator.hasNext()) {
+//			Entry<Object, Object> next = iterator.next();
+//			System.out.println(next.getKey() + " : " + next.getValue());
+//		}
 
 	}
 

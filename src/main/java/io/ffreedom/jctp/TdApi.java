@@ -76,15 +76,13 @@ public class TdApi {
 			isConnected = false;
 			isLogin = false;
 		}
-
 		log.info("{} TdApi instance init...", gatewayId);
-		String envTmpDir = System.getProperty("java.io.tmpdir");
-		String tempFilePath = envTmpDir + File.separator + "jctp" + File.separator + "TEMP" + File.separator + "TD_"
-				+ gatewayId;
-		File tempFile = new File(tempFilePath);
-		FileUtil.createMissingParentDirectories(tempFile);
-
-		log.info("{} use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
+		String ctpTempFileHome = System.getProperty("user.home") + File.separator + "jctp";
+		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId + File.separator + "td");
+		if (!ctpTempFilePath.exists())
+			ctpTempFilePath.mkdirs();
+		File tempFile = new File(ctpTempFilePath, "null");
+		log.info("{} td use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 		cThostFtdcTraderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(tempFile.getAbsolutePath());
 		cThostFtdcTraderApi.RegisterSpi(tdSpi);
 		cThostFtdcTraderApi.RegisterFront(tdAddress);
