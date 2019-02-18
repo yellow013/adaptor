@@ -156,4 +156,8 @@ public class MdApi {
 		cThostFtdcMdApi.ReqUserLogin(userLoginField, 0);
 	}
 
+	void join() {
+		cThostFtdcMdApi.Join();
+	}
+
 }

@@ -9,6 +9,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lmax.disruptor.BusySpinWaitStrategy;
+
+import io.ffreedom.common.queue.base.SCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.config.CtpConfig;
 import io.ffreedom.jctp.dto.ReqCancelOrder;
@@ -52,6 +55,8 @@ public class CtpGateway {
 
 	private int tdFrontId; // 前置机编号
 	private int tdSessionId; // 会话编号
+
+	private SCQueue<Object> inboundQueue;
 
 	public CtpGateway(String gatewayId, CtpConfig config) {
 		this.gatewayId = gatewayId;
@@ -226,6 +231,11 @@ public class CtpGateway {
 		tdApi.setAuth(true);
 		tdApi.login();
 	}
+	
+	void join() {
+		mdApi.join();
+		tdApi.join();
+	}
 
 	public static void main(String[] args) {
 
@@ -244,6 +254,7 @@ public class CtpGateway {
 //			Entry<Object, Object> next = iterator.next();
 //			System.out.println(next.getKey() + " : " + next.getValue());
 //		}
+		ctpGateway.join();
 
 	}
 

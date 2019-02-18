@@ -298,4 +298,8 @@ public class TdApi {
 		this.isAuth = isAuth;
 	}
 
+	void join() {
+		cThostFtdcTraderApi.Join();
+	}
+
 }
