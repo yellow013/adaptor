@@ -59,7 +59,6 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
 			System.out.printf("Login ErrorID[%d] ErrMsg[%s]\n", pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
-
 			return;
 		}
 		System.out.println("Login success!!!");
@@ -136,6 +135,9 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 
 class MdSpiImpl extends CThostFtdcMdSpi {
 
+	private CThostFtdcMdApi m_mdapi;
+	private Vector<String> m_instr_vec;
+
 	MdSpiImpl(CThostFtdcMdApi mdapi, Vector<String> instrs) {
 		m_mdapi = mdapi;
 		m_instr_vec = instrs;
@@ -161,7 +163,7 @@ class MdSpiImpl extends CThostFtdcMdSpi {
 		while (iterator.hasNext()) {
 			instruementid[0] = iterator.next().toString();
 			m_mdapi.SubscribeMarketData(instruementid, 1);
-			System.out.println(iterator.next());
+			System.out.println("SubscribeMarketData -> " + instruementid[0]);
 		}
 	}
 
@@ -174,8 +176,6 @@ class MdSpiImpl extends CThostFtdcMdSpi {
 		}
 	}
 
-	private CThostFtdcMdApi m_mdapi;
-	private Vector<String> m_instr_vec;
 }
 
 public class Demo {

@@ -81,7 +81,7 @@ public class TdApi {
 		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId + File.separator + "td");
 		if (!ctpTempFilePath.exists())
 			ctpTempFilePath.mkdirs();
-		File tempFile = new File(ctpTempFilePath, "null");
+		File tempFile = new File(ctpTempFilePath, "td");
 		log.info("{} td use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 		cThostFtdcTraderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(tempFile.getAbsolutePath());
 		cThostFtdcTraderApi.RegisterSpi(tdSpi);

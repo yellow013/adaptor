@@ -60,7 +60,7 @@ public class MdApi {
 		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId + File.separator + "md");
 		if (!ctpTempFilePath.exists())
 			ctpTempFilePath.mkdirs();
-		File tempFile = new File(ctpTempFilePath, "null");
+		File tempFile = new File(ctpTempFilePath, "md");
 		log.info("{} md use temp file path : {}", gatewayId, tempFile.getParentFile().getAbsolutePath());
 		cThostFtdcMdApi = CThostFtdcMdApi.CreateFtdcMdApi(tempFile.getAbsolutePath());
 		cThostFtdcMdApi.RegisterSpi(mdSpi);
