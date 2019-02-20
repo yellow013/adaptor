@@ -37,6 +37,9 @@ interface CtpInfo {
 
 class TraderSpiImpl extends CThostFtdcTraderSpi {
 
+	private CThostFtdcTraderApi m_traderapi;
+	private Vector<String> m_instr_vec;
+
 	TraderSpiImpl(CThostFtdcTraderApi traderapi, Vector<String> instrs) {
 		m_traderapi = traderapi;
 		m_instr_vec = instrs;
@@ -89,12 +92,11 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 					pRspInfo.getErrorMsg());
 			return;
 		}
-
 		if (pTradingAccount != null) {
 			System.out.printf("Balance[%f]Available[%f]WithdrawQuota[%f]Credit[%f]\n", pTradingAccount.getBalance(),
 					pTradingAccount.getAvailable(), pTradingAccount.getWithdrawQuota(), pTradingAccount.getCredit());
 		} else {
-			System.out.printf("NULL obj\n");
+			System.out.printf("NULL obj");
 		}
 	}
 
@@ -103,34 +105,30 @@ class TraderSpiImpl extends CThostFtdcTraderSpi {
 		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
 			System.out.printf("OnRspQrySettlementInfo ErrorID[%d] ErrMsg[%s]\n", pRspInfo.getErrorID(),
 					pRspInfo.getErrorMsg());
-
 			return;
 		}
-
 		if (pSettlementInfo != null) {
-			System.out.printf("%s", pSettlementInfo.getContent());
+			System.out.println("OnRspQrySettlementInfo -> \n" + pSettlementInfo.getContent());
 		} else {
-			System.out.printf("NULL obj\n");
+			System.out.println("NULL obj");
 		}
 	}
 
 	public void OnRspQryInstrument(CThostFtdcInstrumentField pInstrument, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
-			System.out.printf("OnRspQryInstrument ErrorID[%d] ErrMsg[%s]\n", pRspInfo.getErrorID(),
-					pRspInfo.getErrorMsg());
+			System.out.printf(
+					"OnRspQryInstrument ErrorID[" + pRspInfo.getErrorID() + "] ErrMsg[" + pRspInfo.getErrorMsg() + "]");
 			return;
 		}
 		if (pInstrument != null) {
-			// System.out.printf("%s\n",pInstrument.getInstrumentID());
+			System.out.println("OnRspQryInstrument -> " + pInstrument.getInstrumentID());
 			m_instr_vec.add(pInstrument.getInstrumentID());
 		} else {
-			System.out.printf("NULL obj\n");
+			System.out.println("NULL obj");
 		}
 	}
 
-	private CThostFtdcTraderApi m_traderapi;
-	private Vector<String> m_instr_vec;
 }
 
 class MdSpiImpl extends CThostFtdcMdSpi {
@@ -156,7 +154,7 @@ class MdSpiImpl extends CThostFtdcMdSpi {
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		if (pRspUserLogin != null) {
-			System.out.printf("Brokerid[%s]\n", pRspUserLogin.getBrokerID());
+			System.out.println("Brokerid[" + pRspUserLogin.getBrokerID() + "]");
 		}
 		String[] instruementid = new String[1];
 		Iterator<String> iterator = m_instr_vec.iterator();
@@ -169,10 +167,10 @@ class MdSpiImpl extends CThostFtdcMdSpi {
 
 	public void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField pDepthMarketData) {
 		if (pDepthMarketData != null) {
-			System.out.printf("InstrumentID[%s]AskPrice1[%f]BidPrice1[%f]\n", pDepthMarketData.getInstrumentID(),
-					pDepthMarketData.getAskPrice1(), pDepthMarketData.getBidPrice1());
+			System.out.println("InstrumentID[" + pDepthMarketData.getInstrumentID() + "]AskPrice1["
+					+ pDepthMarketData.getAskPrice1() + "]BidPrice1[" + pDepthMarketData.getBidPrice1() + "]");
 		} else {
-			System.out.printf("NULL obj\n");
+			System.out.println("NULL obj");
 		}
 	}
 

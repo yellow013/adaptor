@@ -41,7 +41,7 @@ public interface Constant {
 		}
 	};
 
-	HashSet<String> STATUS_WORKING = new HashSet<>() {
+	HashSet<String> STATUS_WORKING = new HashSet<String>() {
 		private static final long serialVersionUID = 909683985291870766L;
 		{
 			add(Constant.STATUS_UNKNOWN);

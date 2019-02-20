@@ -1,15 +1,9 @@
-package io.ffreedom.jctp;
+package io.ffreedom.jctp.bak;
 
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.lmax.disruptor.BusySpinWaitStrategy;
 
 import io.ffreedom.common.queue.base.SCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
@@ -27,7 +21,7 @@ public class CtpGateway {
 
 	static {
 		try {
-			// 判断是否是windows操作系统
+			// 根据操作系统选择加载的库文件
 			if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
 				System.loadLibrary("lib/win64/thosttraderapi");
 				System.loadLibrary("lib/win64/thostmduserapi");
@@ -40,6 +34,7 @@ public class CtpGateway {
 			log.info("Load libs success...");
 		} catch (Exception e) {
 			log.error("Load libs error...", e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
@@ -231,7 +226,7 @@ public class CtpGateway {
 		tdApi.setAuth(true);
 		tdApi.login();
 	}
-	
+
 	void join() {
 		mdApi.join();
 		tdApi.join();
@@ -243,17 +238,7 @@ public class CtpGateway {
 				new CtpConfig().setMdAddress("tcp://180.168.146.187:10010").setTdAddress("tcp://180.168.146.187:10000")
 						.setBrokerId("9999").setUserId("005853").setPassword("jinpengpass101"));
 		ctpGateway.connect();
-		ctpGateway.login();
 		ctpGateway.subscribe("rb1905");
-
-//		Properties properties = System.getProperties();
-//
-//		Iterator<Entry<Object, Object>> iterator = properties.entrySet().iterator();
-//
-//		while (iterator.hasNext()) {
-//			Entry<Object, Object> next = iterator.next();
-//			System.out.println(next.getKey() + " : " + next.getValue());
-//		}
 		ctpGateway.join();
 
 	}
