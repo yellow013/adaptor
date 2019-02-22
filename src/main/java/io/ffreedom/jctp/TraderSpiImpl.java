@@ -1,40 +1,52 @@
 package io.ffreedom.jctp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import ctp.thostapi.CThostFtdcInputOrderActionField;
+import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcInstrumentField;
+import ctp.thostapi.CThostFtdcOrderActionField;
+import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcQryInstrumentField;
 import ctp.thostapi.CThostFtdcQrySettlementInfoField;
 import ctp.thostapi.CThostFtdcQryTradingAccountField;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
+import ctp.thostapi.CThostFtdcRspAuthenticateField;
 import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSettlementInfoField;
+import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
-import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
+import ctp.thostapi.CThostFtdcUserLogoutField;
+import io.ffreedom.common.queue.base.SCQueue;
+import io.ffreedom.jctp.base.BaseTraderSpiImpl;
+import io.ffreedom.jctp.bean.CtpUserInfo;
+import io.ffreedom.jctp.bean.RspMsg;
 
-public class TraderSpiImpl extends CThostFtdcTraderSpi {
+public class TraderSpiImpl extends BaseTraderSpiImpl {
 
-	private CThostFtdcTraderApi traderApi;
-
-	private Logger logger = LoggerFactory.getLogger(getClass());
-
-	TraderSpiImpl(CThostFtdcTraderApi traderApi) {
-		this.traderApi = traderApi;
+	private CtpUserInfo userInfo;
+	
+	TraderSpiImpl(CThostFtdcTraderApi traderApi, CtpUserInfo userInfo, SCQueue<RspMsg> inboundQueue) {
+		super(traderApi);
+		this.userInfo = userInfo;
 	}
 
 	@Override
 	public void OnFrontConnected() {
 		logger.info("Callback TraderSpiImpl OnFrontConnected");
 		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
-		field.setBrokerID(CtpInfo.BrokerId);
-		field.setUserID(CtpInfo.UserId);
-		field.setPassword(CtpInfo.Password);
-		field.setUserProductInfo("JAVA_API");
+		field.setBrokerID(userInfo.getBrokerId());
+		field.setUserID(userInfo.getUserId());
+		field.setPassword(userInfo.getPassword());
+		field.setUserProductInfo("JAVA_API_TEST");
 		traderApi.ReqUserLogin(field, 0);
 		logger.info("ReqUserLogin OK");
+	}
+
+	@Override
+	public void OnFrontDisconnected(int nReason) {
+		// TODO Auto-generated method stub
+		super.OnFrontDisconnected(nReason);
 	}
 
 	@Override
@@ -46,24 +58,38 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 		}
 		logger.info("OnRspUserLogin -> Login Success");
 		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
-		qryTradingAccount.setBrokerID(CtpInfo.BrokerId);
-		qryTradingAccount.setCurrencyID(CtpInfo.CurrencyId);
-		qryTradingAccount.setInvestorID(CtpInfo.InvestorId);
+		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
+		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
+		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
 		traderApi.ReqQryTradingAccount(qryTradingAccount, 1);
 		logger.info("ReqQryTradingAccount OK");
 
 		CThostFtdcQrySettlementInfoField qrySettlementInfoField = new CThostFtdcQrySettlementInfoField();
-		qrySettlementInfoField.setBrokerID(CtpInfo.BrokerId);
-		qrySettlementInfoField.setInvestorID(CtpInfo.InvestorId);
-		qrySettlementInfoField.setTradingDay(CtpInfo.TradingDay);
-		qrySettlementInfoField.setAccountID(CtpInfo.AccountId);
-		qrySettlementInfoField.setCurrencyID(CtpInfo.CurrencyId);
+		qrySettlementInfoField.setBrokerID(userInfo.getBrokerId());
+		qrySettlementInfoField.setInvestorID(userInfo.getInvestorId());
+		qrySettlementInfoField.setTradingDay(userInfo.getTradingDay());
+		qrySettlementInfoField.setAccountID(userInfo.getAccountId());
+		qrySettlementInfoField.setCurrencyID(userInfo.getCurrencyId());
 		traderApi.ReqQrySettlementInfo(qrySettlementInfoField, 2);
 		logger.info("ReqQrySettlementInfo OK");
 
 		CThostFtdcQryInstrumentField qryInstrumentField = new CThostFtdcQryInstrumentField();
 		traderApi.ReqQryInstrument(qryInstrumentField, 3);
 		logger.info("ReqQryInstrument OK");
+	}
+
+	@Override
+	public void OnRspAuthenticate(CThostFtdcRspAuthenticateField pRspAuthenticateField, CThostFtdcRspInfoField pRspInfo,
+			int nRequestID, boolean bIsLast) {
+		// TODO Auto-generated method stub
+		super.OnRspAuthenticate(pRspAuthenticateField, pRspInfo, nRequestID, bIsLast);
+	}
+
+	@Override
+	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
+			boolean bIsLast) {
+		// TODO Auto-generated method stub
+		super.OnRspUserLogout(pUserLogout, pRspInfo, nRequestID, bIsLast);
 	}
 
 	@Override
@@ -108,6 +134,44 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 			logger.info("OnRspQryInstrument -> InstrumentID==[{}]", pInstrument.getInstrumentID());
 		else
 			logger.info("OnRspQryInstrument return null");
+	}
+
+	@Override
+	public void OnRtnOrder(CThostFtdcOrderField pOrder) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnRtnTrade(CThostFtdcTradeField pTrade) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnRspOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo, int nRequestID,
+			boolean bIsLast) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnRspOrderAction(CThostFtdcInputOrderActionField pInputOrderAction, CThostFtdcRspInfoField pRspInfo,
+			int nRequestID, boolean bIsLast) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnErrRtnOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnErrRtnOrderAction(CThostFtdcOrderActionField pOrderAction, CThostFtdcRspInfoField pRspInfo) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

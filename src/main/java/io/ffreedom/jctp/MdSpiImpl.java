@@ -3,41 +3,45 @@ package io.ffreedom.jctp;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcMdApi;
-import ctp.thostapi.CThostFtdcMdSpi;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
 import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
+import ctp.thostapi.CThostFtdcSpecificInstrumentField;
+import io.ffreedom.common.queue.base.SCQueue;
+import io.ffreedom.jctp.base.BaseMdSpiImpl;
+import io.ffreedom.jctp.bean.CtpUserInfo;
+import io.ffreedom.jctp.bean.RspMsg;
 
-public class MdSpiImpl extends CThostFtdcMdSpi {
+import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+public class MdSpiImpl extends BaseMdSpiImpl {
 
-	private CThostFtdcMdApi mdApi;
+	private CtpUserInfo userInfo;
 	private Set<String> instruementIdSet;
 
-	MdSpiImpl(CThostFtdcMdApi mdApi, Set<String> instruementIdSet) {
-		this.mdApi = mdApi;
+	MdSpiImpl(CThostFtdcMdApi mdApi, CtpUserInfo userInfo, Set<String> instruementIdSet, SCQueue<RspMsg> inboundQueue) {
+		super(mdApi);
+		this.userInfo = userInfo;
 		this.instruementIdSet = instruementIdSet;
 	}
 
 	@Override
 	public void OnFrontConnected() {
 		logger.info("Callback MdSpiImpl OnFrontConnected");
-		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
-		field.setBrokerID(CtpInfo.BrokerId);
-		field.setUserID(CtpInfo.UserId);
-		field.setPassword(CtpInfo.Password);
-		mdApi.ReqUserLogin(field, 0);
+		CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
+		userLoginField.setBrokerID(userInfo.getBrokerId());
+		userLoginField.setUserID(userInfo.getUserId());
+		userLoginField.setPassword(userInfo.getPassword());
+		mdApi.ReqUserLogin(userLoginField, 0);
 	}
 
 	@Override
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
+		validateRspInfo("OnRspUserLogin", pRspInfo);
+
 		if (pRspUserLogin != null) {
 			logger.info("OnRspUserLogin -> Brokerid==[{}]", pRspUserLogin.getBrokerID());
 		} else {
@@ -54,19 +58,22 @@ public class MdSpiImpl extends CThostFtdcMdSpi {
 	}
 
 	@Override
+	public void OnRspSubMarketData(CThostFtdcSpecificInstrumentField pSpecificInstrument,
+			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
+		validateRspInfo("OnRspSubMarketData", pRspInfo);
+		pSpecificInstrument.getInstrumentID();
+
+	}
+
+	@Override
 	public void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField pDepthMarketData) {
-		if (pDepthMarketData != null)
-//			logger.info("OnRtnDepthMarketData -> InstrumentID==[{}] AskPrice1==[{}] BidPrice1==[{}]",
-//					pDepthMarketData.getInstrumentID(), pDepthMarketData.getAskPrice1(),
-//					pDepthMarketData.getBidPrice1());
-			System.out.println("OnRtnDepthMarketData -> InstrumentID==[" + pDepthMarketData.getInstrumentID()
-					+ "] AskPrice1==[" + pDepthMarketData.getAskPrice1() + "] BidPrice1==["
-					+ pDepthMarketData.getBidPrice1() + "]");
-		else
-			// logger.info("OnRtnDepthMarketData return null");
-			System.out.println("OnRtnDepthMarketData return null");
-		System.out.println(Thread.currentThread().getId());
-		System.out.println(Thread.currentThread().getName());
+		if (pDepthMarketData != null) {
+			logger.info(
+					"OnRtnDepthMarketData -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
+					pDepthMarketData.getInstrumentID(), pDepthMarketData.getUpdateMillisec(),
+					pDepthMarketData.getUpdateTime(), pDepthMarketData.getAskPrice1(), pDepthMarketData.getBidPrice1());
+		} else
+			logger.info("OnRtnDepthMarketData return null");
 	}
 
 }

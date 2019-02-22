@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import io.ffreedom.common.queue.base.SCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
+import io.ffreedom.jctp.bean.ReqCancelOrder;
+import io.ffreedom.jctp.bean.ReqOrder;
 import io.ffreedom.jctp.config.CtpConfig;
-import io.ffreedom.jctp.dto.ReqCancelOrder;
-import io.ffreedom.jctp.dto.ReqOrder;
 
 /**
  * @author yellow013

@@ -21,9 +21,9 @@ import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.base.Constant;
 import io.ffreedom.jctp.base.CtpConstant;
+import io.ffreedom.jctp.bean.ReqCancelOrder;
+import io.ffreedom.jctp.bean.ReqOrder;
 import io.ffreedom.jctp.config.CtpConfig;
-import io.ffreedom.jctp.dto.ReqCancelOrder;
-import io.ffreedom.jctp.dto.ReqOrder;
 
 public class TdApi {
 
