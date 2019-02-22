@@ -41,7 +41,6 @@ public class MdSpiImpl extends BaseMdSpiImpl {
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspUserLogin", pRspInfo);
-
 		if (pRspUserLogin != null) {
 			logger.info("OnRspUserLogin -> Brokerid==[{}]", pRspUserLogin.getBrokerID());
 		} else {

@@ -10,30 +10,14 @@ import org.slf4j.LoggerFactory;
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
+import io.ffreedom.common.queue.base.SCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.CtpUserInfo;
+import io.ffreedom.jctp.bean.RspMsg;
 
 public class Gateway {
 
 	private static Logger logger = LoggerFactory.getLogger(Gateway.class);
-
-	private static String TradeAddress = "tcp://180.168.146.187:10000";
-	private static String MdAddress = "tcp://180.168.146.187:10010";
-
-	private static String BrokerId = "9999";
-	private static String InvestorId = "005853";
-	private static String UserId = "005853";
-	private static String AccountId = "005853";
-	private static String Password = "jinpengpass101";
-
-	private static String TradingDay = "20190201";
-	private static String CurrencyId = "CNY";
-
-	private static String gatewayId = "simnow_test";
-
-	private static CtpUserInfo UserInfo = CtpUserInfo.newEmpty().setTradeAddress(TradeAddress).setMdAddress(MdAddress)
-			.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
-			.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
 	private static void loadWin64Library() {
 		System.loadLibrary("lib/win64/thosttraderapi");
@@ -61,19 +45,18 @@ public class Gateway {
 		}
 	}
 
-	public static void main(String[] args) {
+	public Gateway(String gatewayId, CtpUserInfo userInfo, SCQueue<RspMsg> outboundQueue) {
 		String ctpTempFileHome = System.getProperty("user.home") + File.separator + "jctp";
-		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId + File.separator + "md");
+		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId);
 		if (!ctpTempFilePath.exists())
 			ctpTempFilePath.mkdirs();
 		String traderTempFilePath = new File(ctpTempFilePath, "trader").getAbsolutePath();
-
 		logger.info("{} trader use temp file path : {}", gatewayId, traderTempFilePath);
 		CThostFtdcTraderApi traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
 		// TODO Add Queue
-		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, UserInfo, null);
+		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, userInfo, outboundQueue);
 		traderApi.RegisterSpi(traderSpiImpl);
-		traderApi.RegisterFront(UserInfo.getTradeAddress());
+		traderApi.RegisterFront(userInfo.getTradeAddress());
 		traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 		traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 		traderApi.Init();
@@ -85,12 +68,34 @@ public class Gateway {
 		Set<String> instruementIdSet = new HashSet<>();
 		instruementIdSet.add("rb1910");
 		// TODO Add Queue
-		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, UserInfo, instruementIdSet, null);
+		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, userInfo, instruementIdSet, outboundQueue);
 		mdApi.RegisterSpi(mdSpiImpl);
-		mdApi.RegisterFront(UserInfo.getMdAddress());
+		mdApi.RegisterFront(userInfo.getMdAddress());
 		mdApi.Init();
-
 		traderApi.Join();
 		mdApi.Join();
 	}
+
+	private static String TradeAddress = "tcp://180.168.146.187:10000";
+	private static String MdAddress = "tcp://180.168.146.187:10010";
+
+	private static String BrokerId = "9999";
+	private static String InvestorId = "005853";
+	private static String UserId = "005853";
+	private static String AccountId = "005853";
+	private static String Password = "jinpengpass101";
+
+	private static String TradingDay = "20190201";
+	private static String CurrencyId = "CNY";
+
+	private static String GatewayId = "simnow_test";
+
+	private static CtpUserInfo SimnowUserInfo = CtpUserInfo.newEmpty().setTradeAddress(TradeAddress)
+			.setMdAddress(MdAddress).setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId)
+			.setAccountId(AccountId).setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
+
+	public static void main(String[] args) {
+		new Gateway(GatewayId, SimnowUserInfo, null);
+	}
+
 }
