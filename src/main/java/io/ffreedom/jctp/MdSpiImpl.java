@@ -46,15 +46,15 @@ public class MdSpiImpl extends BaseMdSpiImpl {
 		}
 		logger.info("OnRspUserLogin -> Brokerid==[{}] UserID==[{}]", pRspUserLogin.getBrokerID(),
 				pRspUserLogin.getUserID());
-		Set<String> instruementIdSet = new HashSet<>();
-		instruementIdSet.add("rb1910");
-		String[] instruementId = new String[1];
-		Iterator<String> iterator = instruementIdSet.iterator();
-		while (iterator.hasNext()) {
-			instruementId[0] = iterator.next().toString();
-			mdApi.SubscribeMarketData(instruementId, 1);
-			logger.info("SubscribeMarketData -> " + instruementId[0]);
-		}
+//		Set<String> instruementIdSet = new HashSet<>();
+//		instruementIdSet.add("rb1910");
+//		String[] instruementId = new String[1];
+//		Iterator<String> iterator = instruementIdSet.iterator();
+//		while (iterator.hasNext()) {
+//			instruementId[0] = iterator.next().toString();
+//			mdApi.SubscribeMarketData(instruementId, 1);
+//			logger.info("SubscribeMarketData -> " + instruementId[0]);
+//		}
 	}
 
 	@Override

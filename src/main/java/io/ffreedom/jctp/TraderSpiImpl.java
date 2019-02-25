@@ -20,6 +20,8 @@ import ctp.thostapi.CThostFtdcUserLogoutField;
 import io.ffreedom.jctp.base.BaseTraderSpiImpl;
 import io.ffreedom.jctp.bean.CtpUserInfo;
 
+import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
+
 public class TraderSpiImpl extends BaseTraderSpiImpl {
 
 	private CtpUserInfo userInfo;
@@ -45,17 +47,14 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 
 	@Override
 	public void OnFrontDisconnected(int nReason) {
-		// TODO Auto-generated method stub
-		super.OnFrontDisconnected(nReason);
+		logger.warn("OnFrontDisconnected -> Reason==[{}]", nReason);
 	}
 
 	@Override
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
-			logger.info("OnRspUserLogin -> ErrorID==[{}] ErrMsg==[{}]", pRspInfo.getErrorID(), pRspInfo.getErrorMsg());
-			return;
-		}
+		validateRspInfo("OnRspUserLogin", pRspInfo);
+
 		logger.info("OnRspUserLogin -> Login Success");
 		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
 		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
@@ -81,25 +80,20 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	@Override
 	public void OnRspAuthenticate(CThostFtdcRspAuthenticateField pRspAuthenticateField, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		// TODO Auto-generated method stub
-		super.OnRspAuthenticate(pRspAuthenticateField, pRspInfo, nRequestID, bIsLast);
+		validateRspInfo("OnRspAuthenticate", pRspInfo);
 	}
 
 	@Override
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
-		// TODO Auto-generated method stub
-		super.OnRspUserLogout(pUserLogout, pRspInfo, nRequestID, bIsLast);
+		validateRspInfo("OnRspUserLogout", pRspInfo);
 	}
 
 	@Override
 	public void OnRspQryTradingAccount(CThostFtdcTradingAccountField pTradingAccount, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
-			logger.info("OnRspQryTradingAccount -> ErrorID==[{}] ErrMsg==[{}]", pRspInfo.getErrorID(),
-					pRspInfo.getErrorMsg());
-			return;
-		}
+		validateRspInfo("OnRspQryTradingAccount", pRspInfo);
+
 		if (pTradingAccount != null)
 			logger.info("OnRspQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
 					pTradingAccount.getBalance(), pTradingAccount.getAvailable(), pTradingAccount.getWithdrawQuota(),
@@ -111,11 +105,8 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	@Override
 	public void OnRspQrySettlementInfo(CThostFtdcSettlementInfoField pSettlementInfo, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
-			logger.info("OnRspQrySettlementInfo -> ErrorID==[{}] ErrMsg==[{}]", pRspInfo.getErrorID(),
-					pRspInfo.getErrorMsg());
-			return;
-		}
+		validateRspInfo("OnRspQrySettlementInfo", pRspInfo);
+
 		if (pSettlementInfo != null)
 			logger.info("OnRspQrySettlementInfo -> \n {}", pSettlementInfo.getContent());
 		else
@@ -125,11 +116,8 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	@Override
 	public void OnRspQryInstrument(CThostFtdcInstrumentField pInstrument, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		if (pRspInfo != null && pRspInfo.getErrorID() != 0) {
-			logger.info("OnRspQryInstrument -> ErrorID==[{}] ErrMsg==[{}}", pRspInfo.getErrorID(),
-					pRspInfo.getErrorMsg());
-			return;
-		}
+		validateRspInfo("OnRspQryInstrument", pRspInfo);
+		
 		if (pInstrument != null)
 			logger.info("OnRspQryInstrument -> InstrumentID==[{}]", pInstrument.getInstrumentID());
 		else
@@ -149,29 +137,28 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	@Override
 	public void OnRspOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
-		// TODO Auto-generated method stub
+		validateRspInfo("OnRspOrderInsert", pRspInfo);
 	}
 
 	@Override
 	public void OnRspOrderAction(CThostFtdcInputOrderActionField pInputOrderAction, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
-		// TODO Auto-generated method stub
+		validateRspInfo("OnRspOrderAction", pRspInfo);
 	}
 
 	@Override
 	public void OnErrRtnOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo) {
-		// TODO Auto-generated method stub
+		validateRspInfo("OnErrRtnOrderInsert", pRspInfo);
 	}
 
 	@Override
 	public void OnErrRtnOrderAction(CThostFtdcOrderActionField pOrderAction, CThostFtdcRspInfoField pRspInfo) {
-		// TODO Auto-generated method stub
+		validateRspInfo("OnErrRtnOrderAction", pRspInfo);
 	}
 
 	@Override
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -13,6 +13,7 @@ import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 import io.ffreedom.common.datetime.DateTimeUtil;
 import io.ffreedom.common.queue.api.Queue;
+import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.CtpUserInfo;
 import io.ffreedom.jctp.bean.RspMsg;
@@ -22,12 +23,14 @@ public class Gateway {
 	private static final Logger logger = LoggerFactory.getLogger(Gateway.class);
 
 	private static void loadWin64Library() {
+		logger.info("Load win 64bit library...");
 		System.loadLibrary("lib/win64/thosttraderapi");
 		System.loadLibrary("lib/win64/thostmduserapi");
 		System.loadLibrary("lib/win64/thostapi_wrap");
 	}
 
 	private static void loadLinux64Library() {
+		logger.info("Load linux 64bit library...");
 		System.loadLibrary("lib/linux64/thosttraderapi");
 		System.loadLibrary("lib/linux64/thostmduserapi");
 		System.loadLibrary("lib/linux64/thostapi_wrap");
@@ -48,33 +51,15 @@ public class Gateway {
 	}
 
 	private String gatewayId;
+	private CtpUserInfo userInfo;
 	private CThostFtdcTraderApi traderApi;
 	private CThostFtdcMdApi mdApi;
 
+	public volatile boolean isInit = false;
+
 	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> outboundQueue) {
 		this.gatewayId = gatewayId;
-		File tempDir = getTempDir();
-
-		String traderTempFilePath = new File(tempDir, "trader").getAbsolutePath();
-		logger.info("{} trader use temp file path : {}", gatewayId, traderTempFilePath);
-		this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
-		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, this, userInfo);
-		traderApi.RegisterSpi(traderSpiImpl);
-		traderApi.RegisterFront(userInfo.getTradeAddress());
-		traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
-		traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
-
-		String mdTempFilePath = new File(tempDir, "md").getAbsolutePath();
-		logger.info("{} md use temp file path : {}", gatewayId, mdTempFilePath);
-		this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
-		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, this, userInfo);
-		mdApi.RegisterSpi(mdSpiImpl);
-		mdApi.RegisterFront(userInfo.getMdAddress());
-
-		// traderApi.Join();
-		// logger.info("Call traderApi.Join()...");
-		// mdApi.Join();
-		// logger.info("Call mdApi.Join()...");
+		this.userInfo = userInfo;
 	}
 
 	private File getTempDir() {
@@ -88,23 +73,61 @@ public class Gateway {
 	}
 
 	public void initAndJoin() {
-		traderApi.Init();
-		logger.info("Call traderApi.Init()...");
-		ThreadUtil.sleep(3000);
-		mdApi.Init();
-		logger.info("Call mdApi.Init()...");
-		ThreadUtil.sleep(3000);
-		ThreadUtil.join(Thread.currentThread());
+		if (!isInit) {
+			// 获取临时文件目录
+			File tempDir = getTempDir();
+
+			// 指定trader临时文件地址
+			String traderTempFilePath = new File(tempDir, "trader").getAbsolutePath();
+			logger.info("{} trader use temp file path : {}", gatewayId, traderTempFilePath);
+			// 创建traderApi
+			this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
+			// 创建traderSpi
+			TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, this, userInfo);
+			// 将traderSpi注册到traderApi
+			traderApi.RegisterSpi(traderSpiImpl);
+			// 注册到trader前置机
+			traderApi.RegisterFront(userInfo.getTradeAddress());
+			// 订阅共有流
+			traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
+			// 订阅私有流
+			traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
+			// 初始化traderApi
+			traderApi.Init();
+			logger.info("Call traderApi.Init()...");
+			ThreadUtil.sleep(3000);
+
+			// 指定md临时文件地址
+			String mdTempFilePath = new File(tempDir, "md").getAbsolutePath();
+			logger.info("{} md use temp file path : {}", gatewayId, mdTempFilePath);
+			// 创建mdApi
+			this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
+			// 创建mdSpi
+			MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, this, userInfo);
+			// 将mdSpi注册到mdApi
+			mdApi.RegisterSpi(mdSpiImpl);
+			// 注册到md前置机
+			mdApi.RegisterFront(userInfo.getMdAddress());
+			// 初始化mdApi
+			mdApi.Init();
+			logger.info("Call mdApi.Init()...");
+			ThreadUtil.sleep(3000);
+
+			this.isInit = true;
+			// 阻塞当前线程
+			ThreadUtil.join(Thread.currentThread());
+		}
 	}
 
 	public void subscribeMarketData(Set<String> instruementIdSet) {
-		String[] instruementId = new String[1];
+		String[] instruementIdList = new String[instruementIdSet.size()];
 		Iterator<String> iterator = instruementIdSet.iterator();
-		while (iterator.hasNext()) {
-			instruementId[0] = iterator.next().toString();
-			mdApi.SubscribeMarketData(instruementId, 1);
-			logger.info("SubscribeMarketData -> " + instruementId[0]);
+		for (int i = 0; i < instruementIdList.length; i++) {
+			instruementIdList[i] = iterator.next();
+			logger.info("Add SubscribeMarketData list -> instruementId==[{}]", instruementIdList[i]);
 		}
+		mdApi.SubscribeMarketData(instruementIdList, instruementIdList.length);
+		logger.info("Send SubscribeMarketData -> count==[{}]", instruementIdList.length);
 	}
 
 	private static String TradeAddress = "tcp://180.168.146.187:10000";
@@ -122,13 +145,17 @@ public class Gateway {
 	private static String GatewayId = "simnow_test";
 
 	public static void main(String[] args) {
+
 		CtpUserInfo simnowUserInfo = CtpUserInfo.newEmpty().setTradeAddress(TradeAddress).setMdAddress(MdAddress)
 				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
-		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, null);
-		gateway.initAndJoin();
 
-		ThreadUtil.sleep(5000);
+		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, ArrayBlockingMPSCQueue.autoRunQueue(1024, msg -> {
+
+		}));
+		ThreadUtil.startNewThread(() -> gateway.initAndJoin(), "Gateway-Thread");
+
+		ThreadUtil.sleep(10000);
 		Set<String> instruementIdSet = new HashSet<>();
 		instruementIdSet.add("rb1910");
 		gateway.subscribeMarketData(instruementIdSet);
