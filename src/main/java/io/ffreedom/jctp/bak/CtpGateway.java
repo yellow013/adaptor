@@ -5,7 +5,7 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.ffreedom.common.queue.base.SCQueue;
+import io.ffreedom.common.queue.api.SCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.ReqCancelOrder;
 import io.ffreedom.jctp.bean.ReqOrder;

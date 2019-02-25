@@ -2,6 +2,7 @@ package io.ffreedom.jctp;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -10,14 +11,15 @@ import org.slf4j.LoggerFactory;
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
-import io.ffreedom.common.queue.base.SCQueue;
+import io.ffreedom.common.datetime.DateTimeUtil;
+import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.CtpUserInfo;
 import io.ffreedom.jctp.bean.RspMsg;
 
 public class Gateway {
 
-	private static Logger logger = LoggerFactory.getLogger(Gateway.class);
+	private static final Logger logger = LoggerFactory.getLogger(Gateway.class);
 
 	private static void loadWin64Library() {
 		System.loadLibrary("lib/win64/thosttraderapi");
@@ -45,35 +47,64 @@ public class Gateway {
 		}
 	}
 
-	public Gateway(String gatewayId, CtpUserInfo userInfo, SCQueue<RspMsg> outboundQueue) {
-		String ctpTempFileHome = System.getProperty("user.home") + File.separator + "jctp";
-		File ctpTempFilePath = new File(ctpTempFileHome + File.separator + "id_" + gatewayId);
-		if (!ctpTempFilePath.exists())
-			ctpTempFilePath.mkdirs();
-		String traderTempFilePath = new File(ctpTempFilePath, "trader").getAbsolutePath();
+	private String gatewayId;
+	private CThostFtdcTraderApi traderApi;
+	private CThostFtdcMdApi mdApi;
+
+	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> outboundQueue) {
+		this.gatewayId = gatewayId;
+		File tempDir = getTempDir();
+
+		String traderTempFilePath = new File(tempDir, "trader").getAbsolutePath();
 		logger.info("{} trader use temp file path : {}", gatewayId, traderTempFilePath);
-		CThostFtdcTraderApi traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
-		// TODO Add Queue
-		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, userInfo, outboundQueue);
+		this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
+		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, this, userInfo);
 		traderApi.RegisterSpi(traderSpiImpl);
 		traderApi.RegisterFront(userInfo.getTradeAddress());
 		traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 		traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
-		traderApi.Init();
-		// Sleep是为了保证TraderApi的登录查询成功
-		ThreadUtil.sleep(5000);
-		String mdTempFilePath = new File(ctpTempFilePath, "md").getAbsolutePath();
+
+		String mdTempFilePath = new File(tempDir, "md").getAbsolutePath();
 		logger.info("{} md use temp file path : {}", gatewayId, mdTempFilePath);
-		CThostFtdcMdApi mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
-		Set<String> instruementIdSet = new HashSet<>();
-		instruementIdSet.add("rb1910");
-		// TODO Add Queue
-		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, userInfo, instruementIdSet, outboundQueue);
+		this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
+		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, this, userInfo);
 		mdApi.RegisterSpi(mdSpiImpl);
 		mdApi.RegisterFront(userInfo.getMdAddress());
+
+		// traderApi.Join();
+		// logger.info("Call traderApi.Join()...");
+		// mdApi.Join();
+		// logger.info("Call mdApi.Join()...");
+	}
+
+	private File getTempDir() {
+		// 创建临时文件存储目录
+		String tempFileHome = System.getProperty("user.home") + File.separator + "jctp";
+		File tempFileDir = new File(
+				tempFileHome + File.separator + DateTimeUtil.getCurrentDate() + File.separator + gatewayId);
+		if (!tempFileDir.exists())
+			tempFileDir.mkdirs();
+		return tempFileDir;
+	}
+
+	public void initAndJoin() {
+		traderApi.Init();
+		logger.info("Call traderApi.Init()...");
+		ThreadUtil.sleep(3000);
 		mdApi.Init();
-		traderApi.Join();
-		mdApi.Join();
+		logger.info("Call mdApi.Init()...");
+		ThreadUtil.sleep(3000);
+		ThreadUtil.join(Thread.currentThread());
+	}
+
+	public void subscribeMarketData(Set<String> instruementIdSet) {
+		String[] instruementId = new String[1];
+		Iterator<String> iterator = instruementIdSet.iterator();
+		while (iterator.hasNext()) {
+			instruementId[0] = iterator.next().toString();
+			mdApi.SubscribeMarketData(instruementId, 1);
+			logger.info("SubscribeMarketData -> " + instruementId[0]);
+		}
 	}
 
 	private static String TradeAddress = "tcp://180.168.146.187:10000";
@@ -90,12 +121,17 @@ public class Gateway {
 
 	private static String GatewayId = "simnow_test";
 
-	private static CtpUserInfo SimnowUserInfo = CtpUserInfo.newEmpty().setTradeAddress(TradeAddress)
-			.setMdAddress(MdAddress).setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId)
-			.setAccountId(AccountId).setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
-
 	public static void main(String[] args) {
-		new Gateway(GatewayId, SimnowUserInfo, null);
+		CtpUserInfo simnowUserInfo = CtpUserInfo.newEmpty().setTradeAddress(TradeAddress).setMdAddress(MdAddress)
+				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
+				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
+		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, null);
+		gateway.initAndJoin();
+
+		ThreadUtil.sleep(5000);
+		Set<String> instruementIdSet = new HashSet<>();
+		instruementIdSet.add("rb1910");
+		gateway.subscribeMarketData(instruementIdSet);
 	}
 
 }

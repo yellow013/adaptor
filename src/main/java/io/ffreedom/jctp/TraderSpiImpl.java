@@ -17,17 +17,17 @@ import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
-import io.ffreedom.common.queue.base.SCQueue;
 import io.ffreedom.jctp.base.BaseTraderSpiImpl;
 import io.ffreedom.jctp.bean.CtpUserInfo;
-import io.ffreedom.jctp.bean.RspMsg;
 
 public class TraderSpiImpl extends BaseTraderSpiImpl {
 
 	private CtpUserInfo userInfo;
-	
-	TraderSpiImpl(CThostFtdcTraderApi traderApi, CtpUserInfo userInfo, SCQueue<RspMsg> inboundQueue) {
+	private Gateway gateway;
+
+	TraderSpiImpl(CThostFtdcTraderApi traderApi, Gateway gateway, CtpUserInfo userInfo) {
 		super(traderApi);
+		this.gateway = gateway;
 		this.userInfo = userInfo;
 	}
 
@@ -171,7 +171,7 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	@Override
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
