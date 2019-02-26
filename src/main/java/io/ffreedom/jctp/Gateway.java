@@ -8,9 +8,15 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcMdApi;
+import ctp.thostapi.CThostFtdcQryInstrumentField;
+import ctp.thostapi.CThostFtdcQrySettlementInfoField;
+import ctp.thostapi.CThostFtdcQryTradingAccountField;
+import ctp.thostapi.CThostFtdcReqUserLoginField;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
+import io.ffreedom.common.collect.ECollections;
 import io.ffreedom.common.datetime.DateTimeUtil;
 import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
@@ -56,10 +62,12 @@ public class Gateway {
 	private CThostFtdcMdApi mdApi;
 
 	public volatile boolean isInit = false;
+	private Queue<RspMsg> outboundQueue;
 
 	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> outboundQueue) {
 		this.gatewayId = gatewayId;
 		this.userInfo = userInfo;
+		this.outboundQueue = outboundQueue;
 	}
 
 	private File getTempDir() {
@@ -83,12 +91,12 @@ public class Gateway {
 			// 创建traderApi
 			this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
 			// 创建traderSpi
-			TraderSpiImpl traderSpiImpl = new TraderSpiImpl(traderApi, this, userInfo);
+			TraderSpiImpl traderSpiImpl = new TraderSpiImpl(this);
 			// 将traderSpi注册到traderApi
 			traderApi.RegisterSpi(traderSpiImpl);
 			// 注册到trader前置机
 			traderApi.RegisterFront(userInfo.getTradeAddress());
-			// 订阅共有流
+			// 订阅公有流
 			traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 			// 订阅私有流
 			traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
@@ -103,7 +111,7 @@ public class Gateway {
 			// 创建mdApi
 			this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
 			// 创建mdSpi
-			MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, this, userInfo);
+			MdSpiImpl mdSpiImpl = new MdSpiImpl(this);
 			// 将mdSpi注册到mdApi
 			mdApi.RegisterSpi(mdSpiImpl);
 			// 注册到md前置机
@@ -115,20 +123,98 @@ public class Gateway {
 
 			this.isInit = true;
 			// 阻塞当前线程
+			logger.info("Current thread join...");
 			ThreadUtil.join(Thread.currentThread());
 		}
 	}
 
-	public void subscribeMarketData(Set<String> instruementIdSet) {
-		String[] instruementIdList = new String[instruementIdSet.size()];
-		Iterator<String> iterator = instruementIdSet.iterator();
-		for (int i = 0; i < instruementIdList.length; i++) {
-			instruementIdList[i] = iterator.next();
-			logger.info("Add SubscribeMarketData list -> instruementId==[{}]", instruementIdList[i]);
-		}
-		mdApi.SubscribeMarketData(instruementIdList, instruementIdList.length);
-		logger.info("Send SubscribeMarketData -> count==[{}]", instruementIdList.length);
+	private Set<String> subscribeInstruementSet = ECollections.newUnifiedSet();
+
+	public void subscribeMarketData(Set<String> inputInstruementSet) {
+		subscribeInstruementSet.addAll(inputInstruementSet);
+		logger.info("Add Subscribe Instruement set -> addCount==[{}]", inputInstruementSet.size());
+		if (isMdLogin && !subscribeInstruementSet.isEmpty()) {
+			String[] instruementIdList = new String[subscribeInstruementSet.size()];
+			Iterator<String> iterator = subscribeInstruementSet.iterator();
+			for (int i = 0; i < instruementIdList.length; i++) {
+				instruementIdList[i] = iterator.next();
+				logger.info("Add Subscribe Instruement -> instruementCode==[{}]", instruementIdList[i]);
+			}
+			mdApi.SubscribeMarketData(instruementIdList, instruementIdList.length);
+			subscribeInstruementSet.clear();
+			logger.info("Send SubscribeMarketData -> count==[{}]", instruementIdList.length);
+		} else
+			logger.info("Cannot SubscribeMarketData -> isMdLogin==[{}] subscribeInstruementSet.isEmpty==[{}]",
+					isMdLogin, subscribeInstruementSet.isEmpty());
 	}
+
+	private int mdRequestId = -1;
+	private int traderRequestId = -1;
+
+	private boolean isMdLogin;
+
+	void onMdFrontConnected() {
+		CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
+		userLoginField.setBrokerID(userInfo.getBrokerId());
+		userLoginField.setUserID(userInfo.getUserId());
+		userLoginField.setPassword(userInfo.getPassword());
+		mdApi.ReqUserLogin(userLoginField, ++mdRequestId);
+	}
+
+	void onMdRspUserLogin() {
+		this.isMdLogin = true;
+		logger.info("Md UserLogin Success...");
+		this.subscribeMarketData(new HashSet<>());
+	}
+
+	void onRspSubMarketData(String instrumentCode) {
+		logger.info("SubscribeMarketData Success -> instrumentCode==[{}]", instrumentCode);
+	}
+
+	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField marketData) {
+		outboundQueue.enqueue(RspMsg.newMarketDataRspMsg(marketData));
+	}
+
+	void onTraderFrontConnected() {
+		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
+		field.setBrokerID(userInfo.getBrokerId());
+		field.setUserID(userInfo.getUserId());
+		field.setPassword(userInfo.getPassword());
+		field.setUserProductInfo(userInfo.getUserProductInfo());
+		traderApi.ReqUserLogin(field, ++traderRequestId);
+		logger.info("Send ReqUserLogin OK");
+	}
+
+	void onTraderRspUserLogin() {
+		logger.info("OnRspUserLogin -> Login Success");
+		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
+		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
+		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
+		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
+		traderApi.ReqQryTradingAccount(qryTradingAccount, ++traderRequestId);
+		logger.info("ReqQryTradingAccount OK");
+
+		CThostFtdcQrySettlementInfoField qrySettlementInfoField = new CThostFtdcQrySettlementInfoField();
+		qrySettlementInfoField.setBrokerID(userInfo.getBrokerId());
+		qrySettlementInfoField.setInvestorID(userInfo.getInvestorId());
+		qrySettlementInfoField.setTradingDay(userInfo.getTradingDay());
+		qrySettlementInfoField.setAccountID(userInfo.getAccountId());
+		qrySettlementInfoField.setCurrencyID(userInfo.getCurrencyId());
+		traderApi.ReqQrySettlementInfo(qrySettlementInfoField, ++traderRequestId);
+		logger.info("ReqQrySettlementInfo OK");
+
+		CThostFtdcQryInstrumentField qryInstrumentField = new CThostFtdcQryInstrumentField();
+		traderApi.ReqQryInstrument(qryInstrumentField, ++traderRequestId);
+		logger.info("ReqQryInstrument OK");
+	}
+
+	void onOrder() {
+
+	}
+
+	/**
+	 * TEST MAIN
+	 */
 
 	private static String TradeAddress = "tcp://180.168.146.187:10000";
 	private static String MdAddress = "tcp://180.168.146.187:10010";
@@ -151,11 +237,25 @@ public class Gateway {
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
 		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, ArrayBlockingMPSCQueue.autoRunQueue(1024, msg -> {
+			switch (msg.getType()) {
+			case MarketDate:
+				CThostFtdcDepthMarketDataField marketDataField = (CThostFtdcDepthMarketDataField) msg.getMsg();
+				logger.info(
+						"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
+						marketDataField.getInstrumentID(), marketDataField.getUpdateMillisec(),
+						marketDataField.getUpdateTime(), marketDataField.getAskPrice1(),
+						marketDataField.getBidPrice1());
+				break;
+			case Order:
+
+				break;
+			default:
+				break;
+			}
 
 		}));
 		ThreadUtil.startNewThread(() -> gateway.initAndJoin(), "Gateway-Thread");
 
-		ThreadUtil.sleep(10000);
 		Set<String> instruementIdSet = new HashSet<>();
 		instruementIdSet.add("rb1910");
 		gateway.subscribeMarketData(instruementIdSet);

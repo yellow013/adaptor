@@ -1,48 +1,38 @@
 package io.ffreedom.jctp;
 
+import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcInstrumentField;
 import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
-import ctp.thostapi.CThostFtdcQryInstrumentField;
-import ctp.thostapi.CThostFtdcQrySettlementInfoField;
-import ctp.thostapi.CThostFtdcQryTradingAccountField;
-import ctp.thostapi.CThostFtdcReqUserLoginField;
 import ctp.thostapi.CThostFtdcRspAuthenticateField;
 import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSettlementInfoField;
 import ctp.thostapi.CThostFtdcTradeField;
-import ctp.thostapi.CThostFtdcTraderApi;
+import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
-import io.ffreedom.jctp.base.BaseTraderSpiImpl;
-import io.ffreedom.jctp.bean.CtpUserInfo;
 
-import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
+public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
-public class TraderSpiImpl extends BaseTraderSpiImpl {
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private CtpUserInfo userInfo;
 	private Gateway gateway;
 
-	TraderSpiImpl(CThostFtdcTraderApi traderApi, Gateway gateway, CtpUserInfo userInfo) {
-		super(traderApi);
+	TraderSpiImpl(Gateway gateway) {
 		this.gateway = gateway;
-		this.userInfo = userInfo;
 	}
 
 	@Override
 	public void OnFrontConnected() {
 		logger.info("Callback TraderSpiImpl OnFrontConnected");
-		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
-		field.setBrokerID(userInfo.getBrokerId());
-		field.setUserID(userInfo.getUserId());
-		field.setPassword(userInfo.getPassword());
-		field.setUserProductInfo("JAVA_API_TEST");
-		traderApi.ReqUserLogin(field, 0);
-		logger.info("ReqUserLogin OK");
+		gateway.onTraderFrontConnected();
 	}
 
 	@Override
@@ -54,27 +44,7 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspUserLogin", pRspInfo);
-
-		logger.info("OnRspUserLogin -> Login Success");
-		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
-		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
-		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
-		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
-		traderApi.ReqQryTradingAccount(qryTradingAccount, 1);
-		logger.info("ReqQryTradingAccount OK");
-
-		CThostFtdcQrySettlementInfoField qrySettlementInfoField = new CThostFtdcQrySettlementInfoField();
-		qrySettlementInfoField.setBrokerID(userInfo.getBrokerId());
-		qrySettlementInfoField.setInvestorID(userInfo.getInvestorId());
-		qrySettlementInfoField.setTradingDay(userInfo.getTradingDay());
-		qrySettlementInfoField.setAccountID(userInfo.getAccountId());
-		qrySettlementInfoField.setCurrencyID(userInfo.getCurrencyId());
-		traderApi.ReqQrySettlementInfo(qrySettlementInfoField, 2);
-		logger.info("ReqQrySettlementInfo OK");
-
-		CThostFtdcQryInstrumentField qryInstrumentField = new CThostFtdcQryInstrumentField();
-		traderApi.ReqQryInstrument(qryInstrumentField, 3);
-		logger.info("ReqQryInstrument OK");
+		gateway.onTraderRspUserLogin();
 	}
 
 	@Override
@@ -117,7 +87,7 @@ public class TraderSpiImpl extends BaseTraderSpiImpl {
 	public void OnRspQryInstrument(CThostFtdcInstrumentField pInstrument, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQryInstrument", pRspInfo);
-		
+
 		if (pInstrument != null)
 			logger.info("OnRspQryInstrument -> InstrumentID==[{}]", pInstrument.getInstrumentID());
 		else
