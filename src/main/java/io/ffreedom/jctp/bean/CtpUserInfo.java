@@ -2,17 +2,18 @@ package io.ffreedom.jctp.bean;
 
 public class CtpUserInfo {
 
-	private String TradeAddress = "tcp://180.168.146.187:10000";
-	private String MdAddress = "tcp://180.168.146.187:10010";
+	private String tradeAddress = "tcp://180.168.146.187:10000";
+	private String mdAddress = "tcp://180.168.146.187:10010";
 
-	private String BrokerId = "9999";
-	private String InvestorId = "005853";
-	private String UserId = "005853";
-	private String AccountId = "005853";
-	private String Password = "jinpengpass101";
+	private String brokerId = "9999";
+	private String investorId = "005853";
+	private String accountId = "005853";
+	private String userId = "005853";
+	private String userProductInfo;
+	private String password = "jinpengpass101";
 
-	private String TradingDay = "20190201";
-	private String CurrencyId = "CNY";
+	private String tradingDay = "20190201";
+	private String currencyId = "CNY";
 
 	public static final CtpUserInfo newEmpty() {
 		return new CtpUserInfo();
@@ -22,83 +23,92 @@ public class CtpUserInfo {
 	}
 
 	public String getTradeAddress() {
-		return TradeAddress;
+		return tradeAddress;
 	}
 
 	public CtpUserInfo setTradeAddress(String tradeAddress) {
-		TradeAddress = tradeAddress;
+		this.tradeAddress = tradeAddress;
 		return this;
 	}
 
 	public String getMdAddress() {
-		return MdAddress;
+		return mdAddress;
 	}
 
 	public CtpUserInfo setMdAddress(String mdAddress) {
-		MdAddress = mdAddress;
+		this.mdAddress = mdAddress;
 		return this;
 	}
 
 	public String getBrokerId() {
-		return BrokerId;
+		return brokerId;
 	}
 
 	public CtpUserInfo setBrokerId(String brokerId) {
-		BrokerId = brokerId;
+		this.brokerId = brokerId;
 		return this;
 	}
 
 	public String getInvestorId() {
-		return InvestorId;
+		return investorId;
 	}
 
 	public CtpUserInfo setInvestorId(String investorId) {
-		InvestorId = investorId;
-		return this;
-	}
-
-	public String getUserId() {
-		return UserId;
-	}
-
-	public CtpUserInfo setUserId(String userId) {
-		UserId = userId;
+		this.investorId = investorId;
 		return this;
 	}
 
 	public String getAccountId() {
-		return AccountId;
+		return accountId;
 	}
 
 	public CtpUserInfo setAccountId(String accountId) {
-		AccountId = accountId;
+		this.accountId = accountId;
+		return this;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public CtpUserInfo setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
+
+	public String getUserProductInfo() {
+		return userProductInfo;
+	}
+
+	public CtpUserInfo setUserProductInfo(String userProductInfo) {
+		this.userProductInfo = userProductInfo;
 		return this;
 	}
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 	public CtpUserInfo setPassword(String password) {
-		Password = password;
+		this.password = password;
 		return this;
 	}
 
 	public String getTradingDay() {
-		return TradingDay;
+		return tradingDay;
 	}
 
 	public CtpUserInfo setTradingDay(String tradingDay) {
-		TradingDay = tradingDay;
+		this.tradingDay = tradingDay;
 		return this;
 	}
 
 	public String getCurrencyId() {
-		return CurrencyId;
+		return currencyId;
 	}
 
 	public CtpUserInfo setCurrencyId(String currencyId) {
-		CurrencyId = currencyId;
+		this.currencyId = currencyId;
 		return this;
 	}
 
