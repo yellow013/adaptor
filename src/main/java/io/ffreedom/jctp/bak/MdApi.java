@@ -3,12 +3,12 @@ package io.ffreedom.jctp.bak;
 import java.io.File;
 import java.time.LocalDateTime;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
+import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.config.CtpConfig;
 
@@ -144,7 +144,7 @@ public class MdApi {
 	}
 
 	void login() {
-		if (StringUtils.isEmpty(brokerId) || StringUtils.isEmpty(userId) || StringUtils.isEmpty(password)) {
+		if (StringUtil.isNullOrEmpty(brokerId) || StringUtil.isNullOrEmpty(userId) || StringUtil.isNullOrEmpty(password)) {
 			log.error(gatewayId + " - brokerId or userId or password不允许为空");
 			return;
 		}

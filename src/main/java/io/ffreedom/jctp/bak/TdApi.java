@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -155,7 +154,7 @@ public class TdApi {
 			log.error("{} can not login, password is null or empty");
 			return;
 		}
-		if (StringUtils.isEmpty(authCode) && isAuth) {
+		if (StringUtil.isNullOrEmpty(authCode) && isAuth) {
 			CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
 			userLoginField.setBrokerID(brokerId);
 			userLoginField.setUserID(userId);
@@ -242,7 +241,7 @@ public class TdApi {
 		cThostFtdcTraderApi.ReqOrderInsert(cThostFtdcInputOrderField, reqId.incrementAndGet());
 		String rtOrderID = gatewayId + "." + orderRef.get();
 
-		if (StringUtils.isNotBlank(orderReq.getOriginalOrderID())) {
+		if (StringUtil.isNullOrEmpty(orderReq.getOriginalOrderID())) {
 			// originalOrderIdMap.put(rtOrderID, orderReq.getOriginalOrderID());
 		}
 
