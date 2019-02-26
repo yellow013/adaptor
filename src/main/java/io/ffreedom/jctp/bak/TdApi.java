@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.core.util.FileUtil;
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcQryInvestorPositionField;
@@ -25,6 +24,8 @@ import io.ffreedom.jctp.bean.ReqCancelOrder;
 import io.ffreedom.jctp.bean.ReqOrder;
 import io.ffreedom.jctp.config.CtpConfig;
 
+@Deprecated
+@SuppressWarnings("unused")
 public class TdApi {
 
 	private Logger log = LoggerFactory.getLogger(getClass());

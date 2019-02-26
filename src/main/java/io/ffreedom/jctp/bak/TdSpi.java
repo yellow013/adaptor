@@ -30,6 +30,7 @@ import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcTradingCodeField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
 
+@Deprecated
 public class TdSpi extends CThostFtdcTraderSpi {
 
 	private Logger log = LoggerFactory.getLogger(TdSpi.class);
@@ -264,6 +265,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		log.error("{}交易接口撤单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayId, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());
 	}
+
 	@Override
 	public void OnRtnInstrumentStatus(CThostFtdcInstrumentStatusField pInstrumentStatus) {
 	}

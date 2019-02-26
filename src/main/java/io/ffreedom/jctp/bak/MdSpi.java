@@ -13,6 +13,8 @@ import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
 
+@Deprecated
+@SuppressWarnings("unused")
 public class MdSpi extends CThostFtdcMdSpi {
 
 	Logger log = LoggerFactory.getLogger(MdSpi.class);

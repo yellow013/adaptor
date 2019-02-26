@@ -5,7 +5,7 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.ffreedom.common.queue.api.SCQueue;
+import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.ReqCancelOrder;
 import io.ffreedom.jctp.bean.ReqOrder;
@@ -15,6 +15,8 @@ import io.ffreedom.jctp.config.CtpConfig;
  * @author yellow013
  *
  */
+@Deprecated
+@SuppressWarnings("unused")
 public class CtpGateway {
 
 	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
@@ -50,8 +52,7 @@ public class CtpGateway {
 
 	private int tdFrontId; // 前置机编号
 	private int tdSessionId; // 会话编号
-
-	private SCQueue<Object> inboundQueue;
+	private Queue<Object> inboundQueue;
 
 	public CtpGateway(String gatewayId, CtpConfig config) {
 		this.gatewayId = gatewayId;
