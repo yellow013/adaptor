@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcMdApi;
+import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcQryInstrumentField;
 import ctp.thostapi.CThostFtdcQryInvestorPositionField;
@@ -67,8 +68,14 @@ public class Gateway {
 	private CThostFtdcTraderApi traderApi;
 	private CThostFtdcMdApi mdApi;
 
-	public volatile boolean isInit = false;
+	private volatile boolean isInit = false;
 	private Queue<RspMsg> inboundQueue;
+
+	private int mdRequestId = -1;
+	private int traderRequestId = -1;
+
+	private boolean isMdLogin;
+	private boolean isTraderLogin;
 
 	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
@@ -154,10 +161,21 @@ public class Gateway {
 					isMdLogin, subscribeInstruementSet.isEmpty());
 	}
 
-	private int mdRequestId = -1;
-	private int traderRequestId = -1;
+	public void newOrder(CThostFtdcOrderField order) {
+		
+	}
 
-	private boolean isMdLogin;
+	public void cancelOrder(CThostFtdcOrderActionField orderAction) {
+		
+	}
+	
+	public void qureyAccount() {
+		
+	}
+	
+	public void qureyPosition() {
+		
+	}
 
 	void onMdFrontConnected() {
 		CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
@@ -200,12 +218,12 @@ public class Gateway {
 		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
 		traderApi.ReqQryTradingAccount(qryTradingAccount, ++traderRequestId);
 		logger.info("ReqQryTradingAccount OK");
-		
+
 		CThostFtdcQryInvestorPositionField qryInvestorPosition = new CThostFtdcQryInvestorPositionField();
 		qryInvestorPosition.setBrokerID(userInfo.getBrokerId());
 		qryInvestorPosition.setInvestorID(userInfo.getInvestorId());
-		traderApi.ReqQryInvestorPosition(qryInvestorPosition , ++traderRequestId);		
-		
+		traderApi.ReqQryInvestorPosition(qryInvestorPosition, ++traderRequestId);
+
 		CThostFtdcQrySettlementInfoField qrySettlementInfoField = new CThostFtdcQrySettlementInfoField();
 		qrySettlementInfoField.setBrokerID(userInfo.getBrokerId());
 		qrySettlementInfoField.setInvestorID(userInfo.getInvestorId());
@@ -219,8 +237,6 @@ public class Gateway {
 		traderApi.ReqQryInstrument(qryInstrument, ++traderRequestId);
 		logger.info("ReqQryInstrument OK");
 	}
-	
-	
 
 	void onQryTradingAccount(CThostFtdcTradingAccountField tradingAccount) {
 		logger.info("OnRspQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
