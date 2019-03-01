@@ -10,11 +10,17 @@ import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcMdApi;
+import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcQryInstrumentField;
+import ctp.thostapi.CThostFtdcQryInvestorPositionField;
 import ctp.thostapi.CThostFtdcQrySettlementInfoField;
 import ctp.thostapi.CThostFtdcQryTradingAccountField;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
+import ctp.thostapi.CThostFtdcRspUserLoginField;
+import ctp.thostapi.CThostFtdcSpecificInstrumentField;
+import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
+import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 import io.ffreedom.common.collect.ECollections;
 import io.ffreedom.common.datetime.DateTimeUtil;
@@ -22,7 +28,7 @@ import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.CtpUserInfo;
-import io.ffreedom.jctp.bean.RspMsg;
+import io.ffreedom.jctp.bean.rsp.RspMsg;
 
 public class Gateway {
 
@@ -62,12 +68,12 @@ public class Gateway {
 	private CThostFtdcMdApi mdApi;
 
 	public volatile boolean isInit = false;
-	private Queue<RspMsg> outboundQueue;
+	private Queue<RspMsg> inboundQueue;
 
-	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> outboundQueue) {
+	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
 		this.userInfo = userInfo;
-		this.outboundQueue = outboundQueue;
+		this.inboundQueue = inboundQueue;
 	}
 
 	private File getTempDir() {
@@ -161,18 +167,19 @@ public class Gateway {
 		mdApi.ReqUserLogin(userLoginField, ++mdRequestId);
 	}
 
-	void onMdRspUserLogin() {
+	void onMdRspUserLogin(CThostFtdcRspUserLoginField rspUserLogin) {
 		this.isMdLogin = true;
-		logger.info("Md UserLogin Success...");
+		logger.info("onMdRspUserLogin -> MdApi UserLogin success. Brokerid==[{}] UserID==[{}]",
+				rspUserLogin.getBrokerID(), rspUserLogin.getUserID());
 		this.subscribeMarketData(new HashSet<>());
 	}
 
-	void onRspSubMarketData(String instrumentCode) {
-		logger.info("SubscribeMarketData Success -> instrumentCode==[{}]", instrumentCode);
+	void onRspSubMarketData(CThostFtdcSpecificInstrumentField specificInstrument) {
+		logger.info("SubscribeMarketData Success -> InstrumentCode==[{}]", specificInstrument);
 	}
 
-	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField marketData) {
-		outboundQueue.enqueue(RspMsg.newMarketDataRspMsg(marketData));
+	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
+		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketData));
 	}
 
 	void onTraderFrontConnected() {
@@ -185,15 +192,20 @@ public class Gateway {
 		logger.info("Send ReqUserLogin OK");
 	}
 
-	void onTraderRspUserLogin() {
+	void onTraderRspUserLogin(CThostFtdcRspUserLoginField rspUserLogin) {
 		logger.info("OnRspUserLogin -> Login Success");
 		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
 		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
-		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
 		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
+		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
 		traderApi.ReqQryTradingAccount(qryTradingAccount, ++traderRequestId);
 		logger.info("ReqQryTradingAccount OK");
-
+		
+		CThostFtdcQryInvestorPositionField qryInvestorPosition = new CThostFtdcQryInvestorPositionField();
+		qryInvestorPosition.setBrokerID(userInfo.getBrokerId());
+		qryInvestorPosition.setInvestorID(userInfo.getInvestorId());
+		traderApi.ReqQryInvestorPosition(qryInvestorPosition , ++traderRequestId);		
+		
 		CThostFtdcQrySettlementInfoField qrySettlementInfoField = new CThostFtdcQrySettlementInfoField();
 		qrySettlementInfoField.setBrokerID(userInfo.getBrokerId());
 		qrySettlementInfoField.setInvestorID(userInfo.getInvestorId());
@@ -203,13 +215,25 @@ public class Gateway {
 		traderApi.ReqQrySettlementInfo(qrySettlementInfoField, ++traderRequestId);
 		logger.info("ReqQrySettlementInfo OK");
 
-		CThostFtdcQryInstrumentField qryInstrumentField = new CThostFtdcQryInstrumentField();
-		traderApi.ReqQryInstrument(qryInstrumentField, ++traderRequestId);
+		CThostFtdcQryInstrumentField qryInstrument = new CThostFtdcQryInstrumentField();
+		traderApi.ReqQryInstrument(qryInstrument, ++traderRequestId);
 		logger.info("ReqQryInstrument OK");
 	}
+	
+	
 
-	void onOrder() {
+	void onQryTradingAccount(CThostFtdcTradingAccountField tradingAccount) {
+		logger.info("OnRspQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
+				tradingAccount.getBalance(), tradingAccount.getAvailable(), tradingAccount.getWithdrawQuota(),
+				tradingAccount.getCredit());
+	}
 
+	void onRtnOrder(CThostFtdcOrderField order) {
+		RspMsg.ofOrder(order);
+	}
+
+	void onRtnTrade(CThostFtdcTradeField trade) {
+		RspMsg.ofTrade(trade);
 	}
 
 	/**
@@ -238,7 +262,7 @@ public class Gateway {
 
 		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, ArrayBlockingMPSCQueue.autoRunQueue(1024, msg -> {
 			switch (msg.getType()) {
-			case MarketDate:
+			case DepthMarketData:
 				CThostFtdcDepthMarketDataField marketDataField = (CThostFtdcDepthMarketDataField) msg.getMsg();
 				logger.info(
 						"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
@@ -247,6 +271,9 @@ public class Gateway {
 						marketDataField.getBidPrice1());
 				break;
 			case Order:
+
+				break;
+			case Trade:
 
 				break;
 			default:
