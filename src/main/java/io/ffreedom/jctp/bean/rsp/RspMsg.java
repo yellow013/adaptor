@@ -1,26 +1,24 @@
-package io.ffreedom.jctp.bean;
+package io.ffreedom.jctp.bean.rsp;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
+import ctp.thostapi.CThostFtdcOrderField;
+import ctp.thostapi.CThostFtdcTradeField;
 
 public final class RspMsg {
-
-	public static enum RspMsgType {
-		MarketDate, Order
-	}
 
 	private RspMsgType type;
 	private Object msg;
 
-	public static final RspMsg newMarketDataRspMsg(CThostFtdcDepthMarketDataField msg) {
-		return new RspMsg(RspMsgType.MarketDate, msg);
+	public static final RspMsg ofDepthMarketData(CThostFtdcDepthMarketDataField msg) {
+		return new RspMsg(RspMsgType.DepthMarketData, msg);
 	}
 
-	public static final RspMsg newOrderRspMsg() {
-		return new RspMsg(RspMsgType.MarketDate, null);
+	public static final RspMsg ofOrder(CThostFtdcOrderField order) {
+		return new RspMsg(RspMsgType.Order, order);
 	}
 
-	public static final RspMsg newRspMsg(RspMsgType type, Object msg) {
-		return new RspMsg(type, msg);
+	public static final RspMsg ofTrade(CThostFtdcTradeField trade) {
+		return new RspMsg(RspMsgType.Trade, trade);
 	}
 
 	private RspMsg(RspMsgType type, Object msg) {
@@ -32,18 +30,8 @@ public final class RspMsg {
 		return type;
 	}
 
-	public RspMsg setType(RspMsgType type) {
-		this.type = type;
-		return this;
-	}
-
 	public Object getMsg() {
 		return msg;
-	}
-
-	public RspMsg setMsg(Object msg) {
-		this.msg = msg;
-		return this;
 	}
 
 }

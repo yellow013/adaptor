@@ -1,4 +1,4 @@
-package io.ffreedom.jctp.bean;
+package io.ffreedom.jctp.bean.req;
 
 import java.util.UUID;
 
