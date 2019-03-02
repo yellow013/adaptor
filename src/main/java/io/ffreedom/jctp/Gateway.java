@@ -75,9 +75,7 @@ public class Gateway {
 	private int mdRequestId = -1;
 	private int traderRequestId = -1;
 
-	private boolean isMdConnected;
 	private boolean isMdLogin;
-	private boolean isTraderConnected;
 	private boolean isTraderLogin;
 
 	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
@@ -189,18 +187,18 @@ public class Gateway {
 	}
 
 	void onMdFrontConnected() {
-		this.isMdConnected = true;
-		CThostFtdcReqUserLoginField userLoginField = new CThostFtdcReqUserLoginField();
-		userLoginField.setBrokerID(userInfo.getBrokerId());
-		userLoginField.setUserID(userInfo.getUserId());
-		userLoginField.setPassword(userInfo.getPassword());
-		mdApi.ReqUserLogin(userLoginField, ++mdRequestId);
+		CThostFtdcReqUserLoginField reqUserLogin = new CThostFtdcReqUserLoginField();
+		reqUserLogin.setBrokerID(userInfo.getBrokerId());
+		reqUserLogin.setUserID(userInfo.getUserId());
+		reqUserLogin.setPassword(userInfo.getPassword());
+		mdApi.ReqUserLogin(reqUserLogin, ++mdRequestId);
+		logger.info("Send Md ReqUserLogin OK");
 	}
 
 	void onMdRspUserLogin(CThostFtdcRspUserLoginField rspUserLogin) {
+		logger.info("Md UserLogin Success -> Brokerid==[{}] UserID==[{}]", rspUserLogin.getBrokerID(),
+				rspUserLogin.getUserID());
 		this.isMdLogin = true;
-		logger.info("onMdRspUserLogin -> MdApi UserLogin success. Brokerid==[{}] UserID==[{}]",
-				rspUserLogin.getBrokerID(), rspUserLogin.getUserID());
 		this.subscribeMarketData(new HashSet<>());
 	}
 
@@ -213,29 +211,29 @@ public class Gateway {
 	}
 
 	void onTraderFrontConnected() {
-		this.isTraderConnected = true;
-		CThostFtdcReqUserLoginField field = new CThostFtdcReqUserLoginField();
-		field.setBrokerID(userInfo.getBrokerId());
-		field.setUserID(userInfo.getUserId());
-		field.setPassword(userInfo.getPassword());
-		field.setUserProductInfo(userInfo.getUserProductInfo());
-		traderApi.ReqUserLogin(field, ++traderRequestId);
-		logger.info("Send ReqUserLogin OK");
+		CThostFtdcReqUserLoginField reqUserLogin = new CThostFtdcReqUserLoginField();
+		reqUserLogin.setBrokerID(userInfo.getBrokerId());
+		reqUserLogin.setUserID(userInfo.getUserId());
+		reqUserLogin.setPassword(userInfo.getPassword());
+		reqUserLogin.setUserProductInfo(userInfo.getUserProductInfo());
+		traderApi.ReqUserLogin(reqUserLogin, ++traderRequestId);
+		logger.info("Send Trader ReqUserLogin OK");
 	}
 
 	void onTraderRspUserLogin(CThostFtdcRspUserLoginField rspUserLogin) {
-		logger.info("OnRspUserLogin -> Login Success");
+		logger.info("Trader UserLogin Success -> Brokerid==[{}] UserID==[{}]", rspUserLogin.getBrokerID(),
+				rspUserLogin.getUserID());
 		this.isTraderLogin = true;
 		qureyAccount();
 		qureyPosition();
 
-		CThostFtdcQrySettlementInfoField qrySettlementInfoField = new CThostFtdcQrySettlementInfoField();
-		qrySettlementInfoField.setBrokerID(userInfo.getBrokerId());
-		qrySettlementInfoField.setInvestorID(userInfo.getInvestorId());
-		qrySettlementInfoField.setTradingDay(userInfo.getTradingDay());
-		qrySettlementInfoField.setAccountID(userInfo.getAccountId());
-		qrySettlementInfoField.setCurrencyID(userInfo.getCurrencyId());
-		traderApi.ReqQrySettlementInfo(qrySettlementInfoField, ++traderRequestId);
+		CThostFtdcQrySettlementInfoField qrySettlementInfo = new CThostFtdcQrySettlementInfoField();
+		qrySettlementInfo.setBrokerID(userInfo.getBrokerId());
+		qrySettlementInfo.setInvestorID(userInfo.getInvestorId());
+		qrySettlementInfo.setTradingDay(userInfo.getTradingDay());
+		qrySettlementInfo.setAccountID(userInfo.getAccountId());
+		qrySettlementInfo.setCurrencyID(userInfo.getCurrencyId());
+		traderApi.ReqQrySettlementInfo(qrySettlementInfo, ++traderRequestId);
 		logger.info("ReqQrySettlementInfo OK");
 
 		CThostFtdcQryInstrumentField qryInstrument = new CThostFtdcQryInstrumentField();
@@ -281,28 +279,29 @@ public class Gateway {
 				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
-		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, ArrayBlockingMPSCQueue.autoRunQueue(1024, msg -> {
-			switch (msg.getType()) {
-			case DepthMarketData:
-				CThostFtdcDepthMarketDataField depthMarketData = msg.getDepthMarketData();
-				logger.info(
-						"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
-						depthMarketData.getInstrumentID(), depthMarketData.getUpdateMillisec(),
-						depthMarketData.getUpdateTime(), depthMarketData.getAskPrice1(),
-						depthMarketData.getBidPrice1());
-				break;
-			case Order:
-				CThostFtdcOrderField order = msg.getOrder();
-				logger.info("Handle Order -> OrderRef==[{}]", order.getOrderRef());
-				break;
-			case Trade:
-				CThostFtdcTradeField trade = msg.getTrade();
-				logger.info("Handle Order -> OrderRef==[{}]", trade.getOrderRef());
-				break;
-			default:
-				break;
-			}
-		}));
+		Gateway gateway = new Gateway(GatewayId, simnowUserInfo,
+				ArrayBlockingMPSCQueue.autoRunQueue("Simnow-Handle-Queue", 1024, msg -> {
+					switch (msg.getType()) {
+					case DepthMarketData:
+						CThostFtdcDepthMarketDataField depthMarketData = msg.getDepthMarketData();
+						logger.info(
+								"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
+								depthMarketData.getInstrumentID(), depthMarketData.getUpdateMillisec(),
+								depthMarketData.getUpdateTime(), depthMarketData.getAskPrice1(),
+								depthMarketData.getBidPrice1());
+						break;
+					case Order:
+						CThostFtdcOrderField order = msg.getOrder();
+						logger.info("Handle Order -> OrderRef==[{}]", order.getOrderRef());
+						break;
+					case Trade:
+						CThostFtdcTradeField trade = msg.getTrade();
+						logger.info("Handle Order -> OrderRef==[{}]", trade.getOrderRef());
+						break;
+					default:
+						break;
+					}
+				}));
 		ThreadUtil.startNewThread(() -> gateway.initAndJoin(), "Gateway-Thread");
 
 		Set<String> instruementIdSet = new HashSet<>();
