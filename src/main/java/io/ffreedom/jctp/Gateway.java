@@ -62,12 +62,12 @@ public class Gateway {
 	private CThostFtdcMdApi mdApi;
 
 	public volatile boolean isInit = false;
-	private Queue<RspMsg> outboundQueue;
+	private Queue<RspMsg> inboundQueue;
 
-	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> outboundQueue) {
+	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
 		this.userInfo = userInfo;
-		this.outboundQueue = outboundQueue;
+		this.inboundQueue = inboundQueue;
 	}
 
 	private File getTempDir() {
@@ -172,7 +172,7 @@ public class Gateway {
 	}
 
 	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField marketData) {
-		outboundQueue.enqueue(RspMsg.newMarketDataRspMsg(marketData));
+		inboundQueue.enqueue(RspMsg.newMarketDataRspMsg(marketData));
 	}
 
 	void onTraderFrontConnected() {
