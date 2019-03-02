@@ -284,23 +284,24 @@ public class Gateway {
 		Gateway gateway = new Gateway(GatewayId, simnowUserInfo, ArrayBlockingMPSCQueue.autoRunQueue(1024, msg -> {
 			switch (msg.getType()) {
 			case DepthMarketData:
-				CThostFtdcDepthMarketDataField marketDataField = (CThostFtdcDepthMarketDataField) msg.getMsg();
+				CThostFtdcDepthMarketDataField depthMarketData = msg.getDepthMarketData();
 				logger.info(
 						"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
-						marketDataField.getInstrumentID(), marketDataField.getUpdateMillisec(),
-						marketDataField.getUpdateTime(), marketDataField.getAskPrice1(),
-						marketDataField.getBidPrice1());
+						depthMarketData.getInstrumentID(), depthMarketData.getUpdateMillisec(),
+						depthMarketData.getUpdateTime(), depthMarketData.getAskPrice1(),
+						depthMarketData.getBidPrice1());
 				break;
 			case Order:
-				logger.info("");
+				CThostFtdcOrderField order = msg.getOrder();
+				logger.info("Handle Order -> OrderRef==[{}]", order.getOrderRef());
 				break;
 			case Trade:
-				logger.info("");
+				CThostFtdcTradeField trade = msg.getTrade();
+				logger.info("Handle Order -> OrderRef==[{}]", trade.getOrderRef());
 				break;
 			default:
 				break;
 			}
-
 		}));
 		ThreadUtil.startNewThread(() -> gateway.initAndJoin(), "Gateway-Thread");
 
