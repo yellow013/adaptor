@@ -23,32 +23,35 @@ public class MdSpiImpl extends CThostFtdcMdSpi {
 
 	@Override
 	public void OnFrontConnected() {
-		logger.info("Callback MdSpiImpl OnFrontConnected");
+		logger.info("MdSpiImpl OnFrontConnected");
 		gateway.onMdFrontConnected();
+	}
+	
+	@Override
+	public void OnFrontDisconnected(int nReason) {
+		logger.warn("MdSpiImpl OnFrontDisconnected -> Reason==[{}]", nReason);
 	}
 
 	@Override
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspUserLogin", pRspInfo);
-		if (pRspUserLogin == null) {
+		logger.info("MdSpiImpl OnRspUserLogin");
+		if (pRspUserLogin != null)
+			gateway.onMdRspUserLogin(pRspUserLogin);
+		else
 			logger.info("OnRspUserLogin return null");
-			return;
-		}
-		logger.info("OnRspUserLogin -> Brokerid==[{}] UserID==[{}]", pRspUserLogin.getBrokerID(),
-				pRspUserLogin.getUserID());
-		gateway.onMdRspUserLogin();
 	}
 
 	@Override
 	public void OnRspSubMarketData(CThostFtdcSpecificInstrumentField pSpecificInstrument,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspSubMarketData", pRspInfo);
-		if (pSpecificInstrument == null) {
+		logger.info("MdSpiImpl OnRspSubMarketData");
+		if (pSpecificInstrument != null)
+			gateway.onRspSubMarketData(pSpecificInstrument);
+		else
 			logger.info("OnRspSubMarketData return null");
-			return;
-		}
-		gateway.onRspSubMarketData(pSpecificInstrument.getInstrumentID());
 	}
 
 	@Override

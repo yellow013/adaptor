@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcInstrumentField;
+import ctp.thostapi.CThostFtdcInvestorPositionField;
 import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcRspAuthenticateField;
@@ -31,45 +32,60 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
 	@Override
 	public void OnFrontConnected() {
-		logger.info("Callback TraderSpiImpl OnFrontConnected");
+		logger.info("TraderSpiImpl OnFrontConnected");
 		gateway.onTraderFrontConnected();
 	}
 
 	@Override
 	public void OnFrontDisconnected(int nReason) {
-		logger.warn("OnFrontDisconnected -> Reason==[{}]", nReason);
+		logger.warn("TraderSpiImpl OnFrontDisconnected -> Reason==[{}]", nReason);
 	}
 
 	@Override
 	public void OnRspUserLogin(CThostFtdcRspUserLoginField pRspUserLogin, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspUserLogin", pRspInfo);
-		gateway.onTraderRspUserLogin();
+		logger.info("TraderSpiImpl OnRspUserLogin");
+		if (pRspUserLogin != null)
+			gateway.onTraderRspUserLogin(pRspUserLogin);
+		else
+			logger.info("OnRspUserLogin return null");
 	}
 
 	@Override
 	public void OnRspAuthenticate(CThostFtdcRspAuthenticateField pRspAuthenticateField, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspAuthenticate", pRspInfo);
+		logger.info("TraderSpiImpl OnRspAuthenticate");
+		if (pRspAuthenticateField != null) {
+
+		}
 	}
 
 	@Override
 	public void OnRspUserLogout(CThostFtdcUserLogoutField pUserLogout, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
 		validateRspInfo("OnRspUserLogout", pRspInfo);
+		logger.info("Call TraderSpiImpl OnRspUserLogout");
 	}
 
 	@Override
 	public void OnRspQryTradingAccount(CThostFtdcTradingAccountField pTradingAccount, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQryTradingAccount", pRspInfo);
+		logger.info("Call TraderSpiImpl OnRspQryTradingAccount");
+		if (pTradingAccount != null) {
+			gateway.onQryTradingAccount(pTradingAccount);
+		} else 
+			logger.warn("OnRspQryTradingAccount return null");
+		
+	}
 
-		if (pTradingAccount != null)
-			logger.info("OnRspQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
-					pTradingAccount.getBalance(), pTradingAccount.getAvailable(), pTradingAccount.getWithdrawQuota(),
-					pTradingAccount.getCredit());
-		else
-			logger.info("OnRspQryTradingAccount return null");
+	@Override
+	public void OnRspQryInvestorPosition(CThostFtdcInvestorPositionField pInvestorPosition,
+			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
+		validateRspInfo("OnRspQryInvestorPosition", pRspInfo);
+		pInvestorPosition.getInstrumentID();
 	}
 
 	@Override
@@ -80,28 +96,33 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 		if (pSettlementInfo != null)
 			logger.info("OnRspQrySettlementInfo -> \n {}", pSettlementInfo.getContent());
 		else
-			logger.info("OnRspQrySettlementInfo return null");
+			logger.warn("OnRspQrySettlementInfo return null");
 	}
 
 	@Override
 	public void OnRspQryInstrument(CThostFtdcInstrumentField pInstrument, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQryInstrument", pRspInfo);
-
 		if (pInstrument != null)
 			logger.info("OnRspQryInstrument -> InstrumentID==[{}]", pInstrument.getInstrumentID());
 		else
-			logger.info("OnRspQryInstrument return null");
+			logger.warn("OnRspQryInstrument return null");
 	}
 
 	@Override
 	public void OnRtnOrder(CThostFtdcOrderField pOrder) {
-		// TODO Auto-generated method stub
+		if (pOrder != null)
+			gateway.onRtnOrder(pOrder);
+		else
+			logger.warn("OnRtnOrder return null");
 	}
 
 	@Override
 	public void OnRtnTrade(CThostFtdcTradeField pTrade) {
-		// TODO Auto-generated method stub
+		if (pTrade != null)
+			gateway.onRtnTrade(pTrade);
+		else
+			logger.warn("OnRtnTrade return null");
 	}
 
 	@Override
