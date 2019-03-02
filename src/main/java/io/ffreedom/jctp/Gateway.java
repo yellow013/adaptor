@@ -292,10 +292,10 @@ public class Gateway {
 						marketDataField.getBidPrice1());
 				break;
 			case Order:
-
+				logger.info("");
 				break;
 			case Trade:
-
+				logger.info("");
 				break;
 			default:
 				break;
