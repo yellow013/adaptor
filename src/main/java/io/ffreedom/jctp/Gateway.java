@@ -162,12 +162,12 @@ public class Gateway {
 					isMdLogin, subscribeInstruementSet.isEmpty());
 	}
 
-	public void newOrder(CThostFtdcInputOrderField pInputOrder) {
-		traderApi.ReqOrderInsert(pInputOrder, ++traderRequestId);
+	public void newOrder(CThostFtdcInputOrderField inputOrder) {
+		traderApi.ReqOrderInsert(inputOrder, ++traderRequestId);
 	}
 
-	public void cancelOrder(CThostFtdcInputOrderActionField pInputOrderAction) {
-		traderApi.ReqOrderAction(pInputOrderAction, ++traderRequestId);
+	public void cancelOrder(CThostFtdcInputOrderActionField inputOrderAction) {
+		traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
 	}
 
 	public void qureyAccount() {
@@ -248,11 +248,11 @@ public class Gateway {
 	}
 
 	void onRtnOrder(CThostFtdcOrderField order) {
-		inboundQueue.enqueue(RspMsg.ofOrder(order));
+		inboundQueue.enqueue(RspMsg.ofRtnOrder(order));
 	}
 
 	void onRtnTrade(CThostFtdcTradeField trade) {
-		inboundQueue.enqueue(RspMsg.ofTrade(trade));
+		inboundQueue.enqueue(RspMsg.ofRtnTrade(trade));
 	}
 
 	/**
@@ -290,12 +290,12 @@ public class Gateway {
 								depthMarketData.getUpdateTime(), depthMarketData.getAskPrice1(),
 								depthMarketData.getBidPrice1());
 						break;
-					case Order:
-						CThostFtdcOrderField order = msg.getOrder();
+					case RtnOrder:
+						CThostFtdcOrderField order = msg.getRtnOrder();
 						logger.info("Handle Order -> OrderRef==[{}]", order.getOrderRef());
 						break;
-					case Trade:
-						CThostFtdcTradeField trade = msg.getTrade();
+					case RtnTrade:
+						CThostFtdcTradeField trade = msg.getRtnTrade();
 						logger.info("Handle Order -> OrderRef==[{}]", trade.getOrderRef());
 						break;
 					default:
