@@ -15,9 +15,9 @@ public class MdSpiImpl extends CThostFtdcMdSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
-	private Gateway gateway;
+	private JctpGateway gateway;
 
-	MdSpiImpl(Gateway gateway) {
+	MdSpiImpl(JctpGateway gateway) {
 		this.gateway = gateway;
 	}
 

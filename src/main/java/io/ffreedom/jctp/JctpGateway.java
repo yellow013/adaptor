@@ -32,9 +32,9 @@ import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.CtpUserInfo;
 import io.ffreedom.jctp.bean.rsp.RspMsg;
 
-public class Gateway {
+public class JctpGateway {
 
-	private static final Logger logger = CommonLoggerFactory.getLogger(Gateway.class);
+	private static final Logger logger = CommonLoggerFactory.getLogger(JctpGateway.class);
 
 	private static void loadWin64Library() {
 		logger.info("Load win 64bit library...");
@@ -78,7 +78,7 @@ public class Gateway {
 	private boolean isMdLogin;
 	private boolean isTraderLogin;
 
-	public Gateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
+	public JctpGateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
 		this.userInfo = userInfo;
 		this.inboundQueue = inboundQueue;
@@ -109,7 +109,7 @@ public class Gateway {
 			// 将traderSpi注册到traderApi
 			traderApi.RegisterSpi(traderSpiImpl);
 			// 注册到trader前置机
-			traderApi.RegisterFront(userInfo.getTradeAddress());
+			traderApi.RegisterFront(userInfo.getTraderAddress());
 			// 订阅公有流
 			traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
 			// 订阅私有流
@@ -275,11 +275,11 @@ public class Gateway {
 
 	public static void main(String[] args) {
 
-		CtpUserInfo simnowUserInfo = CtpUserInfo.newEmpty().setTradeAddress(TradeAddress).setMdAddress(MdAddress)
+		CtpUserInfo simnowUserInfo = CtpUserInfo.newEmpty().setTraderAddress(TradeAddress).setMdAddress(MdAddress)
 				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
-		Gateway gateway = new Gateway(GatewayId, simnowUserInfo,
+		JctpGateway gateway = new JctpGateway(GatewayId, simnowUserInfo,
 				ArrayBlockingMPSCQueue.autoRunQueue("Simnow-Handle-Queue", 1024, msg -> {
 					switch (msg.getType()) {
 					case DepthMarketData:

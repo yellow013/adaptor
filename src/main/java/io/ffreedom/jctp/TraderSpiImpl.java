@@ -24,9 +24,9 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
-	private Gateway gateway;
+	private JctpGateway gateway;
 
-	TraderSpiImpl(Gateway gateway) {
+	TraderSpiImpl(JctpGateway gateway) {
 		this.gateway = gateway;
 	}
 

@@ -2,7 +2,7 @@ package io.ffreedom.jctp.bean;
 
 public class CtpUserInfo {
 
-	private String tradeAddress = "tcp://180.168.146.187:10000";
+	private String traderAddress = "tcp://180.168.146.187:10000";
 	private String mdAddress = "tcp://180.168.146.187:10010";
 
 	private String brokerId = "9999";
@@ -22,12 +22,12 @@ public class CtpUserInfo {
 	private CtpUserInfo() {
 	}
 
-	public String getTradeAddress() {
-		return tradeAddress;
+	public String getTraderAddress() {
+		return traderAddress;
 	}
 
-	public CtpUserInfo setTradeAddress(String tradeAddress) {
-		this.tradeAddress = tradeAddress;
+	public CtpUserInfo setTraderAddress(String traderAddress) {
+		this.traderAddress = traderAddress;
 		return this;
 	}
 
