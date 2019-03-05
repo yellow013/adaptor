@@ -38,11 +38,11 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>io.ffreedom</groupId>
 			<artifactId>commons</artifactId>

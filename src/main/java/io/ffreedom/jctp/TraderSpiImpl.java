@@ -3,7 +3,6 @@ package io.ffreedom.jctp;
 import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
@@ -19,10 +18,11 @@ import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
+import io.ffreedom.common.log.CommonLoggerFactory;
 
 public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
 	private Gateway gateway;
 

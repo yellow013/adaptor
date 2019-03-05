@@ -3,17 +3,17 @@ package io.ffreedom.jctp;
 import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcMdSpi;
 import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
+import io.ffreedom.common.log.CommonLoggerFactory;
 
 public class MdSpiImpl extends CThostFtdcMdSpi {
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
 	private Gateway gateway;
 

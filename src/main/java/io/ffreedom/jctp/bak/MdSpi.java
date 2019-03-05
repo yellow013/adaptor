@@ -3,7 +3,6 @@ package io.ffreedom.jctp.bak;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcForQuoteRspField;
@@ -12,12 +11,13 @@ import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
+import io.ffreedom.common.log.CommonLoggerFactory;
 
 @Deprecated
 @SuppressWarnings("unused")
 public class MdSpi extends CThostFtdcMdSpi {
 
-	Logger log = LoggerFactory.getLogger(MdSpi.class);
+	Logger log = CommonLoggerFactory.getLogger(MdSpi.class);
 
 	private CtpGateway ctpGateway;
 	private String gatewayId;

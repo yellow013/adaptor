@@ -1,7 +1,6 @@
 package io.ffreedom.jctp.bak;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcExchangeField;
 import ctp.thostapi.CThostFtdcExecOrderField;
@@ -29,11 +28,12 @@ import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcTradingCodeField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
+import io.ffreedom.common.log.CommonLoggerFactory;
 
 @Deprecated
 public class TdSpi extends CThostFtdcTraderSpi {
 
-	private Logger log = LoggerFactory.getLogger(TdSpi.class);
+	private Logger log = CommonLoggerFactory.getLogger(TdSpi.class);
 
 	private CtpGateway gateway;
 	private String gatewayId;

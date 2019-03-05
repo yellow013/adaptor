@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcInputOrderActionField;
@@ -26,6 +25,7 @@ import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 import io.ffreedom.common.collect.ECollections;
 import io.ffreedom.common.datetime.DateTimeUtil;
+import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
@@ -34,7 +34,7 @@ import io.ffreedom.jctp.bean.rsp.RspMsg;
 
 public class Gateway {
 
-	private static final Logger logger = LoggerFactory.getLogger(Gateway.class);
+	private static final Logger logger = CommonLoggerFactory.getLogger(Gateway.class);
 
 	private static void loadWin64Library() {
 		logger.info("Load win 64bit library...");

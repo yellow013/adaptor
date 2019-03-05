@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
@@ -15,6 +14,7 @@ import ctp.thostapi.CThostFtdcReqAuthenticateField;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.thosttraderapiConstants;
+import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.base.Constant;
@@ -27,7 +27,7 @@ import io.ffreedom.jctp.config.CtpConfig;
 @SuppressWarnings("unused")
 public class TdApi {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = CommonLoggerFactory.getLogger(getClass());
 
 	private volatile CThostFtdcTraderApi cThostFtdcTraderApi;
 

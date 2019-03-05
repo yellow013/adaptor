@@ -3,8 +3,8 @@ package io.ffreedom.jctp.bak;
 import java.util.HashSet;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.req.ReqCancelOrder;
@@ -19,7 +19,7 @@ import io.ffreedom.jctp.config.CtpConfig;
 @SuppressWarnings("unused")
 public class CtpGateway {
 
-	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
+	private static Logger log = CommonLoggerFactory.getLogger(CtpGateway.class);
 
 	static {
 		try {

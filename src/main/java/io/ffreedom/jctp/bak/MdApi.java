@@ -4,10 +4,10 @@ import java.io.File;
 import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
+import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.config.CtpConfig;
@@ -15,7 +15,7 @@ import io.ffreedom.jctp.config.CtpConfig;
 @Deprecated
 public class MdApi {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = CommonLoggerFactory.getLogger(getClass());
 
 	private volatile CThostFtdcMdApi cThostFtdcMdApi;
 	private volatile boolean isConnecting = false; // 是否正在连接中
