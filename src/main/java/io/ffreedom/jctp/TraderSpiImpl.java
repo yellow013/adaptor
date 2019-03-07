@@ -76,9 +76,9 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 		logger.info("Call TraderSpiImpl OnRspQryTradingAccount");
 		if (pTradingAccount != null) {
 			gateway.onQryTradingAccount(pTradingAccount);
-		} else 
+		} else
 			logger.warn("OnRspQryTradingAccount return null");
-		
+
 	}
 
 	@Override
@@ -92,7 +92,6 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 	public void OnRspQrySettlementInfo(CThostFtdcSettlementInfoField pSettlementInfo, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQrySettlementInfo", pRspInfo);
-
 		if (pSettlementInfo != null)
 			logger.info("OnRspQrySettlementInfo -> \n {}", pSettlementInfo.getContent());
 		else
@@ -129,22 +128,26 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 	public void OnRspOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
 		validateRspInfo("OnRspOrderInsert", pRspInfo);
+		gateway.onRspOrderInsert(pInputOrder);
 	}
 
 	@Override
 	public void OnRspOrderAction(CThostFtdcInputOrderActionField pInputOrderAction, CThostFtdcRspInfoField pRspInfo,
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspOrderAction", pRspInfo);
+		gateway.onRspOrderAction(pInputOrderAction);
 	}
 
 	@Override
 	public void OnErrRtnOrderInsert(CThostFtdcInputOrderField pInputOrder, CThostFtdcRspInfoField pRspInfo) {
 		validateRspInfo("OnErrRtnOrderInsert", pRspInfo);
+		gateway.onErrRtnOrderInsert(pInputOrder);
 	}
 
 	@Override
 	public void OnErrRtnOrderAction(CThostFtdcOrderActionField pOrderAction, CThostFtdcRspInfoField pRspInfo) {
 		validateRspInfo("OnErrRtnOrderAction", pRspInfo);
+		gateway.onErrRtnOrderAction(pOrderAction);
 	}
 
 	@Override

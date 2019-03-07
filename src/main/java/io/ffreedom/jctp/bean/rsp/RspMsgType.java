@@ -2,6 +2,20 @@ package io.ffreedom.jctp.bean.rsp;
 
 public enum RspMsgType {
 
-	DepthMarketData, RtnOrder, RtnTrade,
+	DepthMarketData,
+
+	RtnOrder,
+
+	RtnTrade,
+
+	RspOrderInsert,
+
+	RspOrderAction,
+
+	ErrRtnOrderInsert,
+
+	ErrRtnOrderAction,
+
+	;
 
 }

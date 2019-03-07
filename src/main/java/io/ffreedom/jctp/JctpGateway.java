@@ -11,6 +11,7 @@ import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcMdApi;
+import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcQryInstrumentField;
 import ctp.thostapi.CThostFtdcQryInvestorPositionField;
@@ -166,8 +167,24 @@ public class JctpGateway {
 		traderApi.ReqOrderInsert(inputOrder, ++traderRequestId);
 	}
 
+	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
+		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(rspOrderInsert));
+	}
+	
+	void onErrRtnOrderInsert(CThostFtdcInputOrderField inputOrder) {
+		inboundQueue.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
+	}
+	
 	public void cancelOrder(CThostFtdcInputOrderActionField inputOrderAction) {
 		traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
+	}
+	
+	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
+		inboundQueue.enqueue(RspMsg.ofRspOrderAction(inputOrderAction));
+	}
+	
+	void onErrRtnOrderAction(CThostFtdcOrderActionField orderAction) {
+		inboundQueue.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
 	}
 
 	public void qureyAccount() {
@@ -308,5 +325,9 @@ public class JctpGateway {
 		instruementIdSet.add("rb1910");
 		gateway.subscribeMarketData(instruementIdSet);
 	}
+
+
+
+	
 
 }

@@ -1,6 +1,9 @@
 package io.ffreedom.jctp.bean.rsp;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
+import ctp.thostapi.CThostFtdcInputOrderActionField;
+import ctp.thostapi.CThostFtdcInputOrderField;
+import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcTradeField;
 
@@ -11,8 +14,14 @@ public final class RspMsg {
 	private CThostFtdcOrderField rtnOrder;
 	private CThostFtdcTradeField rtnTrade;
 
-	private RspMsg(RspMsgType type) {
-		this.type = type;
+	private CThostFtdcInputOrderField rspOrderInsert;
+	private CThostFtdcInputOrderActionField rspOrderAction;
+
+	private CThostFtdcInputOrderField errRtnOrderInsert;
+	private CThostFtdcOrderActionField errRtnOrderAction;
+
+	public static final RspMsg ofDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
+		return new RspMsg(RspMsgType.DepthMarketData).setDepthMarketData(depthMarketData);
 	}
 
 	private RspMsg setDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
@@ -20,9 +29,17 @@ public final class RspMsg {
 		return this;
 	}
 
+	public static final RspMsg ofRtnOrder(CThostFtdcOrderField order) {
+		return new RspMsg(RspMsgType.RtnOrder).setRtnOrder(order);
+	}
+
 	private RspMsg setRtnOrder(CThostFtdcOrderField rtnOrder) {
 		this.rtnOrder = rtnOrder;
 		return this;
+	}
+
+	public static final RspMsg ofRtnTrade(CThostFtdcTradeField trade) {
+		return new RspMsg(RspMsgType.RtnTrade).setRtnTrade(trade);
 	}
 
 	private RspMsg setRtnTrade(CThostFtdcTradeField rtnTrade) {
@@ -30,16 +47,44 @@ public final class RspMsg {
 		return this;
 	}
 
-	public static final RspMsg ofDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		return new RspMsg(RspMsgType.DepthMarketData).setDepthMarketData(depthMarketData);
+	public static final RspMsg ofRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
+		return new RspMsg(RspMsgType.RspOrderInsert).setRspOrderInsert(rspOrderInsert);
 	}
 
-	public static final RspMsg ofRtnOrder(CThostFtdcOrderField order) {
-		return new RspMsg(RspMsgType.RtnOrder).setRtnOrder(order);
+	private RspMsg setRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
+		this.rspOrderInsert = rspOrderInsert;
+		return this;
 	}
 
-	public static final RspMsg ofRtnTrade(CThostFtdcTradeField trade) {
-		return new RspMsg(RspMsgType.RtnTrade).setRtnTrade(trade);
+	public static final RspMsg ofRspOrderAction(CThostFtdcInputOrderActionField rspOrderAction) {
+		return new RspMsg(RspMsgType.RspOrderInsert).setRspOrderAction(rspOrderAction);
+	}
+
+	private RspMsg setRspOrderAction(CThostFtdcInputOrderActionField rspOrderAction) {
+		this.rspOrderAction = rspOrderAction;
+		return this;
+	}
+
+	public static final RspMsg ofErrRtnOrderInsert(CThostFtdcInputOrderField errRtnOrderInsert) {
+		return new RspMsg(RspMsgType.ErrRtnOrderInsert).setErrRtnOrderInsert(errRtnOrderInsert);
+	}
+
+	private RspMsg setErrRtnOrderInsert(CThostFtdcInputOrderField errRtnOrderInsert) {
+		this.errRtnOrderInsert = errRtnOrderInsert;
+		return this;
+	}
+
+	public static final RspMsg ofErrRtnOrderAction(CThostFtdcOrderActionField errRtnOrderAction) {
+		return new RspMsg(RspMsgType.ErrRtnOrderAction).setErrRtnOrderAction(errRtnOrderAction);
+	}
+
+	public RspMsg setErrRtnOrderAction(CThostFtdcOrderActionField errRtnOrderAction) {
+		this.errRtnOrderAction = errRtnOrderAction;
+		return this;
+	}
+
+	private RspMsg(RspMsgType type) {
+		this.type = type;
 	}
 
 	public RspMsgType getType() {
@@ -56,6 +101,22 @@ public final class RspMsg {
 
 	public CThostFtdcTradeField getRtnTrade() {
 		return rtnTrade;
+	}
+
+	public CThostFtdcInputOrderField getRspOrderInsert() {
+		return rspOrderInsert;
+	}
+
+	public CThostFtdcInputOrderActionField getRspOrderAction() {
+		return rspOrderAction;
+	}
+
+	public CThostFtdcInputOrderField getErrRtnOrderInsert() {
+		return errRtnOrderInsert;
+	}
+
+	public CThostFtdcOrderActionField getErrRtnOrderAction() {
+		return errRtnOrderAction;
 	}
 
 }
