@@ -170,19 +170,19 @@ public class JctpGateway {
 	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
 		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(rspOrderInsert));
 	}
-	
+
 	void onErrRtnOrderInsert(CThostFtdcInputOrderField inputOrder) {
 		inboundQueue.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
 	}
-	
+
 	public void cancelOrder(CThostFtdcInputOrderActionField inputOrderAction) {
 		traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
 	}
-	
+
 	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
 		inboundQueue.enqueue(RspMsg.ofRspOrderAction(inputOrderAction));
 	}
-	
+
 	void onErrRtnOrderAction(CThostFtdcOrderActionField orderAction) {
 		inboundQueue.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
 	}
@@ -302,9 +302,9 @@ public class JctpGateway {
 					case DepthMarketData:
 						CThostFtdcDepthMarketDataField depthMarketData = msg.getDepthMarketData();
 						logger.info(
-								"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}] UpdateMillisec==[{}] UpdateTime==[{}] AskPrice1==[{}] BidPrice1==[{}]",
-								depthMarketData.getInstrumentID(), depthMarketData.getUpdateMillisec(),
-								depthMarketData.getUpdateTime(), depthMarketData.getAskPrice1(),
+								"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}]  UpdateTime==[{}]  UpdateMillisec==[{}]  AskPrice1==[{}]  BidPrice1==[{}]",
+								depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),
+								depthMarketData.getUpdateMillisec(), depthMarketData.getAskPrice1(),
 								depthMarketData.getBidPrice1());
 						break;
 					case RtnOrder:
@@ -322,12 +322,8 @@ public class JctpGateway {
 		ThreadUtil.startNewThread(() -> gateway.initAndJoin(), "Gateway-Thread");
 
 		Set<String> instruementIdSet = new HashSet<>();
-		instruementIdSet.add("rb1910");
+		instruementIdSet.add("rb1905");
 		gateway.subscribeMarketData(instruementIdSet);
 	}
-
-
-
-	
 
 }
