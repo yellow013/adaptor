@@ -268,13 +268,14 @@ public class JctpGateway {
 				rspUserLogin.getUserID());
 		this.isTraderLogin = true;
 		qureyAccount();
-		ThreadUtil.sleep(1500);
-		qureyPosition();
-		ThreadUtil.sleep(1500);
-		qureySettlementInfo();
 	}
 
 	public void qureyAccount() {
+		ThreadUtil.startNewThread(() -> innerQureyAccount());
+	}
+
+	private void innerQureyAccount() {
+		ThreadUtil.sleep(1250);
 		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
 		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
 		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
@@ -288,9 +289,15 @@ public class JctpGateway {
 		logger.info("onQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
 				tradingAccount.getBalance(), tradingAccount.getAvailable(), tradingAccount.getWithdrawQuota(),
 				tradingAccount.getCredit());
+		qureyPosition();
 	}
 
 	public void qureyPosition() {
+		ThreadUtil.startNewThread(() -> innerQureyPosition());
+	}
+
+	private void innerQureyPosition() {
+		ThreadUtil.sleep(1250);
 		CThostFtdcQryInvestorPositionField qryInvestorPosition = new CThostFtdcQryInvestorPositionField();
 		qryInvestorPosition.setBrokerID(userInfo.getBrokerId());
 		qryInvestorPosition.setInvestorID(userInfo.getInvestorId());
@@ -359,11 +366,11 @@ public class JctpGateway {
 						break;
 					case RtnOrder:
 						CThostFtdcOrderField order = msg.getRtnOrder();
-						logger.info("Handle Order -> OrderRef==[{}]", order.getOrderRef());
+						logger.info("Handle RtnOrder -> OrderRef==[{}]", order.getOrderRef());
 						break;
 					case RtnTrade:
 						CThostFtdcTradeField trade = msg.getRtnTrade();
-						logger.info("Handle Order -> OrderRef==[{}]", trade.getOrderRef());
+						logger.info("Handle RtnTrade -> OrderRef==[{}]", trade.getOrderRef());
 						break;
 					default:
 						break;

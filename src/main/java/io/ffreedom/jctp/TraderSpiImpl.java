@@ -74,9 +74,9 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQryTradingAccount", pRspInfo);
 		logger.info("Call TraderSpiImpl OnRspQryTradingAccount");
-		if (pTradingAccount != null) {
+		if (pTradingAccount != null)
 			gateway.onQryTradingAccount(pTradingAccount);
-		} else
+		else
 			logger.warn("OnRspQryTradingAccount return null");
 
 	}
@@ -85,7 +85,11 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 	public void OnRspQryInvestorPosition(CThostFtdcInvestorPositionField pInvestorPosition,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQryInvestorPosition", pRspInfo);
-		gateway.onRspQryInvestorPosition(pInvestorPosition);
+		logger.info("Call TraderSpiImpl OnRspQryInvestorPosition");
+		if (pInvestorPosition != null)
+			gateway.onRspQryInvestorPosition(pInvestorPosition);
+		else
+			logger.warn("OnRspQryInvestorPosition return null");
 	}
 
 	@Override
