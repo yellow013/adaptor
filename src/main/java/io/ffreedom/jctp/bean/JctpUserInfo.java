@@ -1,6 +1,6 @@
 package io.ffreedom.jctp.bean;
 
-public class CtpUserInfo {
+public class JctpUserInfo {
 
 	private String traderAddress = "tcp://180.168.146.187:10000";
 	private String mdAddress = "tcp://180.168.146.187:10010";
@@ -15,18 +15,18 @@ public class CtpUserInfo {
 	private String tradingDay = "20190201";
 	private String currencyId = "CNY";
 
-	public static final CtpUserInfo newEmpty() {
-		return new CtpUserInfo();
+	public static final JctpUserInfo newEmpty() {
+		return new JctpUserInfo();
 	}
 
-	private CtpUserInfo() {
+	private JctpUserInfo() {
 	}
 
 	public String getTraderAddress() {
 		return traderAddress;
 	}
 
-	public CtpUserInfo setTraderAddress(String traderAddress) {
+	public JctpUserInfo setTraderAddress(String traderAddress) {
 		this.traderAddress = traderAddress;
 		return this;
 	}
@@ -35,7 +35,7 @@ public class CtpUserInfo {
 		return mdAddress;
 	}
 
-	public CtpUserInfo setMdAddress(String mdAddress) {
+	public JctpUserInfo setMdAddress(String mdAddress) {
 		this.mdAddress = mdAddress;
 		return this;
 	}
@@ -44,7 +44,7 @@ public class CtpUserInfo {
 		return brokerId;
 	}
 
-	public CtpUserInfo setBrokerId(String brokerId) {
+	public JctpUserInfo setBrokerId(String brokerId) {
 		this.brokerId = brokerId;
 		return this;
 	}
@@ -53,7 +53,7 @@ public class CtpUserInfo {
 		return investorId;
 	}
 
-	public CtpUserInfo setInvestorId(String investorId) {
+	public JctpUserInfo setInvestorId(String investorId) {
 		this.investorId = investorId;
 		return this;
 	}
@@ -62,7 +62,7 @@ public class CtpUserInfo {
 		return accountId;
 	}
 
-	public CtpUserInfo setAccountId(String accountId) {
+	public JctpUserInfo setAccountId(String accountId) {
 		this.accountId = accountId;
 		return this;
 	}
@@ -71,7 +71,7 @@ public class CtpUserInfo {
 		return userId;
 	}
 
-	public CtpUserInfo setUserId(String userId) {
+	public JctpUserInfo setUserId(String userId) {
 		this.userId = userId;
 		return this;
 	}
@@ -80,7 +80,7 @@ public class CtpUserInfo {
 		return userProductInfo;
 	}
 
-	public CtpUserInfo setUserProductInfo(String userProductInfo) {
+	public JctpUserInfo setUserProductInfo(String userProductInfo) {
 		this.userProductInfo = userProductInfo;
 		return this;
 	}
@@ -89,7 +89,7 @@ public class CtpUserInfo {
 		return password;
 	}
 
-	public CtpUserInfo setPassword(String password) {
+	public JctpUserInfo setPassword(String password) {
 		this.password = password;
 		return this;
 	}
@@ -98,7 +98,7 @@ public class CtpUserInfo {
 		return tradingDay;
 	}
 
-	public CtpUserInfo setTradingDay(String tradingDay) {
+	public JctpUserInfo setTradingDay(String tradingDay) {
 		this.tradingDay = tradingDay;
 		return this;
 	}
@@ -107,7 +107,7 @@ public class CtpUserInfo {
 		return currencyId;
 	}
 
-	public CtpUserInfo setCurrencyId(String currencyId) {
+	public JctpUserInfo setCurrencyId(String currencyId) {
 		this.currencyId = currencyId;
 		return this;
 	}

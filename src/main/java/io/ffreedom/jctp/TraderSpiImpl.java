@@ -1,6 +1,6 @@
 package io.ffreedom.jctp;
 
-import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
+import static io.ffreedom.jctp.base.JctpRspValidator.validateRspInfo;
 
 import org.slf4j.Logger;
 
@@ -85,7 +85,7 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 	public void OnRspQryInvestorPosition(CThostFtdcInvestorPositionField pInvestorPosition,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQryInvestorPosition", pRspInfo);
-		pInvestorPosition.getInstrumentID();
+		gateway.onRspQryInvestorPosition(pInvestorPosition);
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
 	@Override
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
-		// TODO Auto-generated method stub
+		gateway.onRspError(pRspInfo);
 	}
 
 }

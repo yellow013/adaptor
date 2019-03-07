@@ -167,8 +167,10 @@ class MdSpiImpl extends CThostFtdcMdSpi {
 
 	public void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField pDepthMarketData) {
 		if (pDepthMarketData != null) {
-			System.out.println("InstrumentID[" + pDepthMarketData.getInstrumentID() + "]AskPrice1["
-					+ pDepthMarketData.getAskPrice1() + "]BidPrice1[" + pDepthMarketData.getBidPrice1() + "]");
+			System.out.println("InstrumentID[" + pDepthMarketData.getInstrumentID() + "], UpdateTime["
+					+ pDepthMarketData.getUpdateTime() + "], UpdateMillisec[" + pDepthMarketData.getUpdateMillisec()
+					+ "], AskPrice1[" + pDepthMarketData.getAskPrice1() + "], BidPrice1["
+					+ pDepthMarketData.getBidPrice1() + "]");
 		} else {
 			System.out.println("NULL obj");
 		}
@@ -202,6 +204,8 @@ public class Demo {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		instr_vec.clear();
+		instr_vec.add("rb1905");
 		CThostFtdcMdApi mdApi = CThostFtdcMdApi.CreateFtdcMdApi("md");
 		MdSpiImpl mdSpiImpl = new MdSpiImpl(mdApi, instr_vec);
 		mdApi.RegisterSpi(mdSpiImpl);

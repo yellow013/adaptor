@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
 import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
+import ctp.thostapi.CThostFtdcInvestorPositionField;
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
@@ -18,6 +19,7 @@ import ctp.thostapi.CThostFtdcQryInvestorPositionField;
 import ctp.thostapi.CThostFtdcQrySettlementInfoField;
 import ctp.thostapi.CThostFtdcQryTradingAccountField;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
+import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcTradeField;
@@ -30,7 +32,7 @@ import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
-import io.ffreedom.jctp.bean.CtpUserInfo;
+import io.ffreedom.jctp.bean.JctpUserInfo;
 import io.ffreedom.jctp.bean.rsp.RspMsg;
 
 public class JctpGateway {
@@ -66,11 +68,11 @@ public class JctpGateway {
 	}
 
 	private String gatewayId;
-	private CtpUserInfo userInfo;
+	private JctpUserInfo userInfo;
 	private CThostFtdcTraderApi traderApi;
 	private CThostFtdcMdApi mdApi;
 
-	public volatile boolean isInit = false;
+	private boolean isInit = false;
 	private Queue<RspMsg> inboundQueue;
 
 	private int mdRequestId = -1;
@@ -79,7 +81,7 @@ public class JctpGateway {
 	private boolean isMdLogin;
 	private boolean isTraderLogin;
 
-	public JctpGateway(String gatewayId, CtpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
+	public JctpGateway(String gatewayId, JctpUserInfo userInfo, Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
 		this.userInfo = userInfo;
 		this.inboundQueue = inboundQueue;
@@ -89,7 +91,7 @@ public class JctpGateway {
 		// 创建临时文件存储目录
 		String tempFileHome = System.getProperty("user.home") + File.separator + "jctp";
 		File tempFileDir = new File(
-				tempFileHome + File.separator + DateTimeUtil.getCurrentDate() + File.separator + gatewayId);
+				tempFileHome + File.separator + gatewayId + File.separator + DateTimeUtil.getCurrentDate());
 		if (!tempFileDir.exists())
 			tempFileDir.mkdirs();
 		return tempFileDir;
@@ -99,52 +101,84 @@ public class JctpGateway {
 		if (!isInit) {
 			// 获取临时文件目录
 			File tempDir = getTempDir();
-
-			// 指定trader临时文件地址
-			String traderTempFilePath = new File(tempDir, "trader").getAbsolutePath();
-			logger.info("{} trader use temp file path : {}", gatewayId, traderTempFilePath);
-			// 创建traderApi
-			this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
-			// 创建traderSpi
-			TraderSpiImpl traderSpiImpl = new TraderSpiImpl(this);
-			// 将traderSpi注册到traderApi
-			traderApi.RegisterSpi(traderSpiImpl);
-			// 注册到trader前置机
-			traderApi.RegisterFront(userInfo.getTraderAddress());
-			// 订阅公有流
-			traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
-			// 订阅私有流
-			traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
-			// 初始化traderApi
-			traderApi.Init();
-			logger.info("Call traderApi.Init()...");
-			ThreadUtil.sleep(3000);
-
-			// 指定md临时文件地址
-			String mdTempFilePath = new File(tempDir, "md").getAbsolutePath();
-			logger.info("{} md use temp file path : {}", gatewayId, mdTempFilePath);
-			// 创建mdApi
-			this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
-			// 创建mdSpi
-			MdSpiImpl mdSpiImpl = new MdSpiImpl(this);
-			// 将mdSpi注册到mdApi
-			mdApi.RegisterSpi(mdSpiImpl);
-			// 注册到md前置机
-			mdApi.RegisterFront(userInfo.getMdAddress());
-			// 初始化mdApi
-			mdApi.Init();
-			logger.info("Call mdApi.Init()...");
-			ThreadUtil.sleep(3000);
-
-			this.isInit = true;
-			// 阻塞当前线程
-			logger.info("Current thread join...");
-			ThreadUtil.join(Thread.currentThread());
+			try {
+				ThreadUtil.sleep(2000);
+				ThreadUtil.startNewThread(() -> mdInitAndJoin(tempDir), "Md-Spi-Thread");
+				ThreadUtil.sleep(2000);
+				ThreadUtil.startNewThread(() -> traderInitAndJoin(tempDir), "trader-Spi-Thread");
+				this.isInit = true;
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				this.isInit = false;
+			}
 		}
+	}
+
+	private void mdInitAndJoin(File tempDir) {
+		// 指定md临时文件地址
+		String mdTempFilePath = new File(tempDir, "md").getAbsolutePath();
+		logger.info("{} md use temp file path : {}", gatewayId, mdTempFilePath);
+		// 创建mdApi
+		this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
+		// 创建mdSpi
+		MdSpiImpl mdSpiImpl = new MdSpiImpl(this);
+		// 将mdSpi注册到mdApi
+		mdApi.RegisterSpi(mdSpiImpl);
+		// 注册到md前置机
+		mdApi.RegisterFront(userInfo.getMdAddress());
+		// 初始化mdApi
+		mdApi.Init();
+		logger.info("Call mdApi.Init()...");
+		// 阻塞当前线程
+		mdApi.Join();
+		logger.info("Call mdApi.Join()");
+	}
+
+	private void traderInitAndJoin(File tempDir) {
+		// 指定trader临时文件地址
+		String traderTempFilePath = new File(tempDir, "trader").getAbsolutePath();
+		logger.info("{} trader use temp file path : {}", gatewayId, traderTempFilePath);
+		// 创建traderApi
+		this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
+		// 创建traderSpi
+		TraderSpiImpl traderSpiImpl = new TraderSpiImpl(this);
+		// 将traderSpi注册到traderApi
+		traderApi.RegisterSpi(traderSpiImpl);
+		// 注册到trader前置机
+		traderApi.RegisterFront(userInfo.getTraderAddress());
+		// 订阅公有流
+		traderApi.SubscribePublicTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
+		// 订阅私有流
+		traderApi.SubscribePrivateTopic(THOST_TE_RESUME_TYPE.THOST_TERT_QUICK);
+		// 初始化traderApi
+		traderApi.Init();
+		logger.info("Call traderApi.Init()...");
+		// 阻塞当前线程
+		traderApi.Join();
+		logger.info("Call traderApi.Join()");
+	}
+
+	void onMdFrontConnected() {
+		CThostFtdcReqUserLoginField reqUserLogin = new CThostFtdcReqUserLoginField();
+		reqUserLogin.setBrokerID(userInfo.getBrokerId());
+		reqUserLogin.setUserID(userInfo.getUserId());
+		reqUserLogin.setPassword(userInfo.getPassword());
+		mdApi.ReqUserLogin(reqUserLogin, ++mdRequestId);
+		logger.info("Send Md ReqUserLogin OK");
+	}
+
+	void onMdRspUserLogin(CThostFtdcRspUserLoginField rspUserLogin) {
+		logger.info("Md UserLogin Success -> Brokerid==[{}] UserID==[{}]", rspUserLogin.getBrokerID(),
+				rspUserLogin.getUserID());
+		this.isMdLogin = true;
+		subscribeMarketData(new HashSet<>());
 	}
 
 	private Set<String> subscribeInstruementSet = ECollections.newUnifiedSet();
 
+	/**
+	 * 行情相关调用和回调
+	 */
 	public void subscribeMarketData(Set<String> inputInstruementSet) {
 		subscribeInstruementSet.addAll(inputInstruementSet);
 		logger.info("Add Subscribe Instruement set -> addCount==[{}]", inputInstruementSet.size());
@@ -163,8 +197,22 @@ public class JctpGateway {
 					isMdLogin, subscribeInstruementSet.isEmpty());
 	}
 
+	void onRspSubMarketData(CThostFtdcSpecificInstrumentField specificInstrument) {
+		logger.info("SubscribeMarketData Success -> InstrumentCode==[{}]", specificInstrument);
+	}
+
+	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
+		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketData));
+	}
+
+	/**
+	 * 报单相关调用和回调
+	 */
 	public void newOrder(CThostFtdcInputOrderField inputOrder) {
-		traderApi.ReqOrderInsert(inputOrder, ++traderRequestId);
+		if (isTraderLogin)
+			traderApi.ReqOrderInsert(inputOrder, ++traderRequestId);
+		else
+			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
 	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
@@ -175,8 +223,22 @@ public class JctpGateway {
 		inboundQueue.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
 	}
 
+	void onRtnOrder(CThostFtdcOrderField order) {
+		inboundQueue.enqueue(RspMsg.ofRtnOrder(order));
+	}
+
+	void onRtnTrade(CThostFtdcTradeField trade) {
+		inboundQueue.enqueue(RspMsg.ofRtnTrade(trade));
+	}
+
+	/**
+	 * 撤单相关调用和回调
+	 */
 	public void cancelOrder(CThostFtdcInputOrderActionField inputOrderAction) {
-		traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
+		if (isTraderLogin)
+			traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
+		else
+			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
 	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
@@ -187,44 +249,8 @@ public class JctpGateway {
 		inboundQueue.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
 	}
 
-	public void qureyAccount() {
-		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
-		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
-		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
-		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
-		traderApi.ReqQryTradingAccount(qryTradingAccount, ++traderRequestId);
-		logger.info("ReqQryTradingAccount OK");
-	}
-
-	public void qureyPosition() {
-		CThostFtdcQryInvestorPositionField qryInvestorPosition = new CThostFtdcQryInvestorPositionField();
-		qryInvestorPosition.setBrokerID(userInfo.getBrokerId());
-		qryInvestorPosition.setInvestorID(userInfo.getInvestorId());
-		traderApi.ReqQryInvestorPosition(qryInvestorPosition, ++traderRequestId);
-	}
-
-	void onMdFrontConnected() {
-		CThostFtdcReqUserLoginField reqUserLogin = new CThostFtdcReqUserLoginField();
-		reqUserLogin.setBrokerID(userInfo.getBrokerId());
-		reqUserLogin.setUserID(userInfo.getUserId());
-		reqUserLogin.setPassword(userInfo.getPassword());
-		mdApi.ReqUserLogin(reqUserLogin, ++mdRequestId);
-		logger.info("Send Md ReqUserLogin OK");
-	}
-
-	void onMdRspUserLogin(CThostFtdcRspUserLoginField rspUserLogin) {
-		logger.info("Md UserLogin Success -> Brokerid==[{}] UserID==[{}]", rspUserLogin.getBrokerID(),
-				rspUserLogin.getUserID());
-		this.isMdLogin = true;
-		this.subscribeMarketData(new HashSet<>());
-	}
-
-	void onRspSubMarketData(CThostFtdcSpecificInstrumentField specificInstrument) {
-		logger.info("SubscribeMarketData Success -> InstrumentCode==[{}]", specificInstrument);
-	}
-
-	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketData));
+	void onRspError(CThostFtdcRspInfoField rspInfo) {
+		logger.error("onRspError -> ErrorID==[{}], ErrorMsg==[{}]", rspInfo.getErrorID(), rspInfo.getErrorMsg());
 	}
 
 	void onTraderFrontConnected() {
@@ -242,34 +268,58 @@ public class JctpGateway {
 				rspUserLogin.getUserID());
 		this.isTraderLogin = true;
 		qureyAccount();
+		ThreadUtil.sleep(1500);
 		qureyPosition();
+		ThreadUtil.sleep(1500);
+		qureySettlementInfo();
+	}
 
+	public void qureyAccount() {
+		CThostFtdcQryTradingAccountField qryTradingAccount = new CThostFtdcQryTradingAccountField();
+		qryTradingAccount.setBrokerID(userInfo.getBrokerId());
+		qryTradingAccount.setInvestorID(userInfo.getInvestorId());
+		qryTradingAccount.setCurrencyID(userInfo.getCurrencyId());
+		int nRequestID = ++traderRequestId;
+		traderApi.ReqQryTradingAccount(qryTradingAccount, nRequestID);
+		logger.info("Send ReqQryTradingAccount OK -> nRequestID==[{}]", nRequestID);
+	}
+
+	void onQryTradingAccount(CThostFtdcTradingAccountField tradingAccount) {
+		logger.info("onQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
+				tradingAccount.getBalance(), tradingAccount.getAvailable(), tradingAccount.getWithdrawQuota(),
+				tradingAccount.getCredit());
+	}
+
+	public void qureyPosition() {
+		CThostFtdcQryInvestorPositionField qryInvestorPosition = new CThostFtdcQryInvestorPositionField();
+		qryInvestorPosition.setBrokerID(userInfo.getBrokerId());
+		qryInvestorPosition.setInvestorID(userInfo.getInvestorId());
+		int nRequestID = ++traderRequestId;
+		traderApi.ReqQryInvestorPosition(qryInvestorPosition, nRequestID);
+		logger.info("Send ReqQryInvestorPosition OK -> nRequestID==[{}]", nRequestID);
+	}
+
+	void onRspQryInvestorPosition(CThostFtdcInvestorPositionField investorPosition) {
+		logger.info("onRspQryInvestorPosition -> InstrumentID==[{}] InvestorID==[{}] Position==[{}]",
+				investorPosition.getInstrumentID(), investorPosition.getInvestorID(), investorPosition.getPosition());
+	}
+
+	public void qureySettlementInfo() {
 		CThostFtdcQrySettlementInfoField qrySettlementInfo = new CThostFtdcQrySettlementInfoField();
 		qrySettlementInfo.setBrokerID(userInfo.getBrokerId());
 		qrySettlementInfo.setInvestorID(userInfo.getInvestorId());
 		qrySettlementInfo.setTradingDay(userInfo.getTradingDay());
 		qrySettlementInfo.setAccountID(userInfo.getAccountId());
 		qrySettlementInfo.setCurrencyID(userInfo.getCurrencyId());
-		traderApi.ReqQrySettlementInfo(qrySettlementInfo, ++traderRequestId);
-		logger.info("ReqQrySettlementInfo OK");
+		int nRequestID = ++traderRequestId;
+		traderApi.ReqQrySettlementInfo(qrySettlementInfo, nRequestID);
+		logger.info("Send ReqQrySettlementInfo OK -> nRequestID==[{}]", nRequestID);
+	}
 
+	public void qureyInstrument() {
 		CThostFtdcQryInstrumentField qryInstrument = new CThostFtdcQryInstrumentField();
 		traderApi.ReqQryInstrument(qryInstrument, ++traderRequestId);
-		logger.info("ReqQryInstrument OK");
-	}
-
-	void onQryTradingAccount(CThostFtdcTradingAccountField tradingAccount) {
-		logger.info("OnRspQryTradingAccount -> Balance==[{}] Available==[{}] WithdrawQuota==[{}] Credit==[{}]",
-				tradingAccount.getBalance(), tradingAccount.getAvailable(), tradingAccount.getWithdrawQuota(),
-				tradingAccount.getCredit());
-	}
-
-	void onRtnOrder(CThostFtdcOrderField order) {
-		inboundQueue.enqueue(RspMsg.ofRtnOrder(order));
-	}
-
-	void onRtnTrade(CThostFtdcTradeField trade) {
-		inboundQueue.enqueue(RspMsg.ofRtnTrade(trade));
+		logger.info("Send ReqQryInstrument OK");
 	}
 
 	/**
@@ -292,7 +342,7 @@ public class JctpGateway {
 
 	public static void main(String[] args) {
 
-		CtpUserInfo simnowUserInfo = CtpUserInfo.newEmpty().setTraderAddress(TradeAddress).setMdAddress(MdAddress)
+		JctpUserInfo simnowUserInfo = JctpUserInfo.newEmpty().setTraderAddress(TradeAddress).setMdAddress(MdAddress)
 				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
@@ -319,8 +369,7 @@ public class JctpGateway {
 						break;
 					}
 				}));
-		ThreadUtil.startNewThread(() -> gateway.initAndJoin(), "Gateway-Thread");
-
+		gateway.initAndJoin();
 		Set<String> instruementIdSet = new HashSet<>();
 		instruementIdSet.add("rb1905");
 		gateway.subscribeMarketData(instruementIdSet);

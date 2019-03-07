@@ -1,6 +1,6 @@
 package io.ffreedom.jctp;
 
-import static io.ffreedom.jctp.base.CtpRspValidator.validateRspInfo;
+import static io.ffreedom.jctp.base.JctpRspValidator.validateRspInfo;
 
 import org.slf4j.Logger;
 
