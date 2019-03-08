@@ -102,7 +102,6 @@ public class JctpGateway {
 			// 获取临时文件目录
 			File tempDir = getTempDir();
 			try {
-				ThreadUtil.sleep(2000);
 				ThreadUtil.startNewThread(() -> mdInitAndJoin(tempDir), "Md-Spi-Thread");
 				ThreadUtil.sleep(2000);
 				ThreadUtil.startNewThread(() -> traderInitAndJoin(tempDir), "trader-Spi-Thread");
