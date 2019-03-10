@@ -29,20 +29,21 @@
 	</build>
 
 	<dependencies>
-		<!-- <dependency> <groupId>ctp</groupId> <artifactId>thostapi</artifactId> 
-			<version>1.0</version> <scope>system</scope> <systemPath>${project.basedir}/lib/thostapi.jar</systemPath> 
-			</dependency> -->
+		<!-- <dependency>
+			<groupId>ctp</groupId>
+			<artifactId>thostapi</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thostapi.jar</systemPath>
+		</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId> 
+			<version>1.2.3</version> </dependency> -->
 		<dependency>
 			<groupId>io.ffreedom</groupId>
 			<artifactId>commons</artifactId>
