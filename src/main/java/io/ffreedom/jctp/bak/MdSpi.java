@@ -114,7 +114,6 @@ public class MdSpi extends CThostFtdcMdSpi {
 	}
 
 	// 合约行情推送
-	@SuppressWarnings("unused")
 	@Override
 	public void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField pDepthMarketData) {
 		if (pDepthMarketData != null) {
