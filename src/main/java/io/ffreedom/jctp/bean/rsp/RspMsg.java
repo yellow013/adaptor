@@ -21,11 +21,17 @@ public final class RspMsg {
 	private CThostFtdcOrderActionField errRtnOrderAction;
 
 	public static final RspMsg ofDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		return new RspMsg(RspMsgType.DepthMarketData).setDepthMarketData(depthMarketData);
+		return new RspMsg(RspMsgType.DepthMarketData).setDepthMarketData(depthMarketData)
+				.setActDay(depthMarketData.getActionDay());
 	}
 
 	private RspMsg setDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
 		this.depthMarketData = depthMarketData;
+		return this;
+	}
+
+	private RspMsg setActDay(String actDay) {
+		this.actDay = actDay;
 		return this;
 	}
 
@@ -117,6 +123,10 @@ public final class RspMsg {
 
 	public CThostFtdcOrderActionField getErrRtnOrderAction() {
 		return errRtnOrderAction;
+	}
+
+	public String getActDay() {
+		return actDay;
 	}
 
 }

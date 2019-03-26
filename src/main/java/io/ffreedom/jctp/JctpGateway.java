@@ -201,6 +201,7 @@ public class JctpGateway {
 	}
 
 	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
+		logger.info("ActionDay == [{}]", depthMarketData.getActionDay());
 		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketData));
 	}
 
