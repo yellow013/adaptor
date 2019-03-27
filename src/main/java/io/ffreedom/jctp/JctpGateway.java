@@ -33,6 +33,7 @@ import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.JctpUserInfo;
+import io.ffreedom.jctp.bean.rsp.RspCtpDepthMarketData;
 import io.ffreedom.jctp.bean.rsp.RspMsg;
 
 public class JctpGateway {
@@ -201,7 +202,9 @@ public class JctpGateway {
 	}
 
 	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		logger.info("ActionDay == [{}]", depthMarketData.getActionDay());
+		logger.info("getActionDay() == [{}]", depthMarketData.getActionDay());
+		logger.info("getUpdateTime() == [{}]", depthMarketData.getUpdateTime());
+		logger.info("getUpdateMillisec() == [{}]", depthMarketData.getUpdateMillisec());
 		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketData));
 	}
 
@@ -331,6 +334,7 @@ public class JctpGateway {
 
 	/**
 	 * TEST MAIN
+	 * ##########################################################################
 	 */
 
 	private static String TradeAddress = "tcp://180.168.146.187:10000";
@@ -357,7 +361,7 @@ public class JctpGateway {
 				ArrayBlockingMPSCQueue.autoRunQueue("Simnow-Handle-Queue", 1024, msg -> {
 					switch (msg.getType()) {
 					case DepthMarketData:
-						CThostFtdcDepthMarketDataField depthMarketData = msg.getDepthMarketData();
+						RspCtpDepthMarketData depthMarketData = msg.getCtpDepthMarketData();
 						logger.info(
 								"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}]  UpdateTime==[{}]  UpdateMillisec==[{}]  AskPrice1==[{}]  BidPrice1==[{}]",
 								depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),

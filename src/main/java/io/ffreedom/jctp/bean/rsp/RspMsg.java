@@ -10,7 +10,7 @@ import ctp.thostapi.CThostFtdcTradeField;
 public final class RspMsg {
 
 	private RspMsgType type;
-	private CThostFtdcDepthMarketDataField depthMarketData;
+	private RspCtpDepthMarketData ctpDepthMarketData;
 	private CThostFtdcOrderField rtnOrder;
 	private CThostFtdcTradeField rtnTrade;
 
@@ -21,17 +21,36 @@ public final class RspMsg {
 	private CThostFtdcOrderActionField errRtnOrderAction;
 
 	public static final RspMsg ofDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		return new RspMsg(RspMsgType.DepthMarketData).setDepthMarketData(depthMarketData)
-				.setActDay(depthMarketData.getActionDay());
+		return new RspMsg(RspMsgType.DepthMarketData).setCtpDepthMarketData(new RspCtpDepthMarketData()
+				.setTradingDay(depthMarketData.getTradingDay()).setInstrumentID(depthMarketData.getInstrumentID())
+				.setExchangeID(depthMarketData.getExchangeID()).setLastPrice(depthMarketData.getLastPrice())
+				.setPreSettlementPrice(depthMarketData.getPreSettlementPrice())
+				.setPreClosePrice(depthMarketData.getPreClosePrice())
+				.setPreOpenInterest(depthMarketData.getPreOpenInterest()).setOpenPrice(depthMarketData.getOpenPrice())
+				.setHighestPrice(depthMarketData.getHighestPrice()).setLowestPrice(depthMarketData.getLowestPrice())
+				.setVolume(depthMarketData.getVolume()).setTurnover(depthMarketData.getTurnover())
+				.setOpenInterest(depthMarketData.getOpenInterest())
+				.setUpperLimitPrice(depthMarketData.getUpperLimitPrice())
+				.setLowerLimitPrice(depthMarketData.getLowerLimitPrice()).setBidPrice1(depthMarketData.getBidPrice1())
+				.setBidVolume1(depthMarketData.getBidVolume1()).setAskPrice1(depthMarketData.getAskPrice1())
+				.setAskVolume1(depthMarketData.getAskVolume1()).setBidPrice2(depthMarketData.getBidPrice2())
+				.setBidVolume2(depthMarketData.getBidVolume2()).setAskPrice2(depthMarketData.getAskPrice2())
+				.setAskVolume2(depthMarketData.getAskVolume2()).setBidPrice3(depthMarketData.getBidPrice3())
+				.setBidVolume3(depthMarketData.getBidVolume3()).setAskPrice3(depthMarketData.getAskPrice3())
+				.setAskVolume3(depthMarketData.getAskVolume3()).setBidPrice4(depthMarketData.getBidPrice4())
+				.setBidVolume4(depthMarketData.getBidVolume4()).setAskPrice4(depthMarketData.getAskPrice4())
+				.setAskVolume4(depthMarketData.getAskVolume4()).setBidPrice5(depthMarketData.getBidPrice5())
+				.setBidVolume5(depthMarketData.getBidVolume5()).setAskPrice5(depthMarketData.getAskPrice5())
+				.setAskVolume5(depthMarketData.getAskVolume5()).setAveragePrice(depthMarketData.getAveragePrice())
+				.setUpdateTime(depthMarketData.getUpdateTime()).setUpdateMillisec(depthMarketData.getUpdateMillisec()));
 	}
 
-	private RspMsg setDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		this.depthMarketData = depthMarketData;
-		return this;
+	public RspCtpDepthMarketData getCtpDepthMarketData() {
+		return ctpDepthMarketData;
 	}
 
-	private RspMsg setActDay(String actDay) {
-		this.actDay = actDay;
+	public RspMsg setCtpDepthMarketData(RspCtpDepthMarketData ctpDepthMarketData) {
+		this.ctpDepthMarketData = ctpDepthMarketData;
 		return this;
 	}
 
@@ -97,10 +116,6 @@ public final class RspMsg {
 		return type;
 	}
 
-	public CThostFtdcDepthMarketDataField getDepthMarketData() {
-		return depthMarketData;
-	}
-
 	public CThostFtdcOrderField getRtnOrder() {
 		return rtnOrder;
 	}
@@ -123,10 +138,6 @@ public final class RspMsg {
 
 	public CThostFtdcOrderActionField getErrRtnOrderAction() {
 		return errRtnOrderAction;
-	}
-
-	public String getActDay() {
-		return actDay;
 	}
 
 }
