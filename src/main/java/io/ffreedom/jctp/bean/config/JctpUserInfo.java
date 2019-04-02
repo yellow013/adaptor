@@ -1,29 +1,67 @@
-package io.ffreedom.jctp.bean;
+package io.ffreedom.jctp.bean.config;
 
 public class JctpUserInfo {
 
-	private String traderAddress = "tcp://180.168.146.187:10000";
-	private String mdAddress = "tcp://180.168.146.187:10010";
+	private String traderAddress;
+	private String mdAddress;
 
-	private String brokerId = "9999";
-	private String investorId = "005853";
-	private String accountId = "005853";
-	private String userId = "005853";
+	private String brokerId;
+	private String investorId;
+	private String accountId;
+	private String userId;
 	private String userProductInfo;
-	private String password = "jinpengpass101";
+	private String password;
+	private String authCode;
 
-	private String tradingDay = "20190201";
-	private String currencyId = "CNY";
+	private String tradingDay;
+	private String currencyId;
 
 	public static final JctpUserInfo newEmpty() {
 		return new JctpUserInfo();
 	}
 
-	private JctpUserInfo() {
-	}
-
 	public String getTraderAddress() {
 		return traderAddress;
+	}
+
+	public String getMdAddress() {
+		return mdAddress;
+	}
+
+	public String getBrokerId() {
+		return brokerId;
+	}
+
+	public String getInvestorId() {
+		return investorId;
+	}
+
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public String getUserProductInfo() {
+		return userProductInfo;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
+
+	public String getTradingDay() {
+		return tradingDay;
+	}
+
+	public String getCurrencyId() {
+		return currencyId;
 	}
 
 	public JctpUserInfo setTraderAddress(String traderAddress) {
@@ -31,17 +69,9 @@ public class JctpUserInfo {
 		return this;
 	}
 
-	public String getMdAddress() {
-		return mdAddress;
-	}
-
 	public JctpUserInfo setMdAddress(String mdAddress) {
 		this.mdAddress = mdAddress;
 		return this;
-	}
-
-	public String getBrokerId() {
-		return brokerId;
 	}
 
 	public JctpUserInfo setBrokerId(String brokerId) {
@@ -49,17 +79,9 @@ public class JctpUserInfo {
 		return this;
 	}
 
-	public String getInvestorId() {
-		return investorId;
-	}
-
 	public JctpUserInfo setInvestorId(String investorId) {
 		this.investorId = investorId;
 		return this;
-	}
-
-	public String getAccountId() {
-		return accountId;
 	}
 
 	public JctpUserInfo setAccountId(String accountId) {
@@ -67,17 +89,9 @@ public class JctpUserInfo {
 		return this;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
 	public JctpUserInfo setUserId(String userId) {
 		this.userId = userId;
 		return this;
-	}
-
-	public String getUserProductInfo() {
-		return userProductInfo;
 	}
 
 	public JctpUserInfo setUserProductInfo(String userProductInfo) {
@@ -85,26 +99,19 @@ public class JctpUserInfo {
 		return this;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	public JctpUserInfo setPassword(String password) {
 		this.password = password;
 		return this;
 	}
 
-	public String getTradingDay() {
-		return tradingDay;
+	public JctpUserInfo setAuthCode(String authCode) {
+		this.authCode = authCode;
+		return this;
 	}
 
 	public JctpUserInfo setTradingDay(String tradingDay) {
 		this.tradingDay = tradingDay;
 		return this;
-	}
-
-	public String getCurrencyId() {
-		return currencyId;
 	}
 
 	public JctpUserInfo setCurrencyId(String currencyId) {
