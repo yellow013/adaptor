@@ -1,6 +1,5 @@
 package io.ffreedom.jctp.bean.rsp;
 
-import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcOrderActionField;
 
@@ -12,8 +11,8 @@ public final class RspMsg {
 	private RtnOrder rtnOrder;
 	private RtnTrade rtnTrade;
 
-	private CThostFtdcInputOrderField rspOrderInsert;
-	private CThostFtdcInputOrderActionField rspOrderAction;
+	private RspOrderInsert rspOrderInsert;
+	private RspOrderAction rspOrderAction;
 
 	private CThostFtdcInputOrderField errRtnOrderInsert;
 	private CThostFtdcOrderActionField errRtnOrderAction;
@@ -49,20 +48,20 @@ public final class RspMsg {
 		return this;
 	}
 
-	public static final RspMsg ofRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
+	public static final RspMsg ofRspOrderInsert(RspOrderInsert rspOrderInsert) {
 		return new RspMsg(RspMsgType.RspOrderInsert).setRspOrderInsert(rspOrderInsert);
 	}
 
-	private RspMsg setRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
+	private RspMsg setRspOrderInsert(RspOrderInsert rspOrderInsert) {
 		this.rspOrderInsert = rspOrderInsert;
 		return this;
 	}
 
-	public static final RspMsg ofRspOrderAction(CThostFtdcInputOrderActionField rspOrderAction) {
+	public static final RspMsg ofRspOrderAction(RspOrderAction rspOrderAction) {
 		return new RspMsg(RspMsgType.RspOrderInsert).setRspOrderAction(rspOrderAction);
 	}
 
-	private RspMsg setRspOrderAction(CThostFtdcInputOrderActionField rspOrderAction) {
+	private RspMsg setRspOrderAction(RspOrderAction rspOrderAction) {
 		this.rspOrderAction = rspOrderAction;
 		return this;
 	}
@@ -101,11 +100,11 @@ public final class RspMsg {
 		return rtnTrade;
 	}
 
-	public CThostFtdcInputOrderField getRspOrderInsert() {
+	public RspOrderInsert getRspOrderInsert() {
 		return rspOrderInsert;
 	}
 
-	public CThostFtdcInputOrderActionField getRspOrderAction() {
+	public RspOrderAction getRspOrderAction() {
 		return rspOrderAction;
 	}
 
