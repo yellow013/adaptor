@@ -21,7 +21,6 @@ import io.ffreedom.jctp.base.Constant;
 import io.ffreedom.jctp.base.CtpConstant;
 import io.ffreedom.jctp.bean.req.ReqCancelOrder;
 import io.ffreedom.jctp.bean.req.ReqOrder;
-import io.ffreedom.jctp.config.CtpConfig;
 
 @Deprecated
 @SuppressWarnings("unused")

@@ -10,7 +10,6 @@ import ctp.thostapi.CThostFtdcReqUserLoginField;
 import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
-import io.ffreedom.jctp.config.CtpConfig;
 
 @Deprecated
 public class MdApi {

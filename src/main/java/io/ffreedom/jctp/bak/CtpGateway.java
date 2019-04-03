@@ -9,7 +9,6 @@ import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.req.ReqCancelOrder;
 import io.ffreedom.jctp.bean.req.ReqOrder;
-import io.ffreedom.jctp.config.CtpConfig;
 
 /**
  * @author yellow013
