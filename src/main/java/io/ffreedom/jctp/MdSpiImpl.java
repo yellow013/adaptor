@@ -26,7 +26,7 @@ public class MdSpiImpl extends CThostFtdcMdSpi {
 		logger.info("MdSpiImpl OnFrontConnected");
 		gateway.onMdFrontConnected();
 	}
-	
+
 	@Override
 	public void OnFrontDisconnected(int nReason) {
 		logger.warn("MdSpiImpl OnFrontDisconnected -> Reason==[{}]", nReason);

@@ -1,9 +1,10 @@
 package io.ffreedom.jctp;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.annotation.concurrent.NotThreadSafe;
 
 import org.slf4j.Logger;
 
@@ -30,12 +31,17 @@ import io.ffreedom.common.collect.ECollections;
 import io.ffreedom.common.datetime.DateTimeUtil;
 import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.queue.api.Queue;
-import io.ffreedom.common.queue.impl.ArrayBlockingMPSCQueue;
+import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.common.utils.ThreadUtil;
-import io.ffreedom.jctp.bean.JctpUserInfo;
-import io.ffreedom.jctp.bean.rsp.RspCtpDepthMarketData;
+import io.ffreedom.jctp.bean.config.JctpUserInfo;
 import io.ffreedom.jctp.bean.rsp.RspMsg;
+import io.ffreedom.jctp.converter.RspDepthMarketDataConverter;
+import io.ffreedom.jctp.converter.RspOrderActionConverter;
+import io.ffreedom.jctp.converter.RspOrderInsertConverter;
+import io.ffreedom.jctp.converter.RtnOrderConverter;
+import io.ffreedom.jctp.converter.RtnTradeConverter;
 
+@NotThreadSafe
 public class JctpGateway {
 
 	private static final Logger logger = CommonLoggerFactory.getLogger(JctpGateway.class);
@@ -171,7 +177,7 @@ public class JctpGateway {
 		logger.info("Md UserLogin Success -> Brokerid==[{}] UserID==[{}]", rspUserLogin.getBrokerID(),
 				rspUserLogin.getUserID());
 		this.isMdLogin = true;
-		subscribeMarketData(new HashSet<>());
+		innerSubscribeMarketData();
 	}
 
 	private Set<String> subscribeInstruementSet = ECollections.newUnifiedSet();
@@ -182,7 +188,14 @@ public class JctpGateway {
 	public void subscribeMarketData(Set<String> inputInstruementSet) {
 		subscribeInstruementSet.addAll(inputInstruementSet);
 		logger.info("Add Subscribe Instruement set -> addCount==[{}]", inputInstruementSet.size());
-		if (isMdLogin && !subscribeInstruementSet.isEmpty()) {
+		if (isMdLogin && !subscribeInstruementSet.isEmpty())
+			innerSubscribeMarketData();
+		else
+			logger.info("Cannot SubscribeMarketData -> isMdLogin==[false] ");
+	}
+
+	private void innerSubscribeMarketData() {
+		if (!subscribeInstruementSet.isEmpty()) {
 			String[] instruementIdList = new String[subscribeInstruementSet.size()];
 			Iterator<String> iterator = subscribeInstruementSet.iterator();
 			for (int i = 0; i < instruementIdList.length; i++) {
@@ -192,20 +205,20 @@ public class JctpGateway {
 			mdApi.SubscribeMarketData(instruementIdList, instruementIdList.length);
 			subscribeInstruementSet.clear();
 			logger.info("Send SubscribeMarketData -> count==[{}]", instruementIdList.length);
-		} else
-			logger.info("Cannot SubscribeMarketData -> isMdLogin==[{}] subscribeInstruementSet.isEmpty==[{}]",
-					isMdLogin, subscribeInstruementSet.isEmpty());
+		}
 	}
 
 	void onRspSubMarketData(CThostFtdcSpecificInstrumentField specificInstrument) {
 		logger.info("SubscribeMarketData Success -> InstrumentCode==[{}]", specificInstrument);
 	}
 
+	private RspDepthMarketDataConverter depthMarketDataConverter = new RspDepthMarketDataConverter();
+
 	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
-		logger.info("getActionDay() == [{}]", depthMarketData.getActionDay());
-		logger.info("getUpdateTime() == [{}]", depthMarketData.getUpdateTime());
-		logger.info("getUpdateMillisec() == [{}]", depthMarketData.getUpdateMillisec());
-		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketData));
+		logger.debug("Gateway onRtnDepthMarketData -> InstrumentID == [{}], UpdateTime==[{}], UpdateMillisec==[{}]",
+				depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),
+				depthMarketData.getUpdateMillisec());
+		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketDataConverter.convert(depthMarketData)));
 	}
 
 	/**
@@ -218,20 +231,30 @@ public class JctpGateway {
 			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
+	private RspOrderInsertConverter orderInsertConverter = new RspOrderInsertConverter();
+
 	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
-		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(rspOrderInsert));
+		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.convert(rspOrderInsert)));
 	}
 
 	void onErrRtnOrderInsert(CThostFtdcInputOrderField inputOrder) {
 		inboundQueue.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
 	}
 
-	void onRtnOrder(CThostFtdcOrderField order) {
-		inboundQueue.enqueue(RspMsg.ofRtnOrder(order));
+	private RtnOrderConverter rtnOrderConverter = new RtnOrderConverter();
+
+	void onRtnOrder(CThostFtdcOrderField rtnOrder) {
+		logger.debug("Gateway onRtnOrder -> AccountID==[{}], OrderRef==[{}]", rtnOrder.getAccountID(),
+				rtnOrder.getOrderRef());
+		inboundQueue.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.convert(rtnOrder)));
 	}
 
-	void onRtnTrade(CThostFtdcTradeField trade) {
-		inboundQueue.enqueue(RspMsg.ofRtnTrade(trade));
+	private RtnTradeConverter rtnTradeConverter = new RtnTradeConverter();
+
+	void onRtnTrade(CThostFtdcTradeField rtnTrade) {
+		logger.debug("Gateway onRtnTrade -> OrderRef==[{}], Price==[{}], Volume==[{}]", rtnTrade.getOrderRef(),
+				rtnTrade.getPrice(), rtnTrade.getVolume());
+		inboundQueue.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.convert(rtnTrade)));
 	}
 
 	/**
@@ -244,8 +267,10 @@ public class JctpGateway {
 			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
+	private RspOrderActionConverter orderActionConverter = new RspOrderActionConverter();
+
 	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
-		inboundQueue.enqueue(RspMsg.ofRspOrderAction(inputOrderAction));
+		inboundQueue.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.convert(inputOrderAction)));
 	}
 
 	void onErrRtnOrderAction(CThostFtdcOrderActionField orderAction) {
@@ -253,7 +278,8 @@ public class JctpGateway {
 	}
 
 	void onRspError(CThostFtdcRspInfoField rspInfo) {
-		logger.error("onRspError -> ErrorID==[{}], ErrorMsg==[{}]", rspInfo.getErrorID(), rspInfo.getErrorMsg());
+		logger.error("Gateway onRspError -> ErrorID==[{}], ErrorMsg==[{}]", rspInfo.getErrorID(),
+				StringUtil.gbkConversionToUtf8(rspInfo.getErrorMsg()));
 	}
 
 	void onTraderFrontConnected() {
@@ -330,60 +356,6 @@ public class JctpGateway {
 		CThostFtdcQryInstrumentField qryInstrument = new CThostFtdcQryInstrumentField();
 		traderApi.ReqQryInstrument(qryInstrument, ++traderRequestId);
 		logger.info("Send ReqQryInstrument OK");
-	}
-
-	/**
-	 * TEST MAIN
-	 * ##########################################################################
-	 */
-
-	private static String TradeAddress = "tcp://180.168.146.187:10000";
-	private static String MdAddress = "tcp://180.168.146.187:10010";
-
-	private static String BrokerId = "9999";
-	private static String InvestorId = "005853";
-	private static String UserId = "005853";
-	private static String AccountId = "005853";
-	private static String Password = "jinpengpass101";
-
-	private static String TradingDay = "20190201";
-	private static String CurrencyId = "CNY";
-
-	private static String GatewayId = "simnow_test";
-
-	public static void main(String[] args) {
-
-		JctpUserInfo simnowUserInfo = JctpUserInfo.newEmpty().setTraderAddress(TradeAddress).setMdAddress(MdAddress)
-				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
-				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
-
-		JctpGateway gateway = new JctpGateway(GatewayId, simnowUserInfo,
-				ArrayBlockingMPSCQueue.autoRunQueue("Simnow-Handle-Queue", 1024, msg -> {
-					switch (msg.getType()) {
-					case DepthMarketData:
-						RspCtpDepthMarketData depthMarketData = msg.getCtpDepthMarketData();
-						logger.info(
-								"Handle CThostFtdcDepthMarketDataField -> InstrumentID==[{}]  UpdateTime==[{}]  UpdateMillisec==[{}]  AskPrice1==[{}]  BidPrice1==[{}]",
-								depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),
-								depthMarketData.getUpdateMillisec(), depthMarketData.getAskPrice1(),
-								depthMarketData.getBidPrice1());
-						break;
-					case RtnOrder:
-						CThostFtdcOrderField order = msg.getRtnOrder();
-						logger.info("Handle RtnOrder -> OrderRef==[{}]", order.getOrderRef());
-						break;
-					case RtnTrade:
-						CThostFtdcTradeField trade = msg.getRtnTrade();
-						logger.info("Handle RtnTrade -> OrderRef==[{}]", trade.getOrderRef());
-						break;
-					default:
-						break;
-					}
-				}));
-		gateway.initAndJoin();
-		Set<String> instruementIdSet = new HashSet<>();
-		instruementIdSet.add("rb1905");
-		gateway.subscribeMarketData(instruementIdSet);
 	}
 
 }

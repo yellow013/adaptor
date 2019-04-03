@@ -19,6 +19,7 @@ import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
 import io.ffreedom.common.log.CommonLoggerFactory;
+import io.ffreedom.common.utils.StringUtil;
 
 public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
@@ -97,7 +98,8 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 			int nRequestID, boolean bIsLast) {
 		validateRspInfo("OnRspQrySettlementInfo", pRspInfo);
 		if (pSettlementInfo != null)
-			logger.info("OnRspQrySettlementInfo -> \n {}", pSettlementInfo.getContent());
+			logger.info("OnRspQrySettlementInfo -> \n {}",
+					StringUtil.gbkConversionToUtf8(pSettlementInfo.getContent()));
 		else
 			logger.warn("OnRspQrySettlementInfo return null");
 	}
@@ -156,6 +158,7 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
 	@Override
 	public void OnRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
+		logger.info("Unhandle OnRspError");
 		gateway.onRspError(pRspInfo);
 	}
 
