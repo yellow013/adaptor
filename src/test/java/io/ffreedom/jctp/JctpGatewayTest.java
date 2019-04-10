@@ -25,7 +25,7 @@ public class JctpGatewayTest {
 	private String InvestorId = "005853";
 	private String UserId = "005853";
 	private String AccountId = "005853";
-	private String Password = "jinpengpass101";
+	private String Password = "123456789";
 
 	private String TradingDay = "20190201";
 	private String CurrencyId = "CNY";
