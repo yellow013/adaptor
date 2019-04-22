@@ -40,7 +40,7 @@ public class JctpGatewayTest {
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
 		JctpGateway gateway = new JctpGateway(GatewayId, simnowUserInfo,
-				ArrayBlockingMPSCQueue.autoRunQueue("Simnow-Handle-Queue", 1024, msg -> {
+				ArrayBlockingMPSCQueue.autoStartQueue("Simnow-Handle-Queue", 1024, msg -> {
 					switch (msg.getType()) {
 					case DepthMarketData:
 						RspDepthMarketData depthMarketData = msg.getRspDepthMarketData();

@@ -27,7 +27,7 @@ import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
-import io.ffreedom.common.collect.ECollections;
+import io.ffreedom.common.collect.MutableSets;
 import io.ffreedom.common.datetime.DateTimeUtil;
 import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.queue.api.Queue;
@@ -180,7 +180,7 @@ public class JctpGateway {
 		innerSubscribeMarketData();
 	}
 
-	private Set<String> subscribeInstruementSet = ECollections.newUnifiedSet();
+	private Set<String> subscribeInstruementSet = MutableSets.newUnifiedSet();
 
 	/**
 	 * 行情相关调用和回调
