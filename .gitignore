@@ -35,11 +35,9 @@
 *.iml
 */*.iml
 
-
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-common/.factorypath
-transport/.factorypath
+.factorypath
 /target/
 /.apt_generated/
 /.apt_generated_tests/
