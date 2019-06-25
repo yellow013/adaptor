@@ -225,8 +225,14 @@ public class JctpGateway {
 	 * 报单相关调用和回调
 	 */
 	public void newOrder(CThostFtdcInputOrderField inputOrder) {
-		if (isTraderLogin)
+		if (isTraderLogin) {
+			//set account
+			// TODO
+			inputOrder.setAccountID(userInfo.getAccountId());
+			inputOrder.setUserID(userInfo.getUserId());
+			inputOrder.setBrokerID(userInfo.getBrokerId());
 			traderApi.ReqOrderInsert(inputOrder, ++traderRequestId);
+		}
 		else
 			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
@@ -261,8 +267,12 @@ public class JctpGateway {
 	 * 撤单相关调用和回调
 	 */
 	public void cancelOrder(CThostFtdcInputOrderActionField inputOrderAction) {
-		if (isTraderLogin)
+		if (isTraderLogin) {
+			inputOrderAction.setBrokerID(userInfo.getBrokerId());
+			inputOrderAction.setUserID(userInfo.getUserId());
+			inputOrderAction.setBrokerID(userInfo.getBrokerId());
 			traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
+		}
 		else
 			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
