@@ -64,7 +64,7 @@ public class JctpGatewayTest {
 				}));
 		gateway.initAndJoin();
 		Set<String> instruementIdSet = new HashSet<>();
-		instruementIdSet.add("rb1905");
+		instruementIdSet.add("rb1910");
 		gateway.subscribeMarketData(instruementIdSet);
 		ThreadUtil.join();
 	}
