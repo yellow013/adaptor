@@ -4,8 +4,8 @@ import java.util.HashSet;
 
 import org.slf4j.Logger;
 
+import io.ffreedom.common.concurrent.queue.api.Queue;
 import io.ffreedom.common.log.CommonLoggerFactory;
-import io.ffreedom.common.queue.api.Queue;
 import io.ffreedom.common.utils.ThreadUtil;
 import io.ffreedom.jctp.bean.req.ReqCancelOrder;
 import io.ffreedom.jctp.bean.req.ReqOrder;
