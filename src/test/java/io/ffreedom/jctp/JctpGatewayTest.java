@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 import io.ffreedom.common.concurrent.queue.impl.ArrayBlockingMPSCQueue;
 import io.ffreedom.common.log.CommonLoggerFactory;
-import io.ffreedom.common.utils.ThreadUtil;
+import io.ffreedom.common.thread.ThreadUtil;
 import io.ffreedom.jctp.bean.config.JctpUserInfo;
 import io.ffreedom.jctp.bean.rsp.RspDepthMarketData;
 import io.ffreedom.jctp.bean.rsp.RtnOrder;
