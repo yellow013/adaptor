@@ -6,7 +6,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import io.ffreedom.common.concurrent.queue.impl.ArrayBlockingMPSCQueue;
+import io.ffreedom.common.concurrent.queue.MpscArrayBlockingQueue;
 import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.thread.ThreadUtil;
 import io.ffreedom.jctp.bean.config.JctpUserInfo;
@@ -40,7 +40,7 @@ public class JctpGatewayTest {
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
 		JctpGateway gateway = new JctpGateway(GatewayId, simnowUserInfo,
-				ArrayBlockingMPSCQueue.autoStartQueue("Simnow-Handle-Queue", 1024, msg -> {
+				MpscArrayBlockingQueue.autoStartQueue("Simnow-Handle-Queue", 1024, msg -> {
 					switch (msg.getType()) {
 					case DepthMarketData:
 						RspDepthMarketData depthMarketData = msg.getRspDepthMarketData();

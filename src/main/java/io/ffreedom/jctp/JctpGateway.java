@@ -28,7 +28,7 @@ import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 import io.ffreedom.common.collections.MutableSets;
-import io.ffreedom.common.concurrent.queue.api.Queue;
+import io.ffreedom.common.collections.queue.api.Queue;
 import io.ffreedom.common.datetime.DateTimeUtil;
 import io.ffreedom.common.log.CommonLoggerFactory;
 import io.ffreedom.common.thread.ThreadUtil;
