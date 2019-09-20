@@ -98,7 +98,7 @@ public class JctpGateway {
 		// 创建临时文件存储目录
 		String tempFileHome = System.getProperty("user.home") + File.separator + "jctp";
 		File tempFileDir = new File(
-				tempFileHome + File.separator + gatewayId + File.separator + DateTimeUtil.getCurrentDate());
+				tempFileHome + File.separator + gatewayId + File.separator + DateTimeUtil.date());
 		if (!tempFileDir.exists())
 			tempFileDir.mkdirs();
 		return tempFileDir;
