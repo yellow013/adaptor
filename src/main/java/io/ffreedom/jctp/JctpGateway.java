@@ -289,7 +289,7 @@ public class JctpGateway {
 
 	void onRspError(CThostFtdcRspInfoField rspInfo) {
 		logger.error("Gateway onRspError -> ErrorID==[{}], ErrorMsg==[{}]", rspInfo.getErrorID(),
-				StringUtil.gbkConversionToUtf8(rspInfo.getErrorMsg()));
+				StringUtil.conversionGbkToUtf8(rspInfo.getErrorMsg()));
 	}
 
 	void onTraderFrontConnected() {

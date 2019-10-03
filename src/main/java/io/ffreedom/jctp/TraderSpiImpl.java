@@ -99,7 +99,7 @@ public class TraderSpiImpl extends CThostFtdcTraderSpi {
 		validateRspInfo("OnRspQrySettlementInfo", pRspInfo);
 		if (pSettlementInfo != null)
 			logger.info("OnRspQrySettlementInfo -> \n {}",
-					StringUtil.gbkConversionToUtf8(pSettlementInfo.getContent()));
+					StringUtil.conversionGbkToUtf8(pSettlementInfo.getContent()));
 		else
 			logger.warn("OnRspQrySettlementInfo return null");
 	}
