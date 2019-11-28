@@ -1,13 +1,14 @@
 package io.ffreedom.jctp.converter;
 
+import java.util.function.Function;
+
 import ctp.thostapi.CThostFtdcTradeField;
-import io.ffreedom.common.functional.Converter;
 import io.ffreedom.jctp.bean.rsp.RtnTrade;
 
-public class RtnTradeConverter implements Converter<CThostFtdcTradeField, RtnTrade> {
+public class RtnTradeConverter implements Function<CThostFtdcTradeField, RtnTrade> {
 
 	@Override
-	public RtnTrade convert(CThostFtdcTradeField from) {
+	public RtnTrade apply(CThostFtdcTradeField from) {
 		return new RtnTrade().setBrokerID(from.getBrokerID()).setInvestorID(from.getInvestorID())
 				.setInstrumentID(from.getInstrumentID()).setOrderRef(from.getOrderRef()).setUserID(from.getUserID())
 				.setExchangeID(from.getExchangeID()).setTradeID(from.getTradeID()).setDirection(from.getDirection())

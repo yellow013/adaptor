@@ -3,6 +3,7 @@ package io.ffreedom.jctp;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -27,19 +28,19 @@ import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
-import io.ffreedom.common.collections.MutableSets;
-import io.ffreedom.common.collections.queue.api.Queue;
-import io.ffreedom.common.datetime.DateTimeUtil;
-import io.ffreedom.common.log.CommonLoggerFactory;
-import io.ffreedom.common.thread.ThreadUtil;
-import io.ffreedom.common.utils.StringUtil;
 import io.ffreedom.jctp.bean.config.JctpUserInfo;
+import io.ffreedom.jctp.bean.rsp.RspDepthMarketData;
 import io.ffreedom.jctp.bean.rsp.RspMsg;
-import io.ffreedom.jctp.converter.RspDepthMarketDataConverter;
 import io.ffreedom.jctp.converter.RspOrderActionConverter;
 import io.ffreedom.jctp.converter.RspOrderInsertConverter;
 import io.ffreedom.jctp.converter.RtnOrderConverter;
 import io.ffreedom.jctp.converter.RtnTradeConverter;
+import io.mercury.common.collections.MutableSets;
+import io.mercury.common.collections.queue.api.Queue;
+import io.mercury.common.datetime.DateTimeUtil;
+import io.mercury.common.log.CommonLoggerFactory;
+import io.mercury.common.thread.ThreadUtil;
+import io.mercury.common.utils.StringUtil;
 
 @NotThreadSafe
 public class JctpGateway {
@@ -97,8 +98,7 @@ public class JctpGateway {
 	private File getTempDir() {
 		// 创建临时文件存储目录
 		String tempFileHome = System.getProperty("user.home") + File.separator + "jctp";
-		File tempFileDir = new File(
-				tempFileHome + File.separator + gatewayId + File.separator + DateTimeUtil.date());
+		File tempFileDir = new File(tempFileHome + File.separator + gatewayId + File.separator + DateTimeUtil.date());
 		if (!tempFileDir.exists())
 			tempFileDir.mkdirs();
 		return tempFileDir;
@@ -212,13 +212,36 @@ public class JctpGateway {
 		logger.info("SubscribeMarketData Success -> InstrumentCode==[{}]", specificInstrument);
 	}
 
-	private RspDepthMarketDataConverter depthMarketDataConverter = new RspDepthMarketDataConverter();
+	private Function<CThostFtdcDepthMarketDataField, RspDepthMarketData> depthMarketDataFunction = (
+			CThostFtdcDepthMarketDataField from) -> {
+		return new RspDepthMarketData().setTradingDay(from.getTradingDay()).setInstrumentID(from.getInstrumentID())
+				.setExchangeID(from.getExchangeID()).setExchangeInstID(from.getExchangeInstID())
+				.setLastPrice(from.getLastPrice()).setPreSettlementPrice(from.getPreSettlementPrice())
+				.setPreClosePrice(from.getPreClosePrice()).setPreOpenInterest(from.getPreOpenInterest())
+				.setOpenPrice(from.getOpenPrice()).setHighestPrice(from.getHighestPrice())
+				.setLowestPrice(from.getLowestPrice()).setVolume(from.getVolume()).setTurnover(from.getTurnover())
+				.setOpenInterest(from.getOpenInterest()).setClosePrice(from.getClosePrice())
+				.setSettlementPrice(from.getSettlementPrice()).setUpperLimitPrice(from.getUpperLimitPrice())
+				.setLowerLimitPrice(from.getLowerLimitPrice()).setPreDelta(from.getPreDelta())
+				.setCurrDelta(from.getCurrDelta()).setBidPrice1(from.getBidPrice1()).setBidVolume1(from.getBidVolume1())
+				.setAskPrice1(from.getAskPrice1()).setAskVolume1(from.getAskVolume1()).setBidPrice2(from.getBidPrice2())
+				.setBidVolume2(from.getBidVolume2()).setAskPrice2(from.getAskPrice2())
+				.setAskVolume2(from.getAskVolume2()).setBidPrice3(from.getBidPrice3())
+				.setBidVolume3(from.getBidVolume3()).setAskPrice3(from.getAskPrice3())
+				.setAskVolume3(from.getAskVolume3()).setBidPrice4(from.getBidPrice4())
+				.setBidVolume4(from.getBidVolume4()).setAskPrice4(from.getAskPrice4())
+				.setAskVolume4(from.getAskVolume4()).setBidPrice5(from.getBidPrice5())
+				.setBidVolume5(from.getBidVolume5()).setAskPrice5(from.getAskPrice5())
+				.setAskVolume5(from.getAskVolume5()).setAveragePrice(from.getAveragePrice())
+				.setUpdateTime(from.getUpdateTime()).setUpdateMillisec(from.getUpdateMillisec())
+				.setActionDay(from.getActionDay());
+	};
 
 	void onRtnDepthMarketData(CThostFtdcDepthMarketDataField depthMarketData) {
 		logger.debug("Gateway onRtnDepthMarketData -> InstrumentID == [{}], UpdateTime==[{}], UpdateMillisec==[{}]",
 				depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),
 				depthMarketData.getUpdateMillisec());
-		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketDataConverter.convert(depthMarketData)));
+		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketDataFunction.apply(depthMarketData)));
 	}
 
 	/**
@@ -226,21 +249,20 @@ public class JctpGateway {
 	 */
 	public void newOrder(CThostFtdcInputOrderField inputOrder) {
 		if (isTraderLogin) {
-			//set account
+			// set account
 			// TODO
 			inputOrder.setAccountID(userInfo.getAccountId());
 			inputOrder.setUserID(userInfo.getUserId());
 			inputOrder.setBrokerID(userInfo.getBrokerId());
 			traderApi.ReqOrderInsert(inputOrder, ++traderRequestId);
-		}
-		else
+		} else
 			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
 	private RspOrderInsertConverter orderInsertConverter = new RspOrderInsertConverter();
 
 	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
-		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.convert(rspOrderInsert)));
+		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.apply(rspOrderInsert)));
 	}
 
 	void onErrRtnOrderInsert(CThostFtdcInputOrderField inputOrder) {
@@ -252,7 +274,7 @@ public class JctpGateway {
 	void onRtnOrder(CThostFtdcOrderField rtnOrder) {
 		logger.debug("Gateway onRtnOrder -> AccountID==[{}], OrderRef==[{}]", rtnOrder.getAccountID(),
 				rtnOrder.getOrderRef());
-		inboundQueue.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.convert(rtnOrder)));
+		inboundQueue.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.apply(rtnOrder)));
 	}
 
 	private RtnTradeConverter rtnTradeConverter = new RtnTradeConverter();
@@ -260,7 +282,7 @@ public class JctpGateway {
 	void onRtnTrade(CThostFtdcTradeField rtnTrade) {
 		logger.debug("Gateway onRtnTrade -> OrderRef==[{}], Price==[{}], Volume==[{}]", rtnTrade.getOrderRef(),
 				rtnTrade.getPrice(), rtnTrade.getVolume());
-		inboundQueue.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.convert(rtnTrade)));
+		inboundQueue.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.apply(rtnTrade)));
 	}
 
 	/**
@@ -272,15 +294,14 @@ public class JctpGateway {
 			inputOrderAction.setUserID(userInfo.getUserId());
 			inputOrderAction.setBrokerID(userInfo.getBrokerId());
 			traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
-		}
-		else
+		} else
 			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
 	private RspOrderActionConverter orderActionConverter = new RspOrderActionConverter();
 
 	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
-		inboundQueue.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.convert(inputOrderAction)));
+		inboundQueue.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.apply(inputOrderAction)));
 	}
 
 	void onErrRtnOrderAction(CThostFtdcOrderActionField orderAction) {

@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 
 import ctp.thostapi.CThostFtdcMdApi;
 import ctp.thostapi.CThostFtdcReqUserLoginField;
-import io.ffreedom.common.log.CommonLoggerFactory;
-import io.ffreedom.common.thread.ThreadUtil;
-import io.ffreedom.common.utils.StringUtil;
+import io.mercury.common.log.CommonLoggerFactory;
+import io.mercury.common.thread.ThreadUtil;
+import io.mercury.common.utils.StringUtil;
 
 @Deprecated
 public class MdApi {

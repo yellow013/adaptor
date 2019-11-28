@@ -1,13 +1,14 @@
 package io.ffreedom.jctp.converter;
 
+import java.util.function.Function;
+
 import ctp.thostapi.CThostFtdcInputOrderActionField;
-import io.ffreedom.common.functional.Converter;
 import io.ffreedom.jctp.bean.rsp.RspOrderAction;
 
-public class RspOrderActionConverter implements Converter<CThostFtdcInputOrderActionField, RspOrderAction> {
+public class RspOrderActionConverter implements Function<CThostFtdcInputOrderActionField, RspOrderAction> {
 
 	@Override
-	public RspOrderAction convert(CThostFtdcInputOrderActionField from) {
+	public RspOrderAction apply(CThostFtdcInputOrderActionField from) {
 		return new RspOrderAction().setBrokerID(from.getBrokerID()).setInvestorID(from.getInvestorID())
 				.setOrderActionRef(from.getOrderActionRef()).setOrderRef(from.getOrderRef())
 				.setRequestID(from.getRequestID()).setFrontID(from.getFrontID()).setSessionID(from.getSessionID())

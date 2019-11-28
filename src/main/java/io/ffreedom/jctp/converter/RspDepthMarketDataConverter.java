@@ -1,13 +1,14 @@
 package io.ffreedom.jctp.converter;
 
+import java.util.function.Function;
+
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
-import io.ffreedom.common.functional.Converter;
 import io.ffreedom.jctp.bean.rsp.RspDepthMarketData;
 
-public class RspDepthMarketDataConverter implements Converter<CThostFtdcDepthMarketDataField, RspDepthMarketData> {
+public class RspDepthMarketDataConverter implements Function<CThostFtdcDepthMarketDataField, RspDepthMarketData> {
 
 	@Override
-	public RspDepthMarketData convert(CThostFtdcDepthMarketDataField from) {
+	public RspDepthMarketData apply(CThostFtdcDepthMarketDataField from) {
 		return new RspDepthMarketData().setTradingDay(from.getTradingDay()).setInstrumentID(from.getInstrumentID())
 				.setExchangeID(from.getExchangeID()).setExchangeInstID(from.getExchangeInstID())
 				.setLastPrice(from.getLastPrice()).setPreSettlementPrice(from.getPreSettlementPrice())

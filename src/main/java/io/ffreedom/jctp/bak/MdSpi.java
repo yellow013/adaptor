@@ -11,7 +11,7 @@ import ctp.thostapi.CThostFtdcRspInfoField;
 import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
-import io.ffreedom.common.log.CommonLoggerFactory;
+import io.mercury.common.log.CommonLoggerFactory;
 
 @Deprecated
 @SuppressWarnings("unused")

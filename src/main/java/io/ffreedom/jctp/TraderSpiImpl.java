@@ -18,8 +18,8 @@ import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
-import io.ffreedom.common.log.CommonLoggerFactory;
-import io.ffreedom.common.utils.StringUtil;
+import io.mercury.common.log.CommonLoggerFactory;
+import io.mercury.common.utils.StringUtil;
 
 public class TraderSpiImpl extends CThostFtdcTraderSpi {
 

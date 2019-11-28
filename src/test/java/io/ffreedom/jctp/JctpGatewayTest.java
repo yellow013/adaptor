@@ -6,13 +6,13 @@ import java.util.Set;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import io.ffreedom.common.concurrent.queue.MpscArrayBlockingQueue;
-import io.ffreedom.common.log.CommonLoggerFactory;
-import io.ffreedom.common.thread.ThreadUtil;
 import io.ffreedom.jctp.bean.config.JctpUserInfo;
 import io.ffreedom.jctp.bean.rsp.RspDepthMarketData;
 import io.ffreedom.jctp.bean.rsp.RtnOrder;
 import io.ffreedom.jctp.bean.rsp.RtnTrade;
+import io.mercury.common.concurrent.queue.MpscArrayBlockingQueue;
+import io.mercury.common.log.CommonLoggerFactory;
+import io.mercury.common.thread.ThreadUtil;
 
 public class JctpGatewayTest {
 
