@@ -20,7 +20,7 @@ import io.ffreedom.jctp.bean.req.ReqCancelOrder;
 import io.ffreedom.jctp.bean.req.ReqOrder;
 import io.mercury.common.log.CommonLoggerFactory;
 import io.mercury.common.thread.ThreadUtil;
-import io.mercury.common.utils.StringUtil;
+import io.mercury.common.util.StringUtil;
 
 @Deprecated
 @SuppressWarnings("unused")
