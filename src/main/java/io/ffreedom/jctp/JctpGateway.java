@@ -40,7 +40,7 @@ import io.mercury.common.collections.queue.api.Queue;
 import io.mercury.common.datetime.DateTimeUtil;
 import io.mercury.common.log.CommonLoggerFactory;
 import io.mercury.common.thread.ThreadUtil;
-import io.mercury.common.utils.StringUtil;
+import io.mercury.common.util.StringUtil;
 
 @NotThreadSafe
 public class JctpGateway {

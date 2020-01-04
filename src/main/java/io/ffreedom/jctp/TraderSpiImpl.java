@@ -19,7 +19,7 @@ import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.CThostFtdcUserLogoutField;
 import io.mercury.common.log.CommonLoggerFactory;
-import io.mercury.common.utils.StringUtil;
+import io.mercury.common.util.StringUtil;
 
 public class TraderSpiImpl extends CThostFtdcTraderSpi {
 
