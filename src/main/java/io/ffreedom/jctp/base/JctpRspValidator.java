@@ -1,7 +1,7 @@
 package io.ffreedom.jctp.base;
 
 import ctp.thostapi.CThostFtdcRspInfoField;
-import io.mercury.common.utils.StringUtil;
+import io.mercury.common.util.StringUtil;
 
 public final class JctpRspValidator {
 
