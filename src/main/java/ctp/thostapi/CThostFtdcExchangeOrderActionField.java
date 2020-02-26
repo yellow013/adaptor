@@ -9,186 +9,186 @@
 package ctp.thostapi;
 
 public class CThostFtdcExchangeOrderActionField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcExchangeOrderActionField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcExchangeOrderActionField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcExchangeOrderActionField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcExchangeOrderActionField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcExchangeOrderActionField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcExchangeOrderActionField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setOrderSysID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderSysID_set(swigCPtr, this, value);
-  }
+	public void setOrderSysID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderSysID_set(swigCPtr, this, value);
+	}
 
-  public String getOrderSysID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderSysID_get(swigCPtr, this);
-  }
+	public String getOrderSysID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderSysID_get(swigCPtr, this);
+	}
 
-  public void setActionFlag(char value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionFlag_set(swigCPtr, this, value);
-  }
+	public void setActionFlag(char value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionFlag_set(swigCPtr, this, value);
+	}
 
-  public char getActionFlag() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionFlag_get(swigCPtr, this);
-  }
+	public char getActionFlag() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionFlag_get(swigCPtr, this);
+	}
 
-  public void setLimitPrice(double value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_LimitPrice_set(swigCPtr, this, value);
-  }
+	public void setLimitPrice(double value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_LimitPrice_set(swigCPtr, this, value);
+	}
 
-  public double getLimitPrice() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_LimitPrice_get(swigCPtr, this);
-  }
+	public double getLimitPrice() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_LimitPrice_get(swigCPtr, this);
+	}
 
-  public void setVolumeChange(int value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_VolumeChange_set(swigCPtr, this, value);
-  }
+	public void setVolumeChange(int value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_VolumeChange_set(swigCPtr, this, value);
+	}
 
-  public int getVolumeChange() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_VolumeChange_get(swigCPtr, this);
-  }
+	public int getVolumeChange() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_VolumeChange_get(swigCPtr, this);
+	}
 
-  public void setActionDate(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionDate_set(swigCPtr, this, value);
-  }
+	public void setActionDate(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionDate_set(swigCPtr, this, value);
+	}
 
-  public String getActionDate() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionDate_get(swigCPtr, this);
-  }
+	public String getActionDate() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionDate_get(swigCPtr, this);
+	}
 
-  public void setActionTime(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionTime_set(swigCPtr, this, value);
-  }
+	public void setActionTime(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionTime_set(swigCPtr, this, value);
+	}
 
-  public String getActionTime() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionTime_get(swigCPtr, this);
-  }
+	public String getActionTime() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionTime_get(swigCPtr, this);
+	}
 
-  public void setTraderID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_TraderID_set(swigCPtr, this, value);
-  }
+	public void setTraderID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_TraderID_set(swigCPtr, this, value);
+	}
 
-  public String getTraderID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_TraderID_get(swigCPtr, this);
-  }
+	public String getTraderID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_TraderID_get(swigCPtr, this);
+	}
 
-  public void setInstallID(int value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_InstallID_set(swigCPtr, this, value);
-  }
+	public void setInstallID(int value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_InstallID_set(swigCPtr, this, value);
+	}
 
-  public int getInstallID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_InstallID_get(swigCPtr, this);
-  }
+	public int getInstallID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_InstallID_get(swigCPtr, this);
+	}
 
-  public void setOrderLocalID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderLocalID_set(swigCPtr, this, value);
-  }
+	public void setOrderLocalID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderLocalID_set(swigCPtr, this, value);
+	}
 
-  public String getOrderLocalID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderLocalID_get(swigCPtr, this);
-  }
+	public String getOrderLocalID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderLocalID_get(swigCPtr, this);
+	}
 
-  public void setActionLocalID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionLocalID_set(swigCPtr, this, value);
-  }
+	public void setActionLocalID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionLocalID_set(swigCPtr, this, value);
+	}
 
-  public String getActionLocalID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionLocalID_get(swigCPtr, this);
-  }
+	public String getActionLocalID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ActionLocalID_get(swigCPtr, this);
+	}
 
-  public void setParticipantID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ParticipantID_set(swigCPtr, this, value);
-  }
+	public void setParticipantID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ParticipantID_set(swigCPtr, this, value);
+	}
 
-  public String getParticipantID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ParticipantID_get(swigCPtr, this);
-  }
+	public String getParticipantID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ParticipantID_get(swigCPtr, this);
+	}
 
-  public void setClientID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ClientID_set(swigCPtr, this, value);
-  }
+	public void setClientID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ClientID_set(swigCPtr, this, value);
+	}
 
-  public String getClientID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ClientID_get(swigCPtr, this);
-  }
+	public String getClientID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_ClientID_get(swigCPtr, this);
+	}
 
-  public void setBusinessUnit(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BusinessUnit_set(swigCPtr, this, value);
-  }
+	public void setBusinessUnit(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BusinessUnit_set(swigCPtr, this, value);
+	}
 
-  public String getBusinessUnit() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BusinessUnit_get(swigCPtr, this);
-  }
+	public String getBusinessUnit() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BusinessUnit_get(swigCPtr, this);
+	}
 
-  public void setOrderActionStatus(char value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderActionStatus_set(swigCPtr, this, value);
-  }
+	public void setOrderActionStatus(char value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderActionStatus_set(swigCPtr, this, value);
+	}
 
-  public char getOrderActionStatus() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderActionStatus_get(swigCPtr, this);
-  }
+	public char getOrderActionStatus() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_OrderActionStatus_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_UserID_get(swigCPtr, this);
+	}
 
-  public void setBranchID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BranchID_set(swigCPtr, this, value);
-  }
+	public void setBranchID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BranchID_set(swigCPtr, this, value);
+	}
 
-  public String getBranchID() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BranchID_get(swigCPtr, this);
-  }
+	public String getBranchID() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_BranchID_get(swigCPtr, this);
+	}
 
-  public void setIPAddress(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_IPAddress_set(swigCPtr, this, value);
-  }
+	public void setIPAddress(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_IPAddress_set(swigCPtr, this, value);
+	}
 
-  public String getIPAddress() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_IPAddress_get(swigCPtr, this);
-  }
+	public String getIPAddress() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_IPAddress_get(swigCPtr, this);
+	}
 
-  public void setMacAddress(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeOrderActionField_MacAddress_set(swigCPtr, this, value);
-  }
+	public void setMacAddress(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeOrderActionField_MacAddress_set(swigCPtr, this, value);
+	}
 
-  public String getMacAddress() {
-    return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_MacAddress_get(swigCPtr, this);
-  }
+	public String getMacAddress() {
+		return thosttraderapiJNI.CThostFtdcExchangeOrderActionField_MacAddress_get(swigCPtr, this);
+	}
 
-  public CThostFtdcExchangeOrderActionField() {
-    this(thosttraderapiJNI.new_CThostFtdcExchangeOrderActionField(), true);
-  }
+	public CThostFtdcExchangeOrderActionField() {
+		this(thosttraderapiJNI.new_CThostFtdcExchangeOrderActionField(), true);
+	}
 
 }

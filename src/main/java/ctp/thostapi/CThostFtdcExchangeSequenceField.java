@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcExchangeSequenceField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcExchangeSequenceField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcExchangeSequenceField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcExchangeSequenceField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcExchangeSequenceField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcExchangeSequenceField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcExchangeSequenceField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeSequenceField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeSequenceField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcExchangeSequenceField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcExchangeSequenceField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setSequenceNo(int value) {
-    thosttraderapiJNI.CThostFtdcExchangeSequenceField_SequenceNo_set(swigCPtr, this, value);
-  }
+	public void setSequenceNo(int value) {
+		thosttraderapiJNI.CThostFtdcExchangeSequenceField_SequenceNo_set(swigCPtr, this, value);
+	}
 
-  public int getSequenceNo() {
-    return thosttraderapiJNI.CThostFtdcExchangeSequenceField_SequenceNo_get(swigCPtr, this);
-  }
+	public int getSequenceNo() {
+		return thosttraderapiJNI.CThostFtdcExchangeSequenceField_SequenceNo_get(swigCPtr, this);
+	}
 
-  public void setMarketStatus(char value) {
-    thosttraderapiJNI.CThostFtdcExchangeSequenceField_MarketStatus_set(swigCPtr, this, value);
-  }
+	public void setMarketStatus(char value) {
+		thosttraderapiJNI.CThostFtdcExchangeSequenceField_MarketStatus_set(swigCPtr, this, value);
+	}
 
-  public char getMarketStatus() {
-    return thosttraderapiJNI.CThostFtdcExchangeSequenceField_MarketStatus_get(swigCPtr, this);
-  }
+	public char getMarketStatus() {
+		return thosttraderapiJNI.CThostFtdcExchangeSequenceField_MarketStatus_get(swigCPtr, this);
+	}
 
-  public CThostFtdcExchangeSequenceField() {
-    this(thosttraderapiJNI.new_CThostFtdcExchangeSequenceField(), true);
-  }
+	public CThostFtdcExchangeSequenceField() {
+		this(thosttraderapiJNI.new_CThostFtdcExchangeSequenceField(), true);
+	}
 
 }

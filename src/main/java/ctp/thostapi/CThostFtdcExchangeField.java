@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcExchangeField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcExchangeField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcExchangeField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcExchangeField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcExchangeField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcExchangeField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcExchangeField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcExchangeField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcExchangeField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setExchangeName(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeField_ExchangeName_set(swigCPtr, this, value);
-  }
+	public void setExchangeName(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeField_ExchangeName_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeName() {
-    return thosttraderapiJNI.CThostFtdcExchangeField_ExchangeName_get(swigCPtr, this);
-  }
+	public String getExchangeName() {
+		return thosttraderapiJNI.CThostFtdcExchangeField_ExchangeName_get(swigCPtr, this);
+	}
 
-  public void setExchangeProperty(char value) {
-    thosttraderapiJNI.CThostFtdcExchangeField_ExchangeProperty_set(swigCPtr, this, value);
-  }
+	public void setExchangeProperty(char value) {
+		thosttraderapiJNI.CThostFtdcExchangeField_ExchangeProperty_set(swigCPtr, this, value);
+	}
 
-  public char getExchangeProperty() {
-    return thosttraderapiJNI.CThostFtdcExchangeField_ExchangeProperty_get(swigCPtr, this);
-  }
+	public char getExchangeProperty() {
+		return thosttraderapiJNI.CThostFtdcExchangeField_ExchangeProperty_get(swigCPtr, this);
+	}
 
-  public CThostFtdcExchangeField() {
-    this(thosttraderapiJNI.new_CThostFtdcExchangeField(), true);
-  }
+	public CThostFtdcExchangeField() {
+		this(thosttraderapiJNI.new_CThostFtdcExchangeField(), true);
+	}
 
 }

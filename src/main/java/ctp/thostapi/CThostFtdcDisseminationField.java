@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcDisseminationField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcDisseminationField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcDisseminationField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcDisseminationField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcDisseminationField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcDisseminationField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcDisseminationField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setSequenceSeries(short value) {
-    thosttraderapiJNI.CThostFtdcDisseminationField_SequenceSeries_set(swigCPtr, this, value);
-  }
+	public void setSequenceSeries(short value) {
+		thosttraderapiJNI.CThostFtdcDisseminationField_SequenceSeries_set(swigCPtr, this, value);
+	}
 
-  public short getSequenceSeries() {
-    return thosttraderapiJNI.CThostFtdcDisseminationField_SequenceSeries_get(swigCPtr, this);
-  }
+	public short getSequenceSeries() {
+		return thosttraderapiJNI.CThostFtdcDisseminationField_SequenceSeries_get(swigCPtr, this);
+	}
 
-  public void setSequenceNo(int value) {
-    thosttraderapiJNI.CThostFtdcDisseminationField_SequenceNo_set(swigCPtr, this, value);
-  }
+	public void setSequenceNo(int value) {
+		thosttraderapiJNI.CThostFtdcDisseminationField_SequenceNo_set(swigCPtr, this, value);
+	}
 
-  public int getSequenceNo() {
-    return thosttraderapiJNI.CThostFtdcDisseminationField_SequenceNo_get(swigCPtr, this);
-  }
+	public int getSequenceNo() {
+		return thosttraderapiJNI.CThostFtdcDisseminationField_SequenceNo_get(swigCPtr, this);
+	}
 
-  public CThostFtdcDisseminationField() {
-    this(thosttraderapiJNI.new_CThostFtdcDisseminationField(), true);
-  }
+	public CThostFtdcDisseminationField() {
+		this(thosttraderapiJNI.new_CThostFtdcDisseminationField(), true);
+	}
 
 }

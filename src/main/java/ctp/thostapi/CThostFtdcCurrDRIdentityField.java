@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcCurrDRIdentityField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcCurrDRIdentityField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcCurrDRIdentityField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcCurrDRIdentityField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcCurrDRIdentityField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcCurrDRIdentityField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcCurrDRIdentityField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setDRIdentityID(int value) {
-    thosttraderapiJNI.CThostFtdcCurrDRIdentityField_DRIdentityID_set(swigCPtr, this, value);
-  }
+	public void setDRIdentityID(int value) {
+		thosttraderapiJNI.CThostFtdcCurrDRIdentityField_DRIdentityID_set(swigCPtr, this, value);
+	}
 
-  public int getDRIdentityID() {
-    return thosttraderapiJNI.CThostFtdcCurrDRIdentityField_DRIdentityID_get(swigCPtr, this);
-  }
+	public int getDRIdentityID() {
+		return thosttraderapiJNI.CThostFtdcCurrDRIdentityField_DRIdentityID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcCurrDRIdentityField() {
-    this(thosttraderapiJNI.new_CThostFtdcCurrDRIdentityField(), true);
-  }
+	public CThostFtdcCurrDRIdentityField() {
+		this(thosttraderapiJNI.new_CThostFtdcCurrDRIdentityField(), true);
+	}
 
 }

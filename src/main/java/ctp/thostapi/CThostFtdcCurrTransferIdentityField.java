@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcCurrTransferIdentityField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcCurrTransferIdentityField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcCurrTransferIdentityField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcCurrTransferIdentityField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcCurrTransferIdentityField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcCurrTransferIdentityField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcCurrTransferIdentityField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setIdentityID(int value) {
-    thosttraderapiJNI.CThostFtdcCurrTransferIdentityField_IdentityID_set(swigCPtr, this, value);
-  }
+	public void setIdentityID(int value) {
+		thosttraderapiJNI.CThostFtdcCurrTransferIdentityField_IdentityID_set(swigCPtr, this, value);
+	}
 
-  public int getIdentityID() {
-    return thosttraderapiJNI.CThostFtdcCurrTransferIdentityField_IdentityID_get(swigCPtr, this);
-  }
+	public int getIdentityID() {
+		return thosttraderapiJNI.CThostFtdcCurrTransferIdentityField_IdentityID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcCurrTransferIdentityField() {
-    this(thosttraderapiJNI.new_CThostFtdcCurrTransferIdentityField(), true);
-  }
+	public CThostFtdcCurrTransferIdentityField() {
+		this(thosttraderapiJNI.new_CThostFtdcCurrTransferIdentityField(), true);
+	}
 
 }

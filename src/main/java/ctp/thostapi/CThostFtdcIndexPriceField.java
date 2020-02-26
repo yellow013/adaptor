@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcIndexPriceField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcIndexPriceField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcIndexPriceField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcIndexPriceField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcIndexPriceField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcIndexPriceField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcIndexPriceField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcIndexPriceField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcIndexPriceField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcIndexPriceField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcIndexPriceField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcIndexPriceField_InstrumentID_set(swigCPtr, this, value);
-  }
+	public void setInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcIndexPriceField_InstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcIndexPriceField_InstrumentID_get(swigCPtr, this);
-  }
+	public String getInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcIndexPriceField_InstrumentID_get(swigCPtr, this);
+	}
 
-  public void setClosePrice(double value) {
-    thosttraderapiJNI.CThostFtdcIndexPriceField_ClosePrice_set(swigCPtr, this, value);
-  }
+	public void setClosePrice(double value) {
+		thosttraderapiJNI.CThostFtdcIndexPriceField_ClosePrice_set(swigCPtr, this, value);
+	}
 
-  public double getClosePrice() {
-    return thosttraderapiJNI.CThostFtdcIndexPriceField_ClosePrice_get(swigCPtr, this);
-  }
+	public double getClosePrice() {
+		return thosttraderapiJNI.CThostFtdcIndexPriceField_ClosePrice_get(swigCPtr, this);
+	}
 
-  public CThostFtdcIndexPriceField() {
-    this(thosttraderapiJNI.new_CThostFtdcIndexPriceField(), true);
-  }
+	public CThostFtdcIndexPriceField() {
+		this(thosttraderapiJNI.new_CThostFtdcIndexPriceField(), true);
+	}
 
 }

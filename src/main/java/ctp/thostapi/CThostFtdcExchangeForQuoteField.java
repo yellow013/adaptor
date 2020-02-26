@@ -9,130 +9,130 @@
 package ctp.thostapi;
 
 public class CThostFtdcExchangeForQuoteField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcExchangeForQuoteField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcExchangeForQuoteField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcExchangeForQuoteField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcExchangeForQuoteField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcExchangeForQuoteField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcExchangeForQuoteField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setForQuoteLocalID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteLocalID_set(swigCPtr, this, value);
-  }
+	public void setForQuoteLocalID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteLocalID_set(swigCPtr, this, value);
+	}
 
-  public String getForQuoteLocalID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteLocalID_get(swigCPtr, this);
-  }
+	public String getForQuoteLocalID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteLocalID_get(swigCPtr, this);
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setParticipantID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ParticipantID_set(swigCPtr, this, value);
-  }
+	public void setParticipantID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ParticipantID_set(swigCPtr, this, value);
+	}
 
-  public String getParticipantID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ParticipantID_get(swigCPtr, this);
-  }
+	public String getParticipantID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ParticipantID_get(swigCPtr, this);
+	}
 
-  public void setClientID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ClientID_set(swigCPtr, this, value);
-  }
+	public void setClientID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ClientID_set(swigCPtr, this, value);
+	}
 
-  public String getClientID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ClientID_get(swigCPtr, this);
-  }
+	public String getClientID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ClientID_get(swigCPtr, this);
+	}
 
-  public void setExchangeInstID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeInstID_set(swigCPtr, this, value);
-  }
+	public void setExchangeInstID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeInstID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeInstID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeInstID_get(swigCPtr, this);
-  }
+	public String getExchangeInstID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ExchangeInstID_get(swigCPtr, this);
+	}
 
-  public void setTraderID(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_TraderID_set(swigCPtr, this, value);
-  }
+	public void setTraderID(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_TraderID_set(swigCPtr, this, value);
+	}
 
-  public String getTraderID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_TraderID_get(swigCPtr, this);
-  }
+	public String getTraderID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_TraderID_get(swigCPtr, this);
+	}
 
-  public void setInstallID(int value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InstallID_set(swigCPtr, this, value);
-  }
+	public void setInstallID(int value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InstallID_set(swigCPtr, this, value);
+	}
 
-  public int getInstallID() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InstallID_get(swigCPtr, this);
-  }
+	public int getInstallID() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InstallID_get(swigCPtr, this);
+	}
 
-  public void setInsertDate(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertDate_set(swigCPtr, this, value);
-  }
+	public void setInsertDate(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertDate_set(swigCPtr, this, value);
+	}
 
-  public String getInsertDate() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertDate_get(swigCPtr, this);
-  }
+	public String getInsertDate() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertDate_get(swigCPtr, this);
+	}
 
-  public void setInsertTime(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertTime_set(swigCPtr, this, value);
-  }
+	public void setInsertTime(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertTime_set(swigCPtr, this, value);
+	}
 
-  public String getInsertTime() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertTime_get(swigCPtr, this);
-  }
+	public String getInsertTime() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_InsertTime_get(swigCPtr, this);
+	}
 
-  public void setForQuoteStatus(char value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteStatus_set(swigCPtr, this, value);
-  }
+	public void setForQuoteStatus(char value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteStatus_set(swigCPtr, this, value);
+	}
 
-  public char getForQuoteStatus() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteStatus_get(swigCPtr, this);
-  }
+	public char getForQuoteStatus() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_ForQuoteStatus_get(swigCPtr, this);
+	}
 
-  public void setIPAddress(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_IPAddress_set(swigCPtr, this, value);
-  }
+	public void setIPAddress(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_IPAddress_set(swigCPtr, this, value);
+	}
 
-  public String getIPAddress() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_IPAddress_get(swigCPtr, this);
-  }
+	public String getIPAddress() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_IPAddress_get(swigCPtr, this);
+	}
 
-  public void setMacAddress(String value) {
-    thosttraderapiJNI.CThostFtdcExchangeForQuoteField_MacAddress_set(swigCPtr, this, value);
-  }
+	public void setMacAddress(String value) {
+		thosttraderapiJNI.CThostFtdcExchangeForQuoteField_MacAddress_set(swigCPtr, this, value);
+	}
 
-  public String getMacAddress() {
-    return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_MacAddress_get(swigCPtr, this);
-  }
+	public String getMacAddress() {
+		return thosttraderapiJNI.CThostFtdcExchangeForQuoteField_MacAddress_get(swigCPtr, this);
+	}
 
-  public CThostFtdcExchangeForQuoteField() {
-    this(thosttraderapiJNI.new_CThostFtdcExchangeForQuoteField(), true);
-  }
+	public CThostFtdcExchangeForQuoteField() {
+		this(thosttraderapiJNI.new_CThostFtdcExchangeForQuoteField(), true);
+	}
 
 }

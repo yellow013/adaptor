@@ -9,74 +9,74 @@
 package ctp.thostapi;
 
 public class CThostFtdcForQuoteParamField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcForQuoteParamField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcForQuoteParamField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcForQuoteParamField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcForQuoteParamField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcForQuoteParamField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcForQuoteParamField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcForQuoteParamField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcForQuoteParamField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcForQuoteParamField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcForQuoteParamField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcForQuoteParamField_InstrumentID_set(swigCPtr, this, value);
-  }
+	public void setInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcForQuoteParamField_InstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcForQuoteParamField_InstrumentID_get(swigCPtr, this);
-  }
+	public String getInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcForQuoteParamField_InstrumentID_get(swigCPtr, this);
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcForQuoteParamField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcForQuoteParamField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcForQuoteParamField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcForQuoteParamField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setLastPrice(double value) {
-    thosttraderapiJNI.CThostFtdcForQuoteParamField_LastPrice_set(swigCPtr, this, value);
-  }
+	public void setLastPrice(double value) {
+		thosttraderapiJNI.CThostFtdcForQuoteParamField_LastPrice_set(swigCPtr, this, value);
+	}
 
-  public double getLastPrice() {
-    return thosttraderapiJNI.CThostFtdcForQuoteParamField_LastPrice_get(swigCPtr, this);
-  }
+	public double getLastPrice() {
+		return thosttraderapiJNI.CThostFtdcForQuoteParamField_LastPrice_get(swigCPtr, this);
+	}
 
-  public void setPriceInterval(double value) {
-    thosttraderapiJNI.CThostFtdcForQuoteParamField_PriceInterval_set(swigCPtr, this, value);
-  }
+	public void setPriceInterval(double value) {
+		thosttraderapiJNI.CThostFtdcForQuoteParamField_PriceInterval_set(swigCPtr, this, value);
+	}
 
-  public double getPriceInterval() {
-    return thosttraderapiJNI.CThostFtdcForQuoteParamField_PriceInterval_get(swigCPtr, this);
-  }
+	public double getPriceInterval() {
+		return thosttraderapiJNI.CThostFtdcForQuoteParamField_PriceInterval_get(swigCPtr, this);
+	}
 
-  public CThostFtdcForQuoteParamField() {
-    this(thosttraderapiJNI.new_CThostFtdcForQuoteParamField(), true);
-  }
+	public CThostFtdcForQuoteParamField() {
+		this(thosttraderapiJNI.new_CThostFtdcForQuoteParamField(), true);
+	}
 
 }
