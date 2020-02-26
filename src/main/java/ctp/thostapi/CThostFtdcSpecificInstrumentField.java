@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcSpecificInstrumentField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcSpecificInstrumentField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcSpecificInstrumentField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcSpecificInstrumentField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcSpecificInstrumentField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcSpecificInstrumentField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcSpecificInstrumentField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcSpecificInstrumentField_InstrumentID_set(swigCPtr, this, value);
-  }
+	public void setInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcSpecificInstrumentField_InstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcSpecificInstrumentField_InstrumentID_get(swigCPtr, this);
-  }
+	public String getInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcSpecificInstrumentField_InstrumentID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcSpecificInstrumentField() {
-    this(thosttraderapiJNI.new_CThostFtdcSpecificInstrumentField(), true);
-  }
+	public CThostFtdcSpecificInstrumentField() {
+		this(thosttraderapiJNI.new_CThostFtdcSpecificInstrumentField(), true);
+	}
 
 }

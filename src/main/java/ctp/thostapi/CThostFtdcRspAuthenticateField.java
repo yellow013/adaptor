@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcRspAuthenticateField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcRspAuthenticateField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcRspAuthenticateField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcRspAuthenticateField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcRspAuthenticateField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcRspAuthenticateField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcRspAuthenticateField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcRspAuthenticateField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcRspAuthenticateField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcRspAuthenticateField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcRspAuthenticateField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserID_get(swigCPtr, this);
+	}
 
-  public void setUserProductInfo(String value) {
-    thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserProductInfo_set(swigCPtr, this, value);
-  }
+	public void setUserProductInfo(String value) {
+		thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserProductInfo_set(swigCPtr, this, value);
+	}
 
-  public String getUserProductInfo() {
-    return thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserProductInfo_get(swigCPtr, this);
-  }
+	public String getUserProductInfo() {
+		return thosttraderapiJNI.CThostFtdcRspAuthenticateField_UserProductInfo_get(swigCPtr, this);
+	}
 
-  public CThostFtdcRspAuthenticateField() {
-    this(thosttraderapiJNI.new_CThostFtdcRspAuthenticateField(), true);
-  }
+	public CThostFtdcRspAuthenticateField() {
+		this(thosttraderapiJNI.new_CThostFtdcRspAuthenticateField(), true);
+	}
 
 }

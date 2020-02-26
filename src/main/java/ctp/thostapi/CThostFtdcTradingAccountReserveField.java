@@ -9,66 +9,66 @@
 package ctp.thostapi;
 
 public class CThostFtdcTradingAccountReserveField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcTradingAccountReserveField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcTradingAccountReserveField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcTradingAccountReserveField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcTradingAccountReserveField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcTradingAccountReserveField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcTradingAccountReserveField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcTradingAccountReserveField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcTradingAccountReserveField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setAccountID(String value) {
-    thosttraderapiJNI.CThostFtdcTradingAccountReserveField_AccountID_set(swigCPtr, this, value);
-  }
+	public void setAccountID(String value) {
+		thosttraderapiJNI.CThostFtdcTradingAccountReserveField_AccountID_set(swigCPtr, this, value);
+	}
 
-  public String getAccountID() {
-    return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_AccountID_get(swigCPtr, this);
-  }
+	public String getAccountID() {
+		return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_AccountID_get(swigCPtr, this);
+	}
 
-  public void setReserve(double value) {
-    thosttraderapiJNI.CThostFtdcTradingAccountReserveField_Reserve_set(swigCPtr, this, value);
-  }
+	public void setReserve(double value) {
+		thosttraderapiJNI.CThostFtdcTradingAccountReserveField_Reserve_set(swigCPtr, this, value);
+	}
 
-  public double getReserve() {
-    return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_Reserve_get(swigCPtr, this);
-  }
+	public double getReserve() {
+		return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_Reserve_get(swigCPtr, this);
+	}
 
-  public void setCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcTradingAccountReserveField_CurrencyID_set(swigCPtr, this, value);
-  }
+	public void setCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcTradingAccountReserveField_CurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_CurrencyID_get(swigCPtr, this);
-  }
+	public String getCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcTradingAccountReserveField_CurrencyID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcTradingAccountReserveField() {
-    this(thosttraderapiJNI.new_CThostFtdcTradingAccountReserveField(), true);
-  }
+	public CThostFtdcTradingAccountReserveField() {
+		this(thosttraderapiJNI.new_CThostFtdcTradingAccountReserveField(), true);
+	}
 
 }

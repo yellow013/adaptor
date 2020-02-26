@@ -9,66 +9,66 @@
 package ctp.thostapi;
 
 public class CThostFtdcTransferBankField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcTransferBankField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcTransferBankField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcTransferBankField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcTransferBankField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcTransferBankField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcTransferBankField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBankID(String value) {
-    thosttraderapiJNI.CThostFtdcTransferBankField_BankID_set(swigCPtr, this, value);
-  }
+	public void setBankID(String value) {
+		thosttraderapiJNI.CThostFtdcTransferBankField_BankID_set(swigCPtr, this, value);
+	}
 
-  public String getBankID() {
-    return thosttraderapiJNI.CThostFtdcTransferBankField_BankID_get(swigCPtr, this);
-  }
+	public String getBankID() {
+		return thosttraderapiJNI.CThostFtdcTransferBankField_BankID_get(swigCPtr, this);
+	}
 
-  public void setBankBrchID(String value) {
-    thosttraderapiJNI.CThostFtdcTransferBankField_BankBrchID_set(swigCPtr, this, value);
-  }
+	public void setBankBrchID(String value) {
+		thosttraderapiJNI.CThostFtdcTransferBankField_BankBrchID_set(swigCPtr, this, value);
+	}
 
-  public String getBankBrchID() {
-    return thosttraderapiJNI.CThostFtdcTransferBankField_BankBrchID_get(swigCPtr, this);
-  }
+	public String getBankBrchID() {
+		return thosttraderapiJNI.CThostFtdcTransferBankField_BankBrchID_get(swigCPtr, this);
+	}
 
-  public void setBankName(String value) {
-    thosttraderapiJNI.CThostFtdcTransferBankField_BankName_set(swigCPtr, this, value);
-  }
+	public void setBankName(String value) {
+		thosttraderapiJNI.CThostFtdcTransferBankField_BankName_set(swigCPtr, this, value);
+	}
 
-  public String getBankName() {
-    return thosttraderapiJNI.CThostFtdcTransferBankField_BankName_get(swigCPtr, this);
-  }
+	public String getBankName() {
+		return thosttraderapiJNI.CThostFtdcTransferBankField_BankName_get(swigCPtr, this);
+	}
 
-  public void setIsActive(int value) {
-    thosttraderapiJNI.CThostFtdcTransferBankField_IsActive_set(swigCPtr, this, value);
-  }
+	public void setIsActive(int value) {
+		thosttraderapiJNI.CThostFtdcTransferBankField_IsActive_set(swigCPtr, this, value);
+	}
 
-  public int getIsActive() {
-    return thosttraderapiJNI.CThostFtdcTransferBankField_IsActive_get(swigCPtr, this);
-  }
+	public int getIsActive() {
+		return thosttraderapiJNI.CThostFtdcTransferBankField_IsActive_get(swigCPtr, this);
+	}
 
-  public CThostFtdcTransferBankField() {
-    this(thosttraderapiJNI.new_CThostFtdcTransferBankField(), true);
-  }
+	public CThostFtdcTransferBankField() {
+		this(thosttraderapiJNI.new_CThostFtdcTransferBankField(), true);
+	}
 
 }

@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcRspInfoField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcRspInfoField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcRspInfoField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcRspInfoField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcRspInfoField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcRspInfoField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcRspInfoField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setErrorID(int value) {
-    thosttraderapiJNI.CThostFtdcRspInfoField_ErrorID_set(swigCPtr, this, value);
-  }
+	public void setErrorID(int value) {
+		thosttraderapiJNI.CThostFtdcRspInfoField_ErrorID_set(swigCPtr, this, value);
+	}
 
-  public int getErrorID() {
-    return thosttraderapiJNI.CThostFtdcRspInfoField_ErrorID_get(swigCPtr, this);
-  }
+	public int getErrorID() {
+		return thosttraderapiJNI.CThostFtdcRspInfoField_ErrorID_get(swigCPtr, this);
+	}
 
-  public void setErrorMsg(String value) {
-    thosttraderapiJNI.CThostFtdcRspInfoField_ErrorMsg_set(swigCPtr, this, value);
-  }
+	public void setErrorMsg(String value) {
+		thosttraderapiJNI.CThostFtdcRspInfoField_ErrorMsg_set(swigCPtr, this, value);
+	}
 
-  public String getErrorMsg() {
-    return thosttraderapiJNI.CThostFtdcRspInfoField_ErrorMsg_get(swigCPtr, this);
-  }
+	public String getErrorMsg() {
+		return thosttraderapiJNI.CThostFtdcRspInfoField_ErrorMsg_get(swigCPtr, this);
+	}
 
-  public CThostFtdcRspInfoField() {
-    this(thosttraderapiJNI.new_CThostFtdcRspInfoField(), true);
-  }
+	public CThostFtdcRspInfoField() {
+		this(thosttraderapiJNI.new_CThostFtdcRspInfoField(), true);
+	}
 
 }

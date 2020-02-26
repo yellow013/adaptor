@@ -9,66 +9,66 @@
 package ctp.thostapi;
 
 public class CThostFtdcTradeParamField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcTradeParamField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcTradeParamField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcTradeParamField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcTradeParamField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcTradeParamField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcTradeParamField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcTradeParamField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcTradeParamField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcTradeParamField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcTradeParamField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setTradeParamID(char value) {
-    thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamID_set(swigCPtr, this, value);
-  }
+	public void setTradeParamID(char value) {
+		thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamID_set(swigCPtr, this, value);
+	}
 
-  public char getTradeParamID() {
-    return thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamID_get(swigCPtr, this);
-  }
+	public char getTradeParamID() {
+		return thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamID_get(swigCPtr, this);
+	}
 
-  public void setTradeParamValue(String value) {
-    thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamValue_set(swigCPtr, this, value);
-  }
+	public void setTradeParamValue(String value) {
+		thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamValue_set(swigCPtr, this, value);
+	}
 
-  public String getTradeParamValue() {
-    return thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamValue_get(swigCPtr, this);
-  }
+	public String getTradeParamValue() {
+		return thosttraderapiJNI.CThostFtdcTradeParamField_TradeParamValue_get(swigCPtr, this);
+	}
 
-  public void setMemo(String value) {
-    thosttraderapiJNI.CThostFtdcTradeParamField_Memo_set(swigCPtr, this, value);
-  }
+	public void setMemo(String value) {
+		thosttraderapiJNI.CThostFtdcTradeParamField_Memo_set(swigCPtr, this, value);
+	}
 
-  public String getMemo() {
-    return thosttraderapiJNI.CThostFtdcTradeParamField_Memo_get(swigCPtr, this);
-  }
+	public String getMemo() {
+		return thosttraderapiJNI.CThostFtdcTradeParamField_Memo_get(swigCPtr, this);
+	}
 
-  public CThostFtdcTradeParamField() {
-    this(thosttraderapiJNI.new_CThostFtdcTradeParamField(), true);
-  }
+	public CThostFtdcTradeParamField() {
+		this(thosttraderapiJNI.new_CThostFtdcTradeParamField(), true);
+	}
 
 }

@@ -9,66 +9,66 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryUserSessionField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryUserSessionField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryUserSessionField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryUserSessionField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryUserSessionField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryUserSessionField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryUserSessionField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setFrontID(int value) {
-    thosttraderapiJNI.CThostFtdcQryUserSessionField_FrontID_set(swigCPtr, this, value);
-  }
+	public void setFrontID(int value) {
+		thosttraderapiJNI.CThostFtdcQryUserSessionField_FrontID_set(swigCPtr, this, value);
+	}
 
-  public int getFrontID() {
-    return thosttraderapiJNI.CThostFtdcQryUserSessionField_FrontID_get(swigCPtr, this);
-  }
+	public int getFrontID() {
+		return thosttraderapiJNI.CThostFtdcQryUserSessionField_FrontID_get(swigCPtr, this);
+	}
 
-  public void setSessionID(int value) {
-    thosttraderapiJNI.CThostFtdcQryUserSessionField_SessionID_set(swigCPtr, this, value);
-  }
+	public void setSessionID(int value) {
+		thosttraderapiJNI.CThostFtdcQryUserSessionField_SessionID_set(swigCPtr, this, value);
+	}
 
-  public int getSessionID() {
-    return thosttraderapiJNI.CThostFtdcQryUserSessionField_SessionID_get(swigCPtr, this);
-  }
+	public int getSessionID() {
+		return thosttraderapiJNI.CThostFtdcQryUserSessionField_SessionID_get(swigCPtr, this);
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryUserSessionField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryUserSessionField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryUserSessionField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryUserSessionField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcQryUserSessionField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcQryUserSessionField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcQryUserSessionField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcQryUserSessionField_UserID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryUserSessionField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryUserSessionField(), true);
-  }
+	public CThostFtdcQryUserSessionField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryUserSessionField(), true);
+	}
 
 }

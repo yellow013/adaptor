@@ -9,106 +9,106 @@
 package ctp.thostapi;
 
 public class CThostFtdcSyncDelaySwapField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcSyncDelaySwapField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcSyncDelaySwapField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcSyncDelaySwapField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcSyncDelaySwapField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcSyncDelaySwapField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcSyncDelaySwapField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setDelaySwapSeqNo(String value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_DelaySwapSeqNo_set(swigCPtr, this, value);
-  }
+	public void setDelaySwapSeqNo(String value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_DelaySwapSeqNo_set(swigCPtr, this, value);
+	}
 
-  public String getDelaySwapSeqNo() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_DelaySwapSeqNo_get(swigCPtr, this);
-  }
+	public String getDelaySwapSeqNo() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_DelaySwapSeqNo_get(swigCPtr, this);
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setFromCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromCurrencyID_set(swigCPtr, this, value);
-  }
+	public void setFromCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromCurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getFromCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromCurrencyID_get(swigCPtr, this);
-  }
+	public String getFromCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromCurrencyID_get(swigCPtr, this);
+	}
 
-  public void setFromAmount(double value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromAmount_set(swigCPtr, this, value);
-  }
+	public void setFromAmount(double value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromAmount_set(swigCPtr, this, value);
+	}
 
-  public double getFromAmount() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromAmount_get(swigCPtr, this);
-  }
+	public double getFromAmount() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromAmount_get(swigCPtr, this);
+	}
 
-  public void setFromFrozenSwap(double value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromFrozenSwap_set(swigCPtr, this, value);
-  }
+	public void setFromFrozenSwap(double value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromFrozenSwap_set(swigCPtr, this, value);
+	}
 
-  public double getFromFrozenSwap() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromFrozenSwap_get(swigCPtr, this);
-  }
+	public double getFromFrozenSwap() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromFrozenSwap_get(swigCPtr, this);
+	}
 
-  public void setFromRemainSwap(double value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromRemainSwap_set(swigCPtr, this, value);
-  }
+	public void setFromRemainSwap(double value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromRemainSwap_set(swigCPtr, this, value);
+	}
 
-  public double getFromRemainSwap() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromRemainSwap_get(swigCPtr, this);
-  }
+	public double getFromRemainSwap() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_FromRemainSwap_get(swigCPtr, this);
+	}
 
-  public void setToCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToCurrencyID_set(swigCPtr, this, value);
-  }
+	public void setToCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToCurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getToCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToCurrencyID_get(swigCPtr, this);
-  }
+	public String getToCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToCurrencyID_get(swigCPtr, this);
+	}
 
-  public void setToAmount(double value) {
-    thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToAmount_set(swigCPtr, this, value);
-  }
+	public void setToAmount(double value) {
+		thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToAmount_set(swigCPtr, this, value);
+	}
 
-  public double getToAmount() {
-    return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToAmount_get(swigCPtr, this);
-  }
+	public double getToAmount() {
+		return thosttraderapiJNI.CThostFtdcSyncDelaySwapField_ToAmount_get(swigCPtr, this);
+	}
 
-  public CThostFtdcSyncDelaySwapField() {
-    this(thosttraderapiJNI.new_CThostFtdcSyncDelaySwapField(), true);
-  }
+	public CThostFtdcSyncDelaySwapField() {
+		this(thosttraderapiJNI.new_CThostFtdcSyncDelaySwapField(), true);
+	}
 
 }

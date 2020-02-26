@@ -9,66 +9,66 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryTransferSerialField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryTransferSerialField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryTransferSerialField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryTransferSerialField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryTransferSerialField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryTransferSerialField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryTransferSerialField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryTransferSerialField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryTransferSerialField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryTransferSerialField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryTransferSerialField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setAccountID(String value) {
-    thosttraderapiJNI.CThostFtdcQryTransferSerialField_AccountID_set(swigCPtr, this, value);
-  }
+	public void setAccountID(String value) {
+		thosttraderapiJNI.CThostFtdcQryTransferSerialField_AccountID_set(swigCPtr, this, value);
+	}
 
-  public String getAccountID() {
-    return thosttraderapiJNI.CThostFtdcQryTransferSerialField_AccountID_get(swigCPtr, this);
-  }
+	public String getAccountID() {
+		return thosttraderapiJNI.CThostFtdcQryTransferSerialField_AccountID_get(swigCPtr, this);
+	}
 
-  public void setBankID(String value) {
-    thosttraderapiJNI.CThostFtdcQryTransferSerialField_BankID_set(swigCPtr, this, value);
-  }
+	public void setBankID(String value) {
+		thosttraderapiJNI.CThostFtdcQryTransferSerialField_BankID_set(swigCPtr, this, value);
+	}
 
-  public String getBankID() {
-    return thosttraderapiJNI.CThostFtdcQryTransferSerialField_BankID_get(swigCPtr, this);
-  }
+	public String getBankID() {
+		return thosttraderapiJNI.CThostFtdcQryTransferSerialField_BankID_get(swigCPtr, this);
+	}
 
-  public void setCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcQryTransferSerialField_CurrencyID_set(swigCPtr, this, value);
-  }
+	public void setCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcQryTransferSerialField_CurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcQryTransferSerialField_CurrencyID_get(swigCPtr, this);
-  }
+	public String getCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcQryTransferSerialField_CurrencyID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryTransferSerialField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryTransferSerialField(), true);
-  }
+	public CThostFtdcQryTransferSerialField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryTransferSerialField(), true);
+	}
 
 }

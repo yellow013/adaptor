@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcSuperUserFunctionField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcSuperUserFunctionField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcSuperUserFunctionField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcSuperUserFunctionField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcSuperUserFunctionField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcSuperUserFunctionField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcSuperUserFunctionField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcSuperUserFunctionField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcSuperUserFunctionField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcSuperUserFunctionField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcSuperUserFunctionField_UserID_get(swigCPtr, this);
+	}
 
-  public void setFunctionCode(char value) {
-    thosttraderapiJNI.CThostFtdcSuperUserFunctionField_FunctionCode_set(swigCPtr, this, value);
-  }
+	public void setFunctionCode(char value) {
+		thosttraderapiJNI.CThostFtdcSuperUserFunctionField_FunctionCode_set(swigCPtr, this, value);
+	}
 
-  public char getFunctionCode() {
-    return thosttraderapiJNI.CThostFtdcSuperUserFunctionField_FunctionCode_get(swigCPtr, this);
-  }
+	public char getFunctionCode() {
+		return thosttraderapiJNI.CThostFtdcSuperUserFunctionField_FunctionCode_get(swigCPtr, this);
+	}
 
-  public CThostFtdcSuperUserFunctionField() {
-    this(thosttraderapiJNI.new_CThostFtdcSuperUserFunctionField(), true);
-  }
+	public CThostFtdcSuperUserFunctionField() {
+		this(thosttraderapiJNI.new_CThostFtdcSuperUserFunctionField(), true);
+	}
 
 }

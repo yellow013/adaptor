@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcQrySyncStatusField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQrySyncStatusField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQrySyncStatusField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQrySyncStatusField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQrySyncStatusField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQrySyncStatusField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQrySyncStatusField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setTradingDay(String value) {
-    thosttraderapiJNI.CThostFtdcQrySyncStatusField_TradingDay_set(swigCPtr, this, value);
-  }
+	public void setTradingDay(String value) {
+		thosttraderapiJNI.CThostFtdcQrySyncStatusField_TradingDay_set(swigCPtr, this, value);
+	}
 
-  public String getTradingDay() {
-    return thosttraderapiJNI.CThostFtdcQrySyncStatusField_TradingDay_get(swigCPtr, this);
-  }
+	public String getTradingDay() {
+		return thosttraderapiJNI.CThostFtdcQrySyncStatusField_TradingDay_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQrySyncStatusField() {
-    this(thosttraderapiJNI.new_CThostFtdcQrySyncStatusField(), true);
-  }
+	public CThostFtdcQrySyncStatusField() {
+		this(thosttraderapiJNI.new_CThostFtdcQrySyncStatusField(), true);
+	}
 
 }

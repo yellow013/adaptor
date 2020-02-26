@@ -9,138 +9,138 @@
 package ctp.thostapi;
 
 public class CThostFtdcSyncingInvestorField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcSyncingInvestorField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcSyncingInvestorField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcSyncingInvestorField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcSyncingInvestorField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcSyncingInvestorField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcSyncingInvestorField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorGroupID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorGroupID_set(swigCPtr, this, value);
-  }
+	public void setInvestorGroupID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorGroupID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorGroupID() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorGroupID_get(swigCPtr, this);
-  }
+	public String getInvestorGroupID() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorGroupID_get(swigCPtr, this);
+	}
 
-  public void setInvestorName(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorName_set(swigCPtr, this, value);
-  }
+	public void setInvestorName(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorName_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorName() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorName_get(swigCPtr, this);
-  }
+	public String getInvestorName() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_InvestorName_get(swigCPtr, this);
+	}
 
-  public void setIdentifiedCardType(char value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardType_set(swigCPtr, this, value);
-  }
+	public void setIdentifiedCardType(char value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardType_set(swigCPtr, this, value);
+	}
 
-  public char getIdentifiedCardType() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardType_get(swigCPtr, this);
-  }
+	public char getIdentifiedCardType() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardType_get(swigCPtr, this);
+	}
 
-  public void setIdentifiedCardNo(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardNo_set(swigCPtr, this, value);
-  }
+	public void setIdentifiedCardNo(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardNo_set(swigCPtr, this, value);
+	}
 
-  public String getIdentifiedCardNo() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardNo_get(swigCPtr, this);
-  }
+	public String getIdentifiedCardNo() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_IdentifiedCardNo_get(swigCPtr, this);
+	}
 
-  public void setIsActive(int value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_IsActive_set(swigCPtr, this, value);
-  }
+	public void setIsActive(int value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_IsActive_set(swigCPtr, this, value);
+	}
 
-  public int getIsActive() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_IsActive_get(swigCPtr, this);
-  }
+	public int getIsActive() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_IsActive_get(swigCPtr, this);
+	}
 
-  public void setTelephone(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_Telephone_set(swigCPtr, this, value);
-  }
+	public void setTelephone(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_Telephone_set(swigCPtr, this, value);
+	}
 
-  public String getTelephone() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_Telephone_get(swigCPtr, this);
-  }
+	public String getTelephone() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_Telephone_get(swigCPtr, this);
+	}
 
-  public void setAddress(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_Address_set(swigCPtr, this, value);
-  }
+	public void setAddress(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_Address_set(swigCPtr, this, value);
+	}
 
-  public String getAddress() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_Address_get(swigCPtr, this);
-  }
+	public String getAddress() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_Address_get(swigCPtr, this);
+	}
 
-  public void setOpenDate(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_OpenDate_set(swigCPtr, this, value);
-  }
+	public void setOpenDate(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_OpenDate_set(swigCPtr, this, value);
+	}
 
-  public String getOpenDate() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_OpenDate_get(swigCPtr, this);
-  }
+	public String getOpenDate() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_OpenDate_get(swigCPtr, this);
+	}
 
-  public void setMobile(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_Mobile_set(swigCPtr, this, value);
-  }
+	public void setMobile(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_Mobile_set(swigCPtr, this, value);
+	}
 
-  public String getMobile() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_Mobile_get(swigCPtr, this);
-  }
+	public String getMobile() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_Mobile_get(swigCPtr, this);
+	}
 
-  public void setCommModelID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_CommModelID_set(swigCPtr, this, value);
-  }
+	public void setCommModelID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_CommModelID_set(swigCPtr, this, value);
+	}
 
-  public String getCommModelID() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_CommModelID_get(swigCPtr, this);
-  }
+	public String getCommModelID() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_CommModelID_get(swigCPtr, this);
+	}
 
-  public void setMarginModelID(String value) {
-    thosttraderapiJNI.CThostFtdcSyncingInvestorField_MarginModelID_set(swigCPtr, this, value);
-  }
+	public void setMarginModelID(String value) {
+		thosttraderapiJNI.CThostFtdcSyncingInvestorField_MarginModelID_set(swigCPtr, this, value);
+	}
 
-  public String getMarginModelID() {
-    return thosttraderapiJNI.CThostFtdcSyncingInvestorField_MarginModelID_get(swigCPtr, this);
-  }
+	public String getMarginModelID() {
+		return thosttraderapiJNI.CThostFtdcSyncingInvestorField_MarginModelID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcSyncingInvestorField() {
-    this(thosttraderapiJNI.new_CThostFtdcSyncingInvestorField(), true);
-  }
+	public CThostFtdcSyncingInvestorField() {
+		this(thosttraderapiJNI.new_CThostFtdcSyncingInvestorField(), true);
+	}
 
 }
