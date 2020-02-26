@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcLoginForbiddenIPField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcLoginForbiddenIPField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcLoginForbiddenIPField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcLoginForbiddenIPField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcLoginForbiddenIPField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcLoginForbiddenIPField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcLoginForbiddenIPField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setIPAddress(String value) {
-    thosttraderapiJNI.CThostFtdcLoginForbiddenIPField_IPAddress_set(swigCPtr, this, value);
-  }
+	public void setIPAddress(String value) {
+		thosttraderapiJNI.CThostFtdcLoginForbiddenIPField_IPAddress_set(swigCPtr, this, value);
+	}
 
-  public String getIPAddress() {
-    return thosttraderapiJNI.CThostFtdcLoginForbiddenIPField_IPAddress_get(swigCPtr, this);
-  }
+	public String getIPAddress() {
+		return thosttraderapiJNI.CThostFtdcLoginForbiddenIPField_IPAddress_get(swigCPtr, this);
+	}
 
-  public CThostFtdcLoginForbiddenIPField() {
-    this(thosttraderapiJNI.new_CThostFtdcLoginForbiddenIPField(), true);
-  }
+	public CThostFtdcLoginForbiddenIPField() {
+		this(thosttraderapiJNI.new_CThostFtdcLoginForbiddenIPField(), true);
+	}
 
 }

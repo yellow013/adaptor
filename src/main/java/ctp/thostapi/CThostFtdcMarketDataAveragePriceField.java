@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcMarketDataAveragePriceField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcMarketDataAveragePriceField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcMarketDataAveragePriceField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcMarketDataAveragePriceField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcMarketDataAveragePriceField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcMarketDataAveragePriceField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcMarketDataAveragePriceField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setAveragePrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataAveragePriceField_AveragePrice_set(swigCPtr, this, value);
-  }
+	public void setAveragePrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataAveragePriceField_AveragePrice_set(swigCPtr, this, value);
+	}
 
-  public double getAveragePrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataAveragePriceField_AveragePrice_get(swigCPtr, this);
-  }
+	public double getAveragePrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataAveragePriceField_AveragePrice_get(swigCPtr, this);
+	}
 
-  public CThostFtdcMarketDataAveragePriceField() {
-    this(thosttraderapiJNI.new_CThostFtdcMarketDataAveragePriceField(), true);
-  }
+	public CThostFtdcMarketDataAveragePriceField() {
+		this(thosttraderapiJNI.new_CThostFtdcMarketDataAveragePriceField(), true);
+	}
 
 }

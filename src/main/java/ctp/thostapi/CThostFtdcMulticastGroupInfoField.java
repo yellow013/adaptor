@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcMulticastGroupInfoField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcMulticastGroupInfoField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcMulticastGroupInfoField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcMulticastGroupInfoField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcMulticastGroupInfoField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcMulticastGroupInfoField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcMulticastGroupInfoField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setGroupIP(String value) {
-    thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupIP_set(swigCPtr, this, value);
-  }
+	public void setGroupIP(String value) {
+		thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupIP_set(swigCPtr, this, value);
+	}
 
-  public String getGroupIP() {
-    return thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupIP_get(swigCPtr, this);
-  }
+	public String getGroupIP() {
+		return thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupIP_get(swigCPtr, this);
+	}
 
-  public void setGroupPort(int value) {
-    thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupPort_set(swigCPtr, this, value);
-  }
+	public void setGroupPort(int value) {
+		thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupPort_set(swigCPtr, this, value);
+	}
 
-  public int getGroupPort() {
-    return thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupPort_get(swigCPtr, this);
-  }
+	public int getGroupPort() {
+		return thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_GroupPort_get(swigCPtr, this);
+	}
 
-  public void setSourceIP(String value) {
-    thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_SourceIP_set(swigCPtr, this, value);
-  }
+	public void setSourceIP(String value) {
+		thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_SourceIP_set(swigCPtr, this, value);
+	}
 
-  public String getSourceIP() {
-    return thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_SourceIP_get(swigCPtr, this);
-  }
+	public String getSourceIP() {
+		return thosttraderapiJNI.CThostFtdcMulticastGroupInfoField_SourceIP_get(swigCPtr, this);
+	}
 
-  public CThostFtdcMulticastGroupInfoField() {
-    this(thosttraderapiJNI.new_CThostFtdcMulticastGroupInfoField(), true);
-  }
+	public CThostFtdcMulticastGroupInfoField() {
+		this(thosttraderapiJNI.new_CThostFtdcMulticastGroupInfoField(), true);
+	}
 
 }

@@ -9,98 +9,98 @@
 package ctp.thostapi;
 
 public class CThostFtdcMarketDataStaticField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcMarketDataStaticField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcMarketDataStaticField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcMarketDataStaticField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcMarketDataStaticField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcMarketDataStaticField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcMarketDataStaticField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setOpenPrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_OpenPrice_set(swigCPtr, this, value);
-  }
+	public void setOpenPrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_OpenPrice_set(swigCPtr, this, value);
+	}
 
-  public double getOpenPrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_OpenPrice_get(swigCPtr, this);
-  }
+	public double getOpenPrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_OpenPrice_get(swigCPtr, this);
+	}
 
-  public void setHighestPrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_HighestPrice_set(swigCPtr, this, value);
-  }
+	public void setHighestPrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_HighestPrice_set(swigCPtr, this, value);
+	}
 
-  public double getHighestPrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_HighestPrice_get(swigCPtr, this);
-  }
+	public double getHighestPrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_HighestPrice_get(swigCPtr, this);
+	}
 
-  public void setLowestPrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowestPrice_set(swigCPtr, this, value);
-  }
+	public void setLowestPrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowestPrice_set(swigCPtr, this, value);
+	}
 
-  public double getLowestPrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowestPrice_get(swigCPtr, this);
-  }
+	public double getLowestPrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowestPrice_get(swigCPtr, this);
+	}
 
-  public void setClosePrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_ClosePrice_set(swigCPtr, this, value);
-  }
+	public void setClosePrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_ClosePrice_set(swigCPtr, this, value);
+	}
 
-  public double getClosePrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_ClosePrice_get(swigCPtr, this);
-  }
+	public double getClosePrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_ClosePrice_get(swigCPtr, this);
+	}
 
-  public void setUpperLimitPrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_UpperLimitPrice_set(swigCPtr, this, value);
-  }
+	public void setUpperLimitPrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_UpperLimitPrice_set(swigCPtr, this, value);
+	}
 
-  public double getUpperLimitPrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_UpperLimitPrice_get(swigCPtr, this);
-  }
+	public double getUpperLimitPrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_UpperLimitPrice_get(swigCPtr, this);
+	}
 
-  public void setLowerLimitPrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowerLimitPrice_set(swigCPtr, this, value);
-  }
+	public void setLowerLimitPrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowerLimitPrice_set(swigCPtr, this, value);
+	}
 
-  public double getLowerLimitPrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowerLimitPrice_get(swigCPtr, this);
-  }
+	public double getLowerLimitPrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_LowerLimitPrice_get(swigCPtr, this);
+	}
 
-  public void setSettlementPrice(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_SettlementPrice_set(swigCPtr, this, value);
-  }
+	public void setSettlementPrice(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_SettlementPrice_set(swigCPtr, this, value);
+	}
 
-  public double getSettlementPrice() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_SettlementPrice_get(swigCPtr, this);
-  }
+	public double getSettlementPrice() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_SettlementPrice_get(swigCPtr, this);
+	}
 
-  public void setCurrDelta(double value) {
-    thosttraderapiJNI.CThostFtdcMarketDataStaticField_CurrDelta_set(swigCPtr, this, value);
-  }
+	public void setCurrDelta(double value) {
+		thosttraderapiJNI.CThostFtdcMarketDataStaticField_CurrDelta_set(swigCPtr, this, value);
+	}
 
-  public double getCurrDelta() {
-    return thosttraderapiJNI.CThostFtdcMarketDataStaticField_CurrDelta_get(swigCPtr, this);
-  }
+	public double getCurrDelta() {
+		return thosttraderapiJNI.CThostFtdcMarketDataStaticField_CurrDelta_get(swigCPtr, this);
+	}
 
-  public CThostFtdcMarketDataStaticField() {
-    this(thosttraderapiJNI.new_CThostFtdcMarketDataStaticField(), true);
-  }
+	public CThostFtdcMarketDataStaticField() {
+		this(thosttraderapiJNI.new_CThostFtdcMarketDataStaticField(), true);
+	}
 
 }

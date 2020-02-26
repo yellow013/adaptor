@@ -9,218 +9,218 @@
 package ctp.thostapi;
 
 public class CThostFtdcNotifyFutureSignOutField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcNotifyFutureSignOutField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcNotifyFutureSignOutField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcNotifyFutureSignOutField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcNotifyFutureSignOutField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcNotifyFutureSignOutField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcNotifyFutureSignOutField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setTradeCode(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeCode_set(swigCPtr, this, value);
-  }
+	public void setTradeCode(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeCode_set(swigCPtr, this, value);
+	}
 
-  public String getTradeCode() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeCode_get(swigCPtr, this);
-  }
+	public String getTradeCode() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeCode_get(swigCPtr, this);
+	}
 
-  public void setBankID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankID_set(swigCPtr, this, value);
-  }
+	public void setBankID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankID_set(swigCPtr, this, value);
+	}
 
-  public String getBankID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankID_get(swigCPtr, this);
-  }
+	public String getBankID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankID_get(swigCPtr, this);
+	}
 
-  public void setBankBranchID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankBranchID_set(swigCPtr, this, value);
-  }
+	public void setBankBranchID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankBranchID_set(swigCPtr, this, value);
+	}
 
-  public String getBankBranchID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankBranchID_get(swigCPtr, this);
-  }
+	public String getBankBranchID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankBranchID_get(swigCPtr, this);
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setBrokerBranchID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerBranchID_set(swigCPtr, this, value);
-  }
+	public void setBrokerBranchID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerBranchID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerBranchID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerBranchID_get(swigCPtr, this);
-  }
+	public String getBrokerBranchID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerBranchID_get(swigCPtr, this);
+	}
 
-  public void setTradeDate(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeDate_set(swigCPtr, this, value);
-  }
+	public void setTradeDate(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeDate_set(swigCPtr, this, value);
+	}
 
-  public String getTradeDate() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeDate_get(swigCPtr, this);
-  }
+	public String getTradeDate() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeDate_get(swigCPtr, this);
+	}
 
-  public void setTradeTime(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeTime_set(swigCPtr, this, value);
-  }
+	public void setTradeTime(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeTime_set(swigCPtr, this, value);
+	}
 
-  public String getTradeTime() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeTime_get(swigCPtr, this);
-  }
+	public String getTradeTime() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradeTime_get(swigCPtr, this);
+	}
 
-  public void setBankSerial(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankSerial_set(swigCPtr, this, value);
-  }
+	public void setBankSerial(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankSerial_set(swigCPtr, this, value);
+	}
 
-  public String getBankSerial() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankSerial_get(swigCPtr, this);
-  }
+	public String getBankSerial() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BankSerial_get(swigCPtr, this);
+	}
 
-  public void setTradingDay(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradingDay_set(swigCPtr, this, value);
-  }
+	public void setTradingDay(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradingDay_set(swigCPtr, this, value);
+	}
 
-  public String getTradingDay() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradingDay_get(swigCPtr, this);
-  }
+	public String getTradingDay() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TradingDay_get(swigCPtr, this);
+	}
 
-  public void setPlateSerial(int value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_PlateSerial_set(swigCPtr, this, value);
-  }
+	public void setPlateSerial(int value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_PlateSerial_set(swigCPtr, this, value);
+	}
 
-  public int getPlateSerial() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_PlateSerial_get(swigCPtr, this);
-  }
+	public int getPlateSerial() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_PlateSerial_get(swigCPtr, this);
+	}
 
-  public void setLastFragment(char value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_LastFragment_set(swigCPtr, this, value);
-  }
+	public void setLastFragment(char value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_LastFragment_set(swigCPtr, this, value);
+	}
 
-  public char getLastFragment() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_LastFragment_get(swigCPtr, this);
-  }
+	public char getLastFragment() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_LastFragment_get(swigCPtr, this);
+	}
 
-  public void setSessionID(int value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_SessionID_set(swigCPtr, this, value);
-  }
+	public void setSessionID(int value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_SessionID_set(swigCPtr, this, value);
+	}
 
-  public int getSessionID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_SessionID_get(swigCPtr, this);
-  }
+	public int getSessionID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_SessionID_get(swigCPtr, this);
+	}
 
-  public void setInstallID(int value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_InstallID_set(swigCPtr, this, value);
-  }
+	public void setInstallID(int value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_InstallID_set(swigCPtr, this, value);
+	}
 
-  public int getInstallID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_InstallID_get(swigCPtr, this);
-  }
+	public int getInstallID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_InstallID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_UserID_get(swigCPtr, this);
+	}
 
-  public void setDigest(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_Digest_set(swigCPtr, this, value);
-  }
+	public void setDigest(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_Digest_set(swigCPtr, this, value);
+	}
 
-  public String getDigest() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_Digest_get(swigCPtr, this);
-  }
+	public String getDigest() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_Digest_get(swigCPtr, this);
+	}
 
-  public void setCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_CurrencyID_set(swigCPtr, this, value);
-  }
+	public void setCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_CurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_CurrencyID_get(swigCPtr, this);
-  }
+	public String getCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_CurrencyID_get(swigCPtr, this);
+	}
 
-  public void setDeviceID(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_DeviceID_set(swigCPtr, this, value);
-  }
+	public void setDeviceID(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_DeviceID_set(swigCPtr, this, value);
+	}
 
-  public String getDeviceID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_DeviceID_get(swigCPtr, this);
-  }
+	public String getDeviceID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_DeviceID_get(swigCPtr, this);
+	}
 
-  public void setBrokerIDByBank(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerIDByBank_set(swigCPtr, this, value);
-  }
+	public void setBrokerIDByBank(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerIDByBank_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerIDByBank() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerIDByBank_get(swigCPtr, this);
-  }
+	public String getBrokerIDByBank() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_BrokerIDByBank_get(swigCPtr, this);
+	}
 
-  public void setOperNo(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_OperNo_set(swigCPtr, this, value);
-  }
+	public void setOperNo(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_OperNo_set(swigCPtr, this, value);
+	}
 
-  public String getOperNo() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_OperNo_get(swigCPtr, this);
-  }
+	public String getOperNo() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_OperNo_get(swigCPtr, this);
+	}
 
-  public void setRequestID(int value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_RequestID_set(swigCPtr, this, value);
-  }
+	public void setRequestID(int value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_RequestID_set(swigCPtr, this, value);
+	}
 
-  public int getRequestID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_RequestID_get(swigCPtr, this);
-  }
+	public int getRequestID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_RequestID_get(swigCPtr, this);
+	}
 
-  public void setTID(int value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TID_set(swigCPtr, this, value);
-  }
+	public void setTID(int value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TID_set(swigCPtr, this, value);
+	}
 
-  public int getTID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TID_get(swigCPtr, this);
-  }
+	public int getTID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_TID_get(swigCPtr, this);
+	}
 
-  public void setErrorID(int value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorID_set(swigCPtr, this, value);
-  }
+	public void setErrorID(int value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorID_set(swigCPtr, this, value);
+	}
 
-  public int getErrorID() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorID_get(swigCPtr, this);
-  }
+	public int getErrorID() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorID_get(swigCPtr, this);
+	}
 
-  public void setErrorMsg(String value) {
-    thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorMsg_set(swigCPtr, this, value);
-  }
+	public void setErrorMsg(String value) {
+		thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorMsg_set(swigCPtr, this, value);
+	}
 
-  public String getErrorMsg() {
-    return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorMsg_get(swigCPtr, this);
-  }
+	public String getErrorMsg() {
+		return thosttraderapiJNI.CThostFtdcNotifyFutureSignOutField_ErrorMsg_get(swigCPtr, this);
+	}
 
-  public CThostFtdcNotifyFutureSignOutField() {
-    this(thosttraderapiJNI.new_CThostFtdcNotifyFutureSignOutField(), true);
-  }
+	public CThostFtdcNotifyFutureSignOutField() {
+		this(thosttraderapiJNI.new_CThostFtdcNotifyFutureSignOutField(), true);
+	}
 
 }

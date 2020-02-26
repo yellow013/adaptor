@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryBrokerField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryBrokerField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryBrokerField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryBrokerField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryBrokerField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryBrokerField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryBrokerField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryBrokerField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryBrokerField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryBrokerField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryBrokerField_BrokerID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryBrokerField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryBrokerField(), true);
-  }
+	public CThostFtdcQryBrokerField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryBrokerField(), true);
+	}
 
 }

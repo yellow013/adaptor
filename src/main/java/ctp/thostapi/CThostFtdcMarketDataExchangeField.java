@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcMarketDataExchangeField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcMarketDataExchangeField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcMarketDataExchangeField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcMarketDataExchangeField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcMarketDataExchangeField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcMarketDataExchangeField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcMarketDataExchangeField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcMarketDataExchangeField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcMarketDataExchangeField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcMarketDataExchangeField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcMarketDataExchangeField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcMarketDataExchangeField() {
-    this(thosttraderapiJNI.new_CThostFtdcMarketDataExchangeField(), true);
-  }
+	public CThostFtdcMarketDataExchangeField() {
+		this(thosttraderapiJNI.new_CThostFtdcMarketDataExchangeField(), true);
+	}
 
 }
