@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryLinkManField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryLinkManField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryLinkManField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryLinkManField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryLinkManField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryLinkManField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryLinkManField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryLinkManField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryLinkManField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryLinkManField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryLinkManField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryLinkManField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryLinkManField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryLinkManField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryLinkManField_InvestorID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryLinkManField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryLinkManField(), true);
-  }
+	public CThostFtdcQryLinkManField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryLinkManField(), true);
+	}
 
 }

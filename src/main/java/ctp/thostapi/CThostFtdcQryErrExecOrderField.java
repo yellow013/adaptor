@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryErrExecOrderField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryErrExecOrderField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryErrExecOrderField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryErrExecOrderField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryErrExecOrderField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryErrExecOrderField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryErrExecOrderField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryErrExecOrderField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryErrExecOrderField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryErrExecOrderField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryErrExecOrderField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryErrExecOrderField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryErrExecOrderField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryErrExecOrderField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryErrExecOrderField_InvestorID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryErrExecOrderField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryErrExecOrderField(), true);
-  }
+	public CThostFtdcQryErrExecOrderField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryErrExecOrderField(), true);
+	}
 
 }

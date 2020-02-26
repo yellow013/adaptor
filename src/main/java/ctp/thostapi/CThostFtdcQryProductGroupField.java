@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryProductGroupField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryProductGroupField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryProductGroupField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryProductGroupField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryProductGroupField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryProductGroupField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryProductGroupField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setProductID(String value) {
-    thosttraderapiJNI.CThostFtdcQryProductGroupField_ProductID_set(swigCPtr, this, value);
-  }
+	public void setProductID(String value) {
+		thosttraderapiJNI.CThostFtdcQryProductGroupField_ProductID_set(swigCPtr, this, value);
+	}
 
-  public String getProductID() {
-    return thosttraderapiJNI.CThostFtdcQryProductGroupField_ProductID_get(swigCPtr, this);
-  }
+	public String getProductID() {
+		return thosttraderapiJNI.CThostFtdcQryProductGroupField_ProductID_get(swigCPtr, this);
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcQryProductGroupField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcQryProductGroupField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcQryProductGroupField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcQryProductGroupField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryProductGroupField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryProductGroupField(), true);
-  }
+	public CThostFtdcQryProductGroupField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryProductGroupField(), true);
+	}
 
 }

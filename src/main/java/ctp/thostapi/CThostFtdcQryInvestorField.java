@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryInvestorField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryInvestorField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryInvestorField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryInvestorField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryInvestorField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryInvestorField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryInvestorField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorField_InvestorID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryInvestorField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryInvestorField(), true);
-  }
+	public CThostFtdcQryInvestorField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryInvestorField(), true);
+	}
 
 }

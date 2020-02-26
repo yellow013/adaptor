@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryOptionSelfCloseActionField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryOptionSelfCloseActionField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryOptionSelfCloseActionField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryOptionSelfCloseActionField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryOptionSelfCloseActionField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryOptionSelfCloseActionField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryOptionSelfCloseActionField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcQryOptionSelfCloseActionField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryOptionSelfCloseActionField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryOptionSelfCloseActionField(), true);
-  }
+	public CThostFtdcQryOptionSelfCloseActionField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryOptionSelfCloseActionField(), true);
+	}
 
 }

@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcQrySuperUserField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQrySuperUserField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQrySuperUserField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQrySuperUserField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQrySuperUserField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQrySuperUserField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQrySuperUserField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySuperUserField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySuperUserField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcQrySuperUserField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcQrySuperUserField_UserID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQrySuperUserField() {
-    this(thosttraderapiJNI.new_CThostFtdcQrySuperUserField(), true);
-  }
+	public CThostFtdcQrySuperUserField() {
+		this(thosttraderapiJNI.new_CThostFtdcQrySuperUserField(), true);
+	}
 
 }

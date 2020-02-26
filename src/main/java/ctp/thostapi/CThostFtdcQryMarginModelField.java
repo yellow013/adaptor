@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryMarginModelField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryMarginModelField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryMarginModelField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryMarginModelField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryMarginModelField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryMarginModelField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryMarginModelField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryMarginModelField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryMarginModelField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryMarginModelField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryMarginModelField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setMarginModelID(String value) {
-    thosttraderapiJNI.CThostFtdcQryMarginModelField_MarginModelID_set(swigCPtr, this, value);
-  }
+	public void setMarginModelID(String value) {
+		thosttraderapiJNI.CThostFtdcQryMarginModelField_MarginModelID_set(swigCPtr, this, value);
+	}
 
-  public String getMarginModelID() {
-    return thosttraderapiJNI.CThostFtdcQryMarginModelField_MarginModelID_get(swigCPtr, this);
-  }
+	public String getMarginModelID() {
+		return thosttraderapiJNI.CThostFtdcQryMarginModelField_MarginModelID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryMarginModelField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryMarginModelField(), true);
-  }
+	public CThostFtdcQryMarginModelField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryMarginModelField(), true);
+	}
 
 }

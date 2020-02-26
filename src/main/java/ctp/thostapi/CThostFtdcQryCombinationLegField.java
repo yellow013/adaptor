@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryCombinationLegField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryCombinationLegField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryCombinationLegField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryCombinationLegField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryCombinationLegField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryCombinationLegField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryCombinationLegField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setCombInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcQryCombinationLegField_CombInstrumentID_set(swigCPtr, this, value);
-  }
+	public void setCombInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcQryCombinationLegField_CombInstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getCombInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcQryCombinationLegField_CombInstrumentID_get(swigCPtr, this);
-  }
+	public String getCombInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcQryCombinationLegField_CombInstrumentID_get(swigCPtr, this);
+	}
 
-  public void setLegID(int value) {
-    thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegID_set(swigCPtr, this, value);
-  }
+	public void setLegID(int value) {
+		thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegID_set(swigCPtr, this, value);
+	}
 
-  public int getLegID() {
-    return thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegID_get(swigCPtr, this);
-  }
+	public int getLegID() {
+		return thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegID_get(swigCPtr, this);
+	}
 
-  public void setLegInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegInstrumentID_set(swigCPtr, this, value);
-  }
+	public void setLegInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegInstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getLegInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegInstrumentID_get(swigCPtr, this);
-  }
+	public String getLegInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcQryCombinationLegField_LegInstrumentID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryCombinationLegField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryCombinationLegField(), true);
-  }
+	public CThostFtdcQryCombinationLegField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryCombinationLegField(), true);
+	}
 
 }

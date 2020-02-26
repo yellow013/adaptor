@@ -9,74 +9,74 @@
 package ctp.thostapi;
 
 public class CThostFtdcQrySettlementInfoField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQrySettlementInfoField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQrySettlementInfoField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQrySettlementInfoField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQrySettlementInfoField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQrySettlementInfoField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQrySettlementInfoField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySettlementInfoField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySettlementInfoField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySettlementInfoField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySettlementInfoField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setTradingDay(String value) {
-    thosttraderapiJNI.CThostFtdcQrySettlementInfoField_TradingDay_set(swigCPtr, this, value);
-  }
+	public void setTradingDay(String value) {
+		thosttraderapiJNI.CThostFtdcQrySettlementInfoField_TradingDay_set(swigCPtr, this, value);
+	}
 
-  public String getTradingDay() {
-    return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_TradingDay_get(swigCPtr, this);
-  }
+	public String getTradingDay() {
+		return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_TradingDay_get(swigCPtr, this);
+	}
 
-  public void setAccountID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySettlementInfoField_AccountID_set(swigCPtr, this, value);
-  }
+	public void setAccountID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySettlementInfoField_AccountID_set(swigCPtr, this, value);
+	}
 
-  public String getAccountID() {
-    return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_AccountID_get(swigCPtr, this);
-  }
+	public String getAccountID() {
+		return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_AccountID_get(swigCPtr, this);
+	}
 
-  public void setCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySettlementInfoField_CurrencyID_set(swigCPtr, this, value);
-  }
+	public void setCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySettlementInfoField_CurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_CurrencyID_get(swigCPtr, this);
-  }
+	public String getCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcQrySettlementInfoField_CurrencyID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQrySettlementInfoField() {
-    this(thosttraderapiJNI.new_CThostFtdcQrySettlementInfoField(), true);
-  }
+	public CThostFtdcQrySettlementInfoField() {
+		this(thosttraderapiJNI.new_CThostFtdcQrySettlementInfoField(), true);
+	}
 
 }

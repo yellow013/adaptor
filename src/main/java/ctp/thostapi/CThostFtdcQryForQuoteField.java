@@ -9,90 +9,90 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryForQuoteField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryForQuoteField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryForQuoteField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryForQuoteField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryForQuoteField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryForQuoteField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryForQuoteField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_InstrumentID_set(swigCPtr, this, value);
-  }
+	public void setInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_InstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_InstrumentID_get(swigCPtr, this);
-  }
+	public String getInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_InstrumentID_get(swigCPtr, this);
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setInsertTimeStart(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeStart_set(swigCPtr, this, value);
-  }
+	public void setInsertTimeStart(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeStart_set(swigCPtr, this, value);
+	}
 
-  public String getInsertTimeStart() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeStart_get(swigCPtr, this);
-  }
+	public String getInsertTimeStart() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeStart_get(swigCPtr, this);
+	}
 
-  public void setInsertTimeEnd(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeEnd_set(swigCPtr, this, value);
-  }
+	public void setInsertTimeEnd(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeEnd_set(swigCPtr, this, value);
+	}
 
-  public String getInsertTimeEnd() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeEnd_get(swigCPtr, this);
-  }
+	public String getInsertTimeEnd() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_InsertTimeEnd_get(swigCPtr, this);
+	}
 
-  public void setInvestUnitID(String value) {
-    thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestUnitID_set(swigCPtr, this, value);
-  }
+	public void setInvestUnitID(String value) {
+		thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestUnitID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestUnitID() {
-    return thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestUnitID_get(swigCPtr, this);
-  }
+	public String getInvestUnitID() {
+		return thosttraderapiJNI.CThostFtdcQryForQuoteField_InvestUnitID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryForQuoteField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryForQuoteField(), true);
-  }
+	public CThostFtdcQryForQuoteField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryForQuoteField(), true);
+	}
 
 }

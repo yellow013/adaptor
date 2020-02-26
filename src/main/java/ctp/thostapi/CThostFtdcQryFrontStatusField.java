@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryFrontStatusField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryFrontStatusField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryFrontStatusField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryFrontStatusField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryFrontStatusField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryFrontStatusField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryFrontStatusField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setFrontID(int value) {
-    thosttraderapiJNI.CThostFtdcQryFrontStatusField_FrontID_set(swigCPtr, this, value);
-  }
+	public void setFrontID(int value) {
+		thosttraderapiJNI.CThostFtdcQryFrontStatusField_FrontID_set(swigCPtr, this, value);
+	}
 
-  public int getFrontID() {
-    return thosttraderapiJNI.CThostFtdcQryFrontStatusField_FrontID_get(swigCPtr, this);
-  }
+	public int getFrontID() {
+		return thosttraderapiJNI.CThostFtdcQryFrontStatusField_FrontID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryFrontStatusField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryFrontStatusField(), true);
-  }
+	public CThostFtdcQryFrontStatusField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryFrontStatusField(), true);
+	}
 
 }

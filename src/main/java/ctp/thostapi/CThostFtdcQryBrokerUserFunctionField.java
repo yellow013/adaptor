@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryBrokerUserFunctionField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryBrokerUserFunctionField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryBrokerUserFunctionField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryBrokerUserFunctionField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryBrokerUserFunctionField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryBrokerUserFunctionField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryBrokerUserFunctionField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcQryBrokerUserFunctionField_UserID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryBrokerUserFunctionField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryBrokerUserFunctionField(), true);
-  }
+	public CThostFtdcQryBrokerUserFunctionField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryBrokerUserFunctionField(), true);
+	}
 
 }

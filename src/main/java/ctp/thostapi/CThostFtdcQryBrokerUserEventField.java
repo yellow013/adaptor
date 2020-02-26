@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryBrokerUserEventField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryBrokerUserEventField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryBrokerUserEventField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryBrokerUserEventField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryBrokerUserEventField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryBrokerUserEventField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryBrokerUserEventField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserID_get(swigCPtr, this);
+	}
 
-  public void setUserEventType(char value) {
-    thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserEventType_set(swigCPtr, this, value);
-  }
+	public void setUserEventType(char value) {
+		thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserEventType_set(swigCPtr, this, value);
+	}
 
-  public char getUserEventType() {
-    return thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserEventType_get(swigCPtr, this);
-  }
+	public char getUserEventType() {
+		return thosttraderapiJNI.CThostFtdcQryBrokerUserEventField_UserEventType_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryBrokerUserEventField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryBrokerUserEventField(), true);
-  }
+	public CThostFtdcQryBrokerUserEventField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryBrokerUserEventField(), true);
+	}
 
 }

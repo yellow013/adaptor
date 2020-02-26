@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQrySyncDepositField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQrySyncDepositField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQrySyncDepositField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQrySyncDepositField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQrySyncDepositField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQrySyncDepositField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQrySyncDepositField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySyncDepositField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySyncDepositField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQrySyncDepositField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQrySyncDepositField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setDepositSeqNo(String value) {
-    thosttraderapiJNI.CThostFtdcQrySyncDepositField_DepositSeqNo_set(swigCPtr, this, value);
-  }
+	public void setDepositSeqNo(String value) {
+		thosttraderapiJNI.CThostFtdcQrySyncDepositField_DepositSeqNo_set(swigCPtr, this, value);
+	}
 
-  public String getDepositSeqNo() {
-    return thosttraderapiJNI.CThostFtdcQrySyncDepositField_DepositSeqNo_get(swigCPtr, this);
-  }
+	public String getDepositSeqNo() {
+		return thosttraderapiJNI.CThostFtdcQrySyncDepositField_DepositSeqNo_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQrySyncDepositField() {
-    this(thosttraderapiJNI.new_CThostFtdcQrySyncDepositField(), true);
-  }
+	public CThostFtdcQrySyncDepositField() {
+		this(thosttraderapiJNI.new_CThostFtdcQrySyncDepositField(), true);
+	}
 
 }

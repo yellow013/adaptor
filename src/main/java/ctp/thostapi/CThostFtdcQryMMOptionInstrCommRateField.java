@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryMMOptionInstrCommRateField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryMMOptionInstrCommRateField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryMMOptionInstrCommRateField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryMMOptionInstrCommRateField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryMMOptionInstrCommRateField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryMMOptionInstrCommRateField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryMMOptionInstrCommRateField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InstrumentID_set(swigCPtr, this, value);
-  }
+	public void setInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InstrumentID_get(swigCPtr, this);
-  }
+	public String getInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcQryMMOptionInstrCommRateField_InstrumentID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryMMOptionInstrCommRateField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryMMOptionInstrCommRateField(), true);
-  }
+	public CThostFtdcQryMMOptionInstrCommRateField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryMMOptionInstrCommRateField(), true);
+	}
 
 }

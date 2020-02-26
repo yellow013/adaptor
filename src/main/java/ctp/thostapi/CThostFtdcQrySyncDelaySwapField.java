@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQrySyncDelaySwapField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQrySyncDelaySwapField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQrySyncDelaySwapField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQrySyncDelaySwapField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQrySyncDelaySwapField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQrySyncDelaySwapField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQrySyncDelaySwapField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setDelaySwapSeqNo(String value) {
-    thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_DelaySwapSeqNo_set(swigCPtr, this, value);
-  }
+	public void setDelaySwapSeqNo(String value) {
+		thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_DelaySwapSeqNo_set(swigCPtr, this, value);
+	}
 
-  public String getDelaySwapSeqNo() {
-    return thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_DelaySwapSeqNo_get(swigCPtr, this);
-  }
+	public String getDelaySwapSeqNo() {
+		return thosttraderapiJNI.CThostFtdcQrySyncDelaySwapField_DelaySwapSeqNo_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQrySyncDelaySwapField() {
-    this(thosttraderapiJNI.new_CThostFtdcQrySyncDelaySwapField(), true);
-  }
+	public CThostFtdcQrySyncDelaySwapField() {
+		this(thosttraderapiJNI.new_CThostFtdcQrySyncDelaySwapField(), true);
+	}
 
 }

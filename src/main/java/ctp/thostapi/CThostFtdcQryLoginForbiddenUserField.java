@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryLoginForbiddenUserField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryLoginForbiddenUserField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryLoginForbiddenUserField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryLoginForbiddenUserField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryLoginForbiddenUserField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryLoginForbiddenUserField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryLoginForbiddenUserField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcQryLoginForbiddenUserField_UserID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryLoginForbiddenUserField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryLoginForbiddenUserField(), true);
-  }
+	public CThostFtdcQryLoginForbiddenUserField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryLoginForbiddenUserField(), true);
+	}
 
 }

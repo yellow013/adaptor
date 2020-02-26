@@ -9,50 +9,50 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryCommRateModelField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryCommRateModelField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryCommRateModelField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryCommRateModelField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryCommRateModelField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryCommRateModelField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryCommRateModelField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryCommRateModelField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryCommRateModelField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryCommRateModelField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryCommRateModelField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setCommModelID(String value) {
-    thosttraderapiJNI.CThostFtdcQryCommRateModelField_CommModelID_set(swigCPtr, this, value);
-  }
+	public void setCommModelID(String value) {
+		thosttraderapiJNI.CThostFtdcQryCommRateModelField_CommModelID_set(swigCPtr, this, value);
+	}
 
-  public String getCommModelID() {
-    return thosttraderapiJNI.CThostFtdcQryCommRateModelField_CommModelID_get(swigCPtr, this);
-  }
+	public String getCommModelID() {
+		return thosttraderapiJNI.CThostFtdcQryCommRateModelField_CommModelID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryCommRateModelField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryCommRateModelField(), true);
-  }
+	public CThostFtdcQryCommRateModelField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryCommRateModelField(), true);
+	}
 
 }

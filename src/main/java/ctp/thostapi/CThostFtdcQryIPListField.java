@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryIPListField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryIPListField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryIPListField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryIPListField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryIPListField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryIPListField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryIPListField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setIPAddress(String value) {
-    thosttraderapiJNI.CThostFtdcQryIPListField_IPAddress_set(swigCPtr, this, value);
-  }
+	public void setIPAddress(String value) {
+		thosttraderapiJNI.CThostFtdcQryIPListField_IPAddress_set(swigCPtr, this, value);
+	}
 
-  public String getIPAddress() {
-    return thosttraderapiJNI.CThostFtdcQryIPListField_IPAddress_get(swigCPtr, this);
-  }
+	public String getIPAddress() {
+		return thosttraderapiJNI.CThostFtdcQryIPListField_IPAddress_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryIPListField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryIPListField(), true);
-  }
+	public CThostFtdcQryIPListField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryIPListField(), true);
+	}
 
 }

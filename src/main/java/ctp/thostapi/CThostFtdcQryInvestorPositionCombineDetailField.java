@@ -9,74 +9,74 @@
 package ctp.thostapi;
 
 public class CThostFtdcQryInvestorPositionCombineDetailField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQryInvestorPositionCombineDetailField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQryInvestorPositionCombineDetailField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQryInvestorPositionCombineDetailField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQryInvestorPositionCombineDetailField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQryInvestorPositionCombineDetailField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQryInvestorPositionCombineDetailField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setInvestorID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestorID_set(swigCPtr, this, value);
-  }
+	public void setInvestorID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestorID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestorID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestorID_get(swigCPtr, this);
-  }
+	public String getInvestorID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestorID_get(swigCPtr, this);
+	}
 
-  public void setCombInstrumentID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_CombInstrumentID_set(swigCPtr, this, value);
-  }
+	public void setCombInstrumentID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_CombInstrumentID_set(swigCPtr, this, value);
+	}
 
-  public String getCombInstrumentID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_CombInstrumentID_get(swigCPtr, this);
-  }
+	public String getCombInstrumentID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_CombInstrumentID_get(swigCPtr, this);
+	}
 
-  public void setExchangeID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_ExchangeID_set(swigCPtr, this, value);
-  }
+	public void setExchangeID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_ExchangeID_set(swigCPtr, this, value);
+	}
 
-  public String getExchangeID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_ExchangeID_get(swigCPtr, this);
-  }
+	public String getExchangeID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_ExchangeID_get(swigCPtr, this);
+	}
 
-  public void setInvestUnitID(String value) {
-    thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestUnitID_set(swigCPtr, this, value);
-  }
+	public void setInvestUnitID(String value) {
+		thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestUnitID_set(swigCPtr, this, value);
+	}
 
-  public String getInvestUnitID() {
-    return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestUnitID_get(swigCPtr, this);
-  }
+	public String getInvestUnitID() {
+		return thosttraderapiJNI.CThostFtdcQryInvestorPositionCombineDetailField_InvestUnitID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQryInvestorPositionCombineDetailField() {
-    this(thosttraderapiJNI.new_CThostFtdcQryInvestorPositionCombineDetailField(), true);
-  }
+	public CThostFtdcQryInvestorPositionCombineDetailField() {
+		this(thosttraderapiJNI.new_CThostFtdcQryInvestorPositionCombineDetailField(), true);
+	}
 
 }

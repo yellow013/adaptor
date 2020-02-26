@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcQrySuperUserFunctionField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcQrySuperUserFunctionField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcQrySuperUserFunctionField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcQrySuperUserFunctionField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcQrySuperUserFunctionField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcQrySuperUserFunctionField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcQrySuperUserFunctionField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcQrySuperUserFunctionField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcQrySuperUserFunctionField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcQrySuperUserFunctionField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcQrySuperUserFunctionField_UserID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcQrySuperUserFunctionField() {
-    this(thosttraderapiJNI.new_CThostFtdcQrySuperUserFunctionField(), true);
-  }
+	public CThostFtdcQrySuperUserFunctionField() {
+		this(thosttraderapiJNI.new_CThostFtdcQrySuperUserFunctionField(), true);
+	}
 
 }
