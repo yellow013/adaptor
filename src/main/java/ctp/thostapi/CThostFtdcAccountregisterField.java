@@ -9,178 +9,178 @@
 package ctp.thostapi;
 
 public class CThostFtdcAccountregisterField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcAccountregisterField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcAccountregisterField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcAccountregisterField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcAccountregisterField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcAccountregisterField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcAccountregisterField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setTradeDay(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_TradeDay_set(swigCPtr, this, value);
-  }
+	public void setTradeDay(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_TradeDay_set(swigCPtr, this, value);
+	}
 
-  public String getTradeDay() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_TradeDay_get(swigCPtr, this);
-  }
+	public String getTradeDay() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_TradeDay_get(swigCPtr, this);
+	}
 
-  public void setBankID(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_BankID_set(swigCPtr, this, value);
-  }
+	public void setBankID(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_BankID_set(swigCPtr, this, value);
+	}
 
-  public String getBankID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_BankID_get(swigCPtr, this);
-  }
+	public String getBankID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_BankID_get(swigCPtr, this);
+	}
 
-  public void setBankBranchID(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_BankBranchID_set(swigCPtr, this, value);
-  }
+	public void setBankBranchID(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_BankBranchID_set(swigCPtr, this, value);
+	}
 
-  public String getBankBranchID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_BankBranchID_get(swigCPtr, this);
-  }
+	public String getBankBranchID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_BankBranchID_get(swigCPtr, this);
+	}
 
-  public void setBankAccount(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccount_set(swigCPtr, this, value);
-  }
+	public void setBankAccount(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccount_set(swigCPtr, this, value);
+	}
 
-  public String getBankAccount() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccount_get(swigCPtr, this);
-  }
+	public String getBankAccount() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccount_get(swigCPtr, this);
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setBrokerBranchID(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerBranchID_set(swigCPtr, this, value);
-  }
+	public void setBrokerBranchID(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerBranchID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerBranchID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerBranchID_get(swigCPtr, this);
-  }
+	public String getBrokerBranchID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_BrokerBranchID_get(swigCPtr, this);
+	}
 
-  public void setAccountID(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_AccountID_set(swigCPtr, this, value);
-  }
+	public void setAccountID(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_AccountID_set(swigCPtr, this, value);
+	}
 
-  public String getAccountID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_AccountID_get(swigCPtr, this);
-  }
+	public String getAccountID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_AccountID_get(swigCPtr, this);
+	}
 
-  public void setIdCardType(char value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_IdCardType_set(swigCPtr, this, value);
-  }
+	public void setIdCardType(char value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_IdCardType_set(swigCPtr, this, value);
+	}
 
-  public char getIdCardType() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_IdCardType_get(swigCPtr, this);
-  }
+	public char getIdCardType() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_IdCardType_get(swigCPtr, this);
+	}
 
-  public void setIdentifiedCardNo(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_IdentifiedCardNo_set(swigCPtr, this, value);
-  }
+	public void setIdentifiedCardNo(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_IdentifiedCardNo_set(swigCPtr, this, value);
+	}
 
-  public String getIdentifiedCardNo() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_IdentifiedCardNo_get(swigCPtr, this);
-  }
+	public String getIdentifiedCardNo() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_IdentifiedCardNo_get(swigCPtr, this);
+	}
 
-  public void setCustomerName(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_CustomerName_set(swigCPtr, this, value);
-  }
+	public void setCustomerName(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_CustomerName_set(swigCPtr, this, value);
+	}
 
-  public String getCustomerName() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_CustomerName_get(swigCPtr, this);
-  }
+	public String getCustomerName() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_CustomerName_get(swigCPtr, this);
+	}
 
-  public void setCurrencyID(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_CurrencyID_set(swigCPtr, this, value);
-  }
+	public void setCurrencyID(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_CurrencyID_set(swigCPtr, this, value);
+	}
 
-  public String getCurrencyID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_CurrencyID_get(swigCPtr, this);
-  }
+	public String getCurrencyID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_CurrencyID_get(swigCPtr, this);
+	}
 
-  public void setOpenOrDestroy(char value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_OpenOrDestroy_set(swigCPtr, this, value);
-  }
+	public void setOpenOrDestroy(char value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_OpenOrDestroy_set(swigCPtr, this, value);
+	}
 
-  public char getOpenOrDestroy() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_OpenOrDestroy_get(swigCPtr, this);
-  }
+	public char getOpenOrDestroy() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_OpenOrDestroy_get(swigCPtr, this);
+	}
 
-  public void setRegDate(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_RegDate_set(swigCPtr, this, value);
-  }
+	public void setRegDate(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_RegDate_set(swigCPtr, this, value);
+	}
 
-  public String getRegDate() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_RegDate_get(swigCPtr, this);
-  }
+	public String getRegDate() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_RegDate_get(swigCPtr, this);
+	}
 
-  public void setOutDate(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_OutDate_set(swigCPtr, this, value);
-  }
+	public void setOutDate(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_OutDate_set(swigCPtr, this, value);
+	}
 
-  public String getOutDate() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_OutDate_get(swigCPtr, this);
-  }
+	public String getOutDate() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_OutDate_get(swigCPtr, this);
+	}
 
-  public void setTID(int value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_TID_set(swigCPtr, this, value);
-  }
+	public void setTID(int value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_TID_set(swigCPtr, this, value);
+	}
 
-  public int getTID() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_TID_get(swigCPtr, this);
-  }
+	public int getTID() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_TID_get(swigCPtr, this);
+	}
 
-  public void setCustType(char value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_CustType_set(swigCPtr, this, value);
-  }
+	public void setCustType(char value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_CustType_set(swigCPtr, this, value);
+	}
 
-  public char getCustType() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_CustType_get(swigCPtr, this);
-  }
+	public char getCustType() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_CustType_get(swigCPtr, this);
+	}
 
-  public void setBankAccType(char value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccType_set(swigCPtr, this, value);
-  }
+	public void setBankAccType(char value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccType_set(swigCPtr, this, value);
+	}
 
-  public char getBankAccType() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccType_get(swigCPtr, this);
-  }
+	public char getBankAccType() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_BankAccType_get(swigCPtr, this);
+	}
 
-  public void setLongCustomerName(String value) {
-    thosttraderapiJNI.CThostFtdcAccountregisterField_LongCustomerName_set(swigCPtr, this, value);
-  }
+	public void setLongCustomerName(String value) {
+		thosttraderapiJNI.CThostFtdcAccountregisterField_LongCustomerName_set(swigCPtr, this, value);
+	}
 
-  public String getLongCustomerName() {
-    return thosttraderapiJNI.CThostFtdcAccountregisterField_LongCustomerName_get(swigCPtr, this);
-  }
+	public String getLongCustomerName() {
+		return thosttraderapiJNI.CThostFtdcAccountregisterField_LongCustomerName_get(swigCPtr, this);
+	}
 
-  public CThostFtdcAccountregisterField() {
-    this(thosttraderapiJNI.new_CThostFtdcAccountregisterField(), true);
-  }
+	public CThostFtdcAccountregisterField() {
+		this(thosttraderapiJNI.new_CThostFtdcAccountregisterField(), true);
+	}
 
 }

@@ -9,74 +9,74 @@
 package ctp.thostapi;
 
 public class CThostFtdcAuthenticationInfoField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcAuthenticationInfoField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcAuthenticationInfoField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcAuthenticationInfoField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcAuthenticationInfoField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcAuthenticationInfoField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcAuthenticationInfoField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setBrokerID(String value) {
-    thosttraderapiJNI.CThostFtdcAuthenticationInfoField_BrokerID_set(swigCPtr, this, value);
-  }
+	public void setBrokerID(String value) {
+		thosttraderapiJNI.CThostFtdcAuthenticationInfoField_BrokerID_set(swigCPtr, this, value);
+	}
 
-  public String getBrokerID() {
-    return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_BrokerID_get(swigCPtr, this);
-  }
+	public String getBrokerID() {
+		return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_BrokerID_get(swigCPtr, this);
+	}
 
-  public void setUserID(String value) {
-    thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserID_set(swigCPtr, this, value);
-  }
+	public void setUserID(String value) {
+		thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserID_set(swigCPtr, this, value);
+	}
 
-  public String getUserID() {
-    return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserID_get(swigCPtr, this);
-  }
+	public String getUserID() {
+		return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserID_get(swigCPtr, this);
+	}
 
-  public void setUserProductInfo(String value) {
-    thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserProductInfo_set(swigCPtr, this, value);
-  }
+	public void setUserProductInfo(String value) {
+		thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserProductInfo_set(swigCPtr, this, value);
+	}
 
-  public String getUserProductInfo() {
-    return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserProductInfo_get(swigCPtr, this);
-  }
+	public String getUserProductInfo() {
+		return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_UserProductInfo_get(swigCPtr, this);
+	}
 
-  public void setAuthInfo(String value) {
-    thosttraderapiJNI.CThostFtdcAuthenticationInfoField_AuthInfo_set(swigCPtr, this, value);
-  }
+	public void setAuthInfo(String value) {
+		thosttraderapiJNI.CThostFtdcAuthenticationInfoField_AuthInfo_set(swigCPtr, this, value);
+	}
 
-  public String getAuthInfo() {
-    return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_AuthInfo_get(swigCPtr, this);
-  }
+	public String getAuthInfo() {
+		return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_AuthInfo_get(swigCPtr, this);
+	}
 
-  public void setIsResult(int value) {
-    thosttraderapiJNI.CThostFtdcAuthenticationInfoField_IsResult_set(swigCPtr, this, value);
-  }
+	public void setIsResult(int value) {
+		thosttraderapiJNI.CThostFtdcAuthenticationInfoField_IsResult_set(swigCPtr, this, value);
+	}
 
-  public int getIsResult() {
-    return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_IsResult_get(swigCPtr, this);
-  }
+	public int getIsResult() {
+		return thosttraderapiJNI.CThostFtdcAuthenticationInfoField_IsResult_get(swigCPtr, this);
+	}
 
-  public CThostFtdcAuthenticationInfoField() {
-    this(thosttraderapiJNI.new_CThostFtdcAuthenticationInfoField(), true);
-  }
+	public CThostFtdcAuthenticationInfoField() {
+		this(thosttraderapiJNI.new_CThostFtdcAuthenticationInfoField(), true);
+	}
 
 }

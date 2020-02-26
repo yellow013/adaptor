@@ -9,58 +9,58 @@
 package ctp.thostapi;
 
 public class CThostFtdcCommPhaseField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcCommPhaseField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcCommPhaseField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcCommPhaseField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcCommPhaseField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcCommPhaseField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcCommPhaseField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setTradingDay(String value) {
-    thosttraderapiJNI.CThostFtdcCommPhaseField_TradingDay_set(swigCPtr, this, value);
-  }
+	public void setTradingDay(String value) {
+		thosttraderapiJNI.CThostFtdcCommPhaseField_TradingDay_set(swigCPtr, this, value);
+	}
 
-  public String getTradingDay() {
-    return thosttraderapiJNI.CThostFtdcCommPhaseField_TradingDay_get(swigCPtr, this);
-  }
+	public String getTradingDay() {
+		return thosttraderapiJNI.CThostFtdcCommPhaseField_TradingDay_get(swigCPtr, this);
+	}
 
-  public void setCommPhaseNo(short value) {
-    thosttraderapiJNI.CThostFtdcCommPhaseField_CommPhaseNo_set(swigCPtr, this, value);
-  }
+	public void setCommPhaseNo(short value) {
+		thosttraderapiJNI.CThostFtdcCommPhaseField_CommPhaseNo_set(swigCPtr, this, value);
+	}
 
-  public short getCommPhaseNo() {
-    return thosttraderapiJNI.CThostFtdcCommPhaseField_CommPhaseNo_get(swigCPtr, this);
-  }
+	public short getCommPhaseNo() {
+		return thosttraderapiJNI.CThostFtdcCommPhaseField_CommPhaseNo_get(swigCPtr, this);
+	}
 
-  public void setSystemID(String value) {
-    thosttraderapiJNI.CThostFtdcCommPhaseField_SystemID_set(swigCPtr, this, value);
-  }
+	public void setSystemID(String value) {
+		thosttraderapiJNI.CThostFtdcCommPhaseField_SystemID_set(swigCPtr, this, value);
+	}
 
-  public String getSystemID() {
-    return thosttraderapiJNI.CThostFtdcCommPhaseField_SystemID_get(swigCPtr, this);
-  }
+	public String getSystemID() {
+		return thosttraderapiJNI.CThostFtdcCommPhaseField_SystemID_get(swigCPtr, this);
+	}
 
-  public CThostFtdcCommPhaseField() {
-    this(thosttraderapiJNI.new_CThostFtdcCommPhaseField(), true);
-  }
+	public CThostFtdcCommPhaseField() {
+		this(thosttraderapiJNI.new_CThostFtdcCommPhaseField(), true);
+	}
 
 }
