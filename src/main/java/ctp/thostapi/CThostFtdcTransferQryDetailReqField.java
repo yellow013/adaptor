@@ -9,42 +9,42 @@
 package ctp.thostapi;
 
 public class CThostFtdcTransferQryDetailReqField {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected CThostFtdcTransferQryDetailReqField(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected CThostFtdcTransferQryDetailReqField(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(CThostFtdcTransferQryDetailReqField obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(CThostFtdcTransferQryDetailReqField obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        thosttraderapiJNI.delete_CThostFtdcTransferQryDetailReqField(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				thosttraderapiJNI.delete_CThostFtdcTransferQryDetailReqField(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public void setFutureAccount(String value) {
-    thosttraderapiJNI.CThostFtdcTransferQryDetailReqField_FutureAccount_set(swigCPtr, this, value);
-  }
+	public void setFutureAccount(String value) {
+		thosttraderapiJNI.CThostFtdcTransferQryDetailReqField_FutureAccount_set(swigCPtr, this, value);
+	}
 
-  public String getFutureAccount() {
-    return thosttraderapiJNI.CThostFtdcTransferQryDetailReqField_FutureAccount_get(swigCPtr, this);
-  }
+	public String getFutureAccount() {
+		return thosttraderapiJNI.CThostFtdcTransferQryDetailReqField_FutureAccount_get(swigCPtr, this);
+	}
 
-  public CThostFtdcTransferQryDetailReqField() {
-    this(thosttraderapiJNI.new_CThostFtdcTransferQryDetailReqField(), true);
-  }
+	public CThostFtdcTransferQryDetailReqField() {
+		this(thosttraderapiJNI.new_CThostFtdcTransferQryDetailReqField(), true);
+	}
 
 }
