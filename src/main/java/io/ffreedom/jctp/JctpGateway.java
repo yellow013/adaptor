@@ -56,9 +56,13 @@ public class JctpGateway {
 
 	private static void loadLinux64Library() {
 		logger.info("Load linux 64bit library...");
-		System.loadLibrary("lib/linux64/thosttraderapi");
-		System.loadLibrary("lib/linux64/thostmduserapi");
-		System.loadLibrary("lib/linux64/thostapi_wrap");
+//		System.loadLibrary("lib/linux64/thosttraderapi");
+//		System.loadLibrary("lib/linux64/thostmduserapi");
+//		System.loadLibrary("lib/linux64/thostapi_wrap");
+
+		System.loadLibrary("thosttraderapi");
+		System.loadLibrary("thostmduserapi");
+		System.loadLibrary("thostapi_wrap");
 	}
 
 	static {
