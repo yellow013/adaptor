@@ -39,6 +39,7 @@ import io.mercury.common.collections.MutableSets;
 import io.mercury.common.collections.queue.api.Queue;
 import io.mercury.common.datetime.DateTimeUtil;
 import io.mercury.common.log.CommonLoggerFactory;
+import io.mercury.common.sys.SysProperties;
 import io.mercury.common.thread.ThreadUtil;
 import io.mercury.common.util.StringUtil;
 
@@ -56,9 +57,9 @@ public class JctpGateway {
 
 	private static void loadLinux64Library() {
 		logger.info("Load linux 64bit library...");
-//		System.loadLibrary("lib/linux64/thosttraderapi");
-//		System.loadLibrary("lib/linux64/thostmduserapi");
-//		System.loadLibrary("lib/linux64/thostapi_wrap");
+//		System.load("/home/ivan/workspace/jctp/lib/linux64/thosttraderapi.so");
+//		System.load("/home/ivan/workspace/jctp/lib/linux64/thostmduserapi.so");
+//		System.load("/home/ivan/workspace/jctp/lib/linux64/thostapi_wrap.so");
 
 		System.loadLibrary("thosttraderapi");
 		System.loadLibrary("thostmduserapi");
@@ -101,8 +102,9 @@ public class JctpGateway {
 
 	private File getTempDir() {
 		// 创建临时文件存储目录
-		String tempFileHome = System.getProperty("user.home") + File.separator + "jctp";
+		String tempFileHome = SysProperties.JAVA_IO_TMPDIR + File.separator + "jctp";
 		File tempFileDir = new File(tempFileHome + File.separator + gatewayId + File.separator + DateTimeUtil.date());
+		logger.info("Temp file dir -> {}", tempFileDir.getAbsolutePath());
 		if (!tempFileDir.exists())
 			tempFileDir.mkdirs();
 		return tempFileDir;
@@ -112,6 +114,8 @@ public class JctpGateway {
 		if (!isInit) {
 			// 获取临时文件目录
 			File tempDir = getTempDir();
+			logger.info(CThostFtdcTraderApi.GetApiVersion());
+			logger.info(CThostFtdcMdApi.GetApiVersion());
 			try {
 				ThreadUtil.startNewThread(() -> mdInitAndJoin(tempDir), "Md-Spi-Thread");
 				ThreadUtil.sleep(2000);
@@ -195,7 +199,7 @@ public class JctpGateway {
 		if (isMdLogin && !subscribeInstruementSet.isEmpty())
 			innerSubscribeMarketData();
 		else
-			logger.info("Cannot SubscribeMarketData -> isMdLogin==[false] ");
+			logger.info("Cannot SubscribeMarketData -> isMdLogin==[false]");
 	}
 
 	private void innerSubscribeMarketData() {
