@@ -18,8 +18,13 @@ public class JctpGatewayTest {
 
 	private final Logger logger = CommonLoggerFactory.getLogger(JctpGatewayTest.class);
 
-	private String TradeAddress = "tcp://180.168.146.187:10000";
-	private String MdAddress = "tcp://180.168.146.187:10010";
+	//标准CTP
+	//private String TradeAddress = "tcp://180.168.146.187:10100";
+	//private String MdAddress = "tcp://180.168.146.187:10110";
+	
+	//7*24 CTP连通测试
+	private String TradeAddress = "tcp://180.168.146.187:10130";
+	private String MdAddress = "tcp://180.168.146.187:10131";
 
 	private String BrokerId = "9999";
 	private String InvestorId = "005853";
@@ -64,7 +69,7 @@ public class JctpGatewayTest {
 				}));
 		gateway.initAndJoin();
 		Set<String> instruementIdSet = new HashSet<>();
-		instruementIdSet.add("rb2005");
+		instruementIdSet.add("rb2010");
 		gateway.subscribeMarketData(instruementIdSet);
 		ThreadUtil.join();
 	}
