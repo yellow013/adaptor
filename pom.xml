@@ -53,9 +53,9 @@
 		<dependency>
 			<groupId>thostapi</groupId>
 			<artifactId>thostapi</artifactId>
-			<version>6.3.13</version>
+			<version>6.3.15</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/6.3.13/thostapi.jar</systemPath>
+			<systemPath>${project.basedir}/lib/thostapi_v6_3_15.jar</systemPath>
 		</dependency>
 	</dependencies>
 
