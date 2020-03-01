@@ -61,8 +61,8 @@ public class JctpGateway {
 //		System.load("/home/ivan/workspace/jctp/lib/linux64/thostmduserapi.so");
 //		System.load("/home/ivan/workspace/jctp/lib/linux64/thostapi_wrap.so");
 
-		System.loadLibrary("thosttraderapi");
-		System.loadLibrary("thostmduserapi");
+		System.loadLibrary("thosttraderapi_se");
+		System.loadLibrary("thostmduserapi_se");
 		System.loadLibrary("thostapi_wrap");
 	}
 
@@ -114,12 +114,12 @@ public class JctpGateway {
 		if (!isInit) {
 			// 获取临时文件目录
 			File tempDir = getTempDir();
-			logger.info(CThostFtdcTraderApi.GetApiVersion());
-			logger.info(CThostFtdcMdApi.GetApiVersion());
+			logger.info("TraderApi version {}", CThostFtdcTraderApi.GetApiVersion());
+			logger.info("MdApi version {}", CThostFtdcMdApi.GetApiVersion());
 			try {
 				ThreadUtil.startNewThread(() -> mdInitAndJoin(tempDir), "Md-Spi-Thread");
 				ThreadUtil.sleep(2000);
-				ThreadUtil.startNewThread(() -> traderInitAndJoin(tempDir), "trader-Spi-Thread");
+				ThreadUtil.startNewThread(() -> traderInitAndJoin(tempDir), "Trader-Spi-Thread");
 				this.isInit = true;
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
@@ -195,7 +195,7 @@ public class JctpGateway {
 	 */
 	public void subscribeMarketData(Set<String> inputInstruementSet) {
 		subscribeInstruementSet.addAll(inputInstruementSet);
-		logger.info("Add Subscribe Instruement set -> addCount==[{}]", inputInstruementSet.size());
+		logger.info("Add Subscribe Instruement set -> Count==[{}]", inputInstruementSet.size());
 		if (isMdLogin && !subscribeInstruementSet.isEmpty())
 			innerSubscribeMarketData();
 		else
