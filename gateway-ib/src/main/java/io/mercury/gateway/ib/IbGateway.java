@@ -1,4 +1,4 @@
-package io.ffreedom.gateway.ib;
+package io.mercury.gateway.ib;
 
 public class IbGateway {
 
