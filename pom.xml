@@ -3,15 +3,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.mercury</groupId>
-	<artifactId>jctp</artifactId>
-	<version>0.1</version>
-	<packaging>jar</packaging>
+	<groupId>io.mercury.gateway</groupId>
+	<artifactId>gateway</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
 
-	<name>jctp</name>
+	<name>gateway</name>
+
+	<url>https://github.com/yellow013/commons.git</url>
+
+	<modules>
+		<module>gateway-ctp</module>
+		<module>gateway-ib</module>
+		<module>gateway-mt5</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<build>
@@ -19,44 +28,39 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<compilerArgument>-parameters</compilerArgument>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
+
 	<dependencies>
-		<!-- <dependency> <groupId>ctp</groupId> <artifactId>thostapi</artifactId> 
-			<version>1.0</version> <scope>system</scope> <systemPath>${project.basedir}/lib/thostapi.jar</systemPath> 
-			</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId> 
-			<version>1.2.3</version> </dependency> -->
-		<dependency>
-			<groupId>io.mercury</groupId>
-			<artifactId>commons-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>io.mercury</groupId>
-			<artifactId>commons-concurrent</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>thostapi</groupId>
-			<artifactId>thostapi</artifactId>
-			<version>6.3.15</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/thostapi_v6_3_15.jar</systemPath>
-		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.mercury</groupId>
+				<artifactId>commons-core</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.mercury</groupId>
+				<artifactId>commons-concurrent</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
