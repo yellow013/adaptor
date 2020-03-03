@@ -9,31 +9,31 @@ import org.slf4j.Logger;
 import io.mercury.common.concurrent.queue.MpscArrayBlockingQueue;
 import io.mercury.common.log.CommonLoggerFactory;
 import io.mercury.common.thread.ThreadUtil;
-import io.mercury.gateway.ctp.JctpGateway;
-import io.mercury.gateway.ctp.bean.config.JctpUserInfo;
+import io.mercury.gateway.ctp.CtpGateway;
+import io.mercury.gateway.ctp.bean.config.CtpConnectionInfo;
 import io.mercury.gateway.ctp.bean.rsp.RspDepthMarketData;
 import io.mercury.gateway.ctp.bean.rsp.RtnOrder;
 import io.mercury.gateway.ctp.bean.rsp.RtnTrade;
 
-public class JctpGatewayTest {
+public class CtpGatewayTest {
 
-	private final Logger logger = CommonLoggerFactory.getLogger(JctpGatewayTest.class);
+	private final Logger logger = CommonLoggerFactory.getLogger(CtpGatewayTest.class);
 
 	//标准CTP
-	//private String TradeAddress = "tcp://180.168.146.187:10100";
-	//private String MdAddress = "tcp://180.168.146.187:10110";
+//	private String TradeAddress = "tcp://180.168.146.187:10100";
+//	private String MdAddress = "tcp://180.168.146.187:10110";
 	
 	//7*24 CTP连通测试
 	private String TradeAddress = "tcp://180.168.146.187:10130";
 	private String MdAddress = "tcp://180.168.146.187:10131";
 
 	private String BrokerId = "9999";
-	private String InvestorId = "005853";
-	private String UserId = "005853";
-	private String AccountId = "005853";
-	private String Password = "123456789";
+	private String InvestorId = "132796";
+	private String UserId = "132796";
+	private String AccountId = "132796";
+	private String Password = "tc311911";
 
-	private String TradingDay = "20190201";
+	private String TradingDay = "20200302";
 	private String CurrencyId = "CNY";
 
 	private String GatewayId = "simnow_test";
@@ -41,11 +41,11 @@ public class JctpGatewayTest {
 	@Test
 	public void test() {
 
-		JctpUserInfo simnowUserInfo = JctpUserInfo.newEmpty().setTraderAddress(TradeAddress).setMdAddress(MdAddress)
+		CtpConnectionInfo simnowUserInfo = CtpConnectionInfo.newEmpty().setTraderAddress(TradeAddress).setMdAddress(MdAddress)
 				.setBrokerId(BrokerId).setInvestorId(InvestorId).setUserId(UserId).setAccountId(AccountId)
 				.setPassword(Password).setTradingDay(TradingDay).setCurrencyId(CurrencyId);
 
-		JctpGateway gateway = new JctpGateway(GatewayId, simnowUserInfo,
+		CtpGateway gateway = new CtpGateway(GatewayId, simnowUserInfo,
 				MpscArrayBlockingQueue.autoStartQueue("Simnow-Handle-Queue", 1024, msg -> {
 					switch (msg.getType()) {
 					case DepthMarketData:
