@@ -121,7 +121,7 @@ public class TdApi {
 	}
 
 	void authenticate() {
-		if (!StringUtil.notNullAndEmpty(authCode) && !isAuth) {
+		if (!StringUtil.nonEmpty(authCode) && !isAuth) {
 			// 验证
 			CThostFtdcReqAuthenticateField authenticateField = new CThostFtdcReqAuthenticateField();
 			authenticateField.setUserID(userId);
