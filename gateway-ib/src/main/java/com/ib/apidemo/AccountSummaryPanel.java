@@ -14,8 +14,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.ib.apidemo.AccountInfoPanel.Table;
 import com.ib.apidemo.util.HtmlButton;
-import com.ib.apidemo.util.VerticalPanel;
 import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
+import com.ib.apidemo.util.VerticalPanel;
 import com.ib.controller.AccountSummaryTag;
 import com.ib.controller.ApiController.IAccountSummaryHandler;
 import com.ib.controller.Formats;

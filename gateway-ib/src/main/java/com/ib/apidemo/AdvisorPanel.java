@@ -21,9 +21,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
 import com.ib.apidemo.util.HtmlButton;
+import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.apidemo.util.TCombo;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.client.Types.FADataType;
 import com.ib.client.Types.Method;
 import com.ib.controller.Alias;

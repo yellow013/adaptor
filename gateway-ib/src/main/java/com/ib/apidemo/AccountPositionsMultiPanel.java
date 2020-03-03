@@ -20,9 +20,9 @@ import javax.swing.table.AbstractTableModel;
 
 import com.ib.apidemo.util.HtmlButton;
 import com.ib.apidemo.util.NewTabbedPanel;
+import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.apidemo.util.UpperField;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.client.Contract;
 import com.ib.controller.ApiController.IAccountUpdateMultiHandler;
 import com.ib.controller.ApiController.IPositionMultiHandler;

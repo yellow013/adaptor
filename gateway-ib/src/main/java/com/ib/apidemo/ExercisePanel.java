@@ -15,10 +15,10 @@ import javax.swing.event.ListSelectionListener;
 
 import com.ib.apidemo.AccountInfoPanel.PortfolioModel;
 import com.ib.apidemo.util.HtmlButton;
+import com.ib.apidemo.util.NewTabbedPanel.INewTab;
 import com.ib.apidemo.util.TCombo;
 import com.ib.apidemo.util.UpperField;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.NewTabbedPanel.INewTab;
 import com.ib.apidemo.util.VerticalPanel.HorzPanel;
 import com.ib.client.Types.ExerciseType;
 import com.ib.client.Types.SecType;

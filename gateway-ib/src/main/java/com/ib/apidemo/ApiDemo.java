@@ -21,10 +21,10 @@ import javax.swing.border.EmptyBorder;
 
 import com.ib.apidemo.util.HtmlButton;
 import com.ib.apidemo.util.IConnectionConfiguration;
+import com.ib.apidemo.util.IConnectionConfiguration.DefaultConnectionConfiguration;
 import com.ib.apidemo.util.NewLookAndFeel;
 import com.ib.apidemo.util.NewTabbedPanel;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.IConnectionConfiguration.DefaultConnectionConfiguration;
 import com.ib.client.Types.NewsType;
 import com.ib.controller.ApiConnection.ILogger;
 import com.ib.controller.ApiController;

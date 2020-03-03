@@ -25,10 +25,10 @@ import javax.swing.table.TableCellRenderer;
 
 import com.ib.apidemo.util.HtmlButton;
 import com.ib.apidemo.util.NewTabbedPanel;
+import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.apidemo.util.TCombo;
 import com.ib.apidemo.util.UpperField;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.apidemo.util.VerticalPanel.StackPanel;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;

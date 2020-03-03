@@ -27,11 +27,11 @@ import javax.swing.table.AbstractTableModel;
 
 import com.ib.apidemo.util.HtmlButton;
 import com.ib.apidemo.util.NewTabbedPanel;
+import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.apidemo.util.TCombo;
 import com.ib.apidemo.util.UpperField;
 import com.ib.apidemo.util.Util;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
 import com.ib.client.TickType;

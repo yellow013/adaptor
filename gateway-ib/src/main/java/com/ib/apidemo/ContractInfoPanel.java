@@ -18,9 +18,9 @@ import javax.swing.JTextArea;
 
 import com.ib.apidemo.util.HtmlButton;
 import com.ib.apidemo.util.NewTabbedPanel;
+import com.ib.apidemo.util.NewTabbedPanel.INewTab;
 import com.ib.apidemo.util.TCombo;
 import com.ib.apidemo.util.VerticalPanel;
-import com.ib.apidemo.util.NewTabbedPanel.INewTab;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
 import com.ib.client.Types.FundamentalType;

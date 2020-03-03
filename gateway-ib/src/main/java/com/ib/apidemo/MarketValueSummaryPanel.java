@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.ib.controller.ApiController.IMarketValueSummaryHandler;
 import com.ib.apidemo.AccountInfoPanel.MktValModel;
 import com.ib.apidemo.AccountInfoPanel.Table;
 import com.ib.apidemo.util.HtmlButton;
-import com.ib.apidemo.util.VerticalPanel;
 import com.ib.apidemo.util.NewTabbedPanel.NewTabPanel;
+import com.ib.apidemo.util.VerticalPanel;
+import com.ib.controller.ApiController.IMarketValueSummaryHandler;
 import com.ib.controller.MarketValueTag;
 
 public class MarketValueSummaryPanel extends NewTabPanel implements IMarketValueSummaryHandler {
