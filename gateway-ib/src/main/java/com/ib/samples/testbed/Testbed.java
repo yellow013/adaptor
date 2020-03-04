@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.ib.client.Contract;
 import com.ib.client.EClientSocket;
 import com.ib.client.EReader;
 import com.ib.client.EReaderSignal;
 import com.ib.client.ExecutionFilter;
 import com.ib.client.Order;
 import com.ib.client.Types.FADataType;
-import com.ib.controller.AccountSummaryTag;
 import com.ib.samples.testbed.advisor.FAMethodSamples;
 import com.ib.samples.testbed.contracts.ContractSamples;
 import com.ib.samples.testbed.orders.AvailableAlgoParams;

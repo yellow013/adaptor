@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import java.lang.UnsupportedOperationException;
-
 class EDecoder implements ObjectInput {
 	// incoming msg id's
 	static final int END_CONN = -1;
