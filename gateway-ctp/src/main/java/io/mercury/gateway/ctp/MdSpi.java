@@ -1,4 +1,4 @@
-package io.mercury.gateway.ctp.bak;
+package io.mercury.gateway.ctp;
 
 import static io.mercury.gateway.ctp.base.JctpRspValidator.validateRspInfo;
 
@@ -11,13 +11,13 @@ import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import io.mercury.common.log.CommonLoggerFactory;
 
-public class MdSpiImpl0 extends CThostFtdcMdSpi {
+public class MdSpi extends CThostFtdcMdSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
-	private CtpGateway0 gateway;
+	private CtpGateway gateway;
 
-	MdSpiImpl0(CtpGateway0 gateway) {
+	MdSpi(CtpGateway gateway) {
 		this.gateway = gateway;
 	}
 
@@ -61,5 +61,7 @@ public class MdSpiImpl0 extends CThostFtdcMdSpi {
 		else
 			logger.info("OnRtnDepthMarketData return null");
 	}
+	
+	
 
 }

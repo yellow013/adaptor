@@ -1,4 +1,4 @@
-package io.mercury.gateway.ctp.bak;
+package io.mercury.gateway.ctp;
 
 import static io.mercury.gateway.ctp.base.JctpRspValidator.validateRspInfo;
 
@@ -21,13 +21,13 @@ import ctp.thostapi.CThostFtdcUserLogoutField;
 import io.mercury.common.log.CommonLoggerFactory;
 import io.mercury.common.util.StringUtil;
 
-public class TraderSpiImpl0 extends CThostFtdcTraderSpi {
+public class TraderSpi extends CThostFtdcTraderSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
-	private CtpGateway0 gateway;
+	private CtpGateway gateway;
 
-	TraderSpiImpl0(CtpGateway0 gateway) {
+	TraderSpi(CtpGateway gateway) {
 		this.gateway = gateway;
 	}
 

@@ -1,4 +1,4 @@
-package io.mercury.gateway.ctp;
+package io.mercury.gateway.ctp.bak;
 
 import java.io.File;
 import java.util.Iterator;
@@ -15,7 +15,6 @@ import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcInvestorPositionField;
 import ctp.thostapi.CThostFtdcMdApi;
-import ctp.thostapi.CThostFtdcMdSpi;
 import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcQryInstrumentField;
@@ -28,7 +27,6 @@ import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
-import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 import io.mercury.common.annotation.lang.JNI;
@@ -49,9 +47,9 @@ import io.mercury.gateway.ctp.converter.RtnOrderConverter;
 import io.mercury.gateway.ctp.converter.RtnTradeConverter;
 
 @NotThreadSafe
-public class CtpGateway {
+public class CtpGateway0 {
 
-	private static final Logger logger = CommonLoggerFactory.getLogger(CtpGateway.class);
+	private static final Logger logger = CommonLoggerFactory.getLogger(CtpGateway0.class);
 
 	private static void copyLibraryForWin64() {
 		logger.info("Copy win64 library file to [java.library.path]...");
@@ -105,7 +103,7 @@ public class CtpGateway {
 	private boolean isMdLogin;
 	private boolean isTraderLogin;
 
-	public CtpGateway(String gatewayId, @Nonnull CtpConnectionInfo connectionInfo,
+	public CtpGateway0(String gatewayId, @Nonnull CtpConnectionInfo connectionInfo,
 			@Nonnull Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
 		this.connectionInfo = Assertor.nonNull(connectionInfo, "userInfo");
@@ -147,9 +145,9 @@ public class CtpGateway {
 		// 创建mdApi
 		this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
 		// 创建mdSpi
-		CThostFtdcMdSpi mdSpi = new MdSpi(this);
+		MdSpiImpl0 mdSpiImpl = new MdSpiImpl0(this);
 		// 将mdSpi注册到mdApi
-		mdApi.RegisterSpi(mdSpi);
+		mdApi.RegisterSpi(mdSpiImpl);
 		// 注册到md前置机
 		mdApi.RegisterFront(connectionInfo.getMdAddress());
 		// 初始化mdApi
@@ -167,9 +165,9 @@ public class CtpGateway {
 		// 创建traderApi
 		this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
 		// 创建traderSpi
-		CThostFtdcTraderSpi traderSpi = new TraderSpi(this);
+		TraderSpiImpl0 traderSpiImpl = new TraderSpiImpl0(this);
 		// 将traderSpi注册到traderApi
-		traderApi.RegisterSpi(traderSpi);
+		traderApi.RegisterSpi(traderSpiImpl);
 		// 注册到trader前置机
 		traderApi.RegisterFront(connectionInfo.getTraderAddress());
 		// 订阅公有流
