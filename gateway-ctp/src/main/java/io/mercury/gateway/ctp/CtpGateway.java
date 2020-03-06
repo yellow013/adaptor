@@ -54,13 +54,13 @@ public class CtpGateway {
 	private static void copyLibraryForWin64() {
 		logger.info("Copy win64 library file to [java.library.path]...");
 		logger.info("java.library.path -> {}", SysProperties.JAVA_LIBRARY_PATH);
-		// TODO
+		// TODO 复制到相应目录
 	}
 
 	private static void copyLibraryForLinux64() {
 		logger.info("Copy linux64 library file to [java.library.path]......");
 		logger.info("java.library.path -> {}", SysProperties.JAVA_LIBRARY_PATH);
-		// TODO
+		// TODO 复制到相应目录
 	}
 
 	private synchronized static void loadCtpLibrary() {
@@ -95,7 +95,7 @@ public class CtpGateway {
 	private CThostFtdcMdApi mdApi;
 
 	private boolean isInit = false;
-	private Queue<RspMsg> inboundQueue;
+	private Queue<RspMsg> inboundBuffer;
 
 	private int mdRequestId = -1;
 	private int traderRequestId = -1;
@@ -104,10 +104,10 @@ public class CtpGateway {
 	private boolean isTraderLogin;
 
 	public CtpGateway(String gatewayId, @Nonnull CtpConnectionInfo connectionInfo,
-			@Nonnull Queue<RspMsg> inboundQueue) {
+			@Nonnull Queue<RspMsg> inboundBuffer) {
 		this.gatewayId = gatewayId;
 		this.connectionInfo = Assertor.nonNull(connectionInfo, "userInfo");
-		this.inboundQueue = inboundQueue;
+		this.inboundBuffer = Assertor.nonNull(inboundBuffer, "inboundBuffer");
 	}
 
 	private File getTempDir() {
@@ -259,7 +259,7 @@ public class CtpGateway {
 		logger.debug("Gateway onRtnDepthMarketData -> InstrumentID == [{}], UpdateTime==[{}], UpdateMillisec==[{}]",
 				depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),
 				depthMarketData.getUpdateMillisec());
-		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketDataFunction.apply(depthMarketData)));
+		inboundBuffer.enqueue(RspMsg.ofDepthMarketData(depthMarketDataFunction.apply(depthMarketData)));
 	}
 
 	/**
@@ -280,11 +280,11 @@ public class CtpGateway {
 	private RspOrderInsertConverter orderInsertConverter = new RspOrderInsertConverter();
 
 	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
-		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.apply(rspOrderInsert)));
+		inboundBuffer.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.apply(rspOrderInsert)));
 	}
 
 	void onErrRtnOrderInsert(CThostFtdcInputOrderField inputOrder) {
-		inboundQueue.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
+		inboundBuffer.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
 	}
 
 	private RtnOrderConverter rtnOrderConverter = new RtnOrderConverter();
@@ -292,7 +292,7 @@ public class CtpGateway {
 	void onRtnOrder(CThostFtdcOrderField rtnOrder) {
 		logger.debug("Gateway onRtnOrder -> AccountID==[{}], OrderRef==[{}]", rtnOrder.getAccountID(),
 				rtnOrder.getOrderRef());
-		inboundQueue.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.apply(rtnOrder)));
+		inboundBuffer.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.apply(rtnOrder)));
 	}
 
 	private RtnTradeConverter rtnTradeConverter = new RtnTradeConverter();
@@ -300,7 +300,7 @@ public class CtpGateway {
 	void onRtnTrade(CThostFtdcTradeField rtnTrade) {
 		logger.debug("Gateway onRtnTrade -> OrderRef==[{}], Price==[{}], Volume==[{}]", rtnTrade.getOrderRef(),
 				rtnTrade.getPrice(), rtnTrade.getVolume());
-		inboundQueue.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.apply(rtnTrade)));
+		inboundBuffer.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.apply(rtnTrade)));
 	}
 
 	/**
@@ -313,17 +313,17 @@ public class CtpGateway {
 			inputOrderAction.setBrokerID(connectionInfo.getBrokerId());
 			traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
 		} else
-			logger.warn("TraderApi is not login, isTraderLogin==[false]");
+			logger.error("Trader Error :: TraderApi is not login");
 	}
 
 	private RspOrderActionConverter orderActionConverter = new RspOrderActionConverter();
 
 	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
-		inboundQueue.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.apply(inputOrderAction)));
+		inboundBuffer.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.apply(inputOrderAction)));
 	}
 
 	void onErrRtnOrderAction(CThostFtdcOrderActionField orderAction) {
-		inboundQueue.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
+		inboundBuffer.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
 	}
 
 	void onRspError(CThostFtdcRspInfoField rspInfo) {
