@@ -21,13 +21,13 @@ import ctp.thostapi.CThostFtdcUserLogoutField;
 import io.mercury.common.log.CommonLoggerFactory;
 import io.mercury.common.util.StringUtil;
 
-public class TraderSpiImpl extends CThostFtdcTraderSpi {
+public class TraderSpi extends CThostFtdcTraderSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
 	private CtpGateway gateway;
 
-	TraderSpiImpl(CtpGateway gateway) {
+	TraderSpi(CtpGateway gateway) {
 		this.gateway = gateway;
 	}
 

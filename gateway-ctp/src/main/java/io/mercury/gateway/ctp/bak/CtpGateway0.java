@@ -1,4 +1,4 @@
-package io.mercury.gateway.ctp;
+package io.mercury.gateway.ctp.bak;
 
 import java.io.File;
 import java.util.Iterator;
@@ -15,7 +15,6 @@ import ctp.thostapi.CThostFtdcInputOrderActionField;
 import ctp.thostapi.CThostFtdcInputOrderField;
 import ctp.thostapi.CThostFtdcInvestorPositionField;
 import ctp.thostapi.CThostFtdcMdApi;
-import ctp.thostapi.CThostFtdcMdSpi;
 import ctp.thostapi.CThostFtdcOrderActionField;
 import ctp.thostapi.CThostFtdcOrderField;
 import ctp.thostapi.CThostFtdcQryInstrumentField;
@@ -28,7 +27,6 @@ import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import ctp.thostapi.CThostFtdcTradeField;
 import ctp.thostapi.CThostFtdcTraderApi;
-import ctp.thostapi.CThostFtdcTraderSpi;
 import ctp.thostapi.CThostFtdcTradingAccountField;
 import ctp.thostapi.THOST_TE_RESUME_TYPE;
 import io.mercury.common.annotation.lang.JNI;
@@ -49,20 +47,20 @@ import io.mercury.gateway.ctp.converter.RtnOrderConverter;
 import io.mercury.gateway.ctp.converter.RtnTradeConverter;
 
 @NotThreadSafe
-public class CtpGateway {
+public class CtpGateway0 {
 
-	private static final Logger logger = CommonLoggerFactory.getLogger(CtpGateway.class);
+	private static final Logger logger = CommonLoggerFactory.getLogger(CtpGateway0.class);
 
 	private static void copyLibraryForWin64() {
 		logger.info("Copy win64 library file to [java.library.path]...");
 		logger.info("java.library.path -> {}", SysProperties.JAVA_LIBRARY_PATH);
-		// TODO 复制到相应目录
+		// TODO
 	}
 
 	private static void copyLibraryForLinux64() {
 		logger.info("Copy linux64 library file to [java.library.path]......");
 		logger.info("java.library.path -> {}", SysProperties.JAVA_LIBRARY_PATH);
-		// TODO 复制到相应目录
+		// TODO
 	}
 
 	private synchronized static void loadCtpLibrary() {
@@ -97,7 +95,7 @@ public class CtpGateway {
 	private CThostFtdcMdApi mdApi;
 
 	private boolean isInit = false;
-	private Queue<RspMsg> inboundBuffer;
+	private Queue<RspMsg> inboundQueue;
 
 	private int mdRequestId = -1;
 	private int traderRequestId = -1;
@@ -105,11 +103,11 @@ public class CtpGateway {
 	private boolean isMdLogin;
 	private boolean isTraderLogin;
 
-	public CtpGateway(String gatewayId, @Nonnull CtpConnectionInfo connectionInfo,
-			@Nonnull Queue<RspMsg> inboundBuffer) {
+	public CtpGateway0(String gatewayId, @Nonnull CtpConnectionInfo connectionInfo,
+			@Nonnull Queue<RspMsg> inboundQueue) {
 		this.gatewayId = gatewayId;
 		this.connectionInfo = Assertor.nonNull(connectionInfo, "userInfo");
-		this.inboundBuffer = Assertor.nonNull(inboundBuffer, "inboundBuffer");
+		this.inboundQueue = inboundQueue;
 	}
 
 	private File getTempDir() {
@@ -147,9 +145,9 @@ public class CtpGateway {
 		// 创建mdApi
 		this.mdApi = CThostFtdcMdApi.CreateFtdcMdApi(mdTempFilePath);
 		// 创建mdSpi
-		CThostFtdcMdSpi mdSpi = new MdSpi(this);
+		MdSpiImpl0 mdSpiImpl = new MdSpiImpl0(this);
 		// 将mdSpi注册到mdApi
-		mdApi.RegisterSpi(mdSpi);
+		mdApi.RegisterSpi(mdSpiImpl);
 		// 注册到md前置机
 		mdApi.RegisterFront(connectionInfo.getMdAddress());
 		// 初始化mdApi
@@ -167,9 +165,9 @@ public class CtpGateway {
 		// 创建traderApi
 		this.traderApi = CThostFtdcTraderApi.CreateFtdcTraderApi(traderTempFilePath);
 		// 创建traderSpi
-		CThostFtdcTraderSpi traderSpi = new TraderSpi(this);
+		TraderSpiImpl0 traderSpiImpl = new TraderSpiImpl0(this);
 		// 将traderSpi注册到traderApi
-		traderApi.RegisterSpi(traderSpi);
+		traderApi.RegisterSpi(traderSpiImpl);
 		// 注册到trader前置机
 		traderApi.RegisterFront(connectionInfo.getTraderAddress());
 		// 订阅公有流
@@ -261,7 +259,7 @@ public class CtpGateway {
 		logger.debug("Gateway onRtnDepthMarketData -> InstrumentID == [{}], UpdateTime==[{}], UpdateMillisec==[{}]",
 				depthMarketData.getInstrumentID(), depthMarketData.getUpdateTime(),
 				depthMarketData.getUpdateMillisec());
-		inboundBuffer.enqueue(RspMsg.ofDepthMarketData(depthMarketDataFunction.apply(depthMarketData)));
+		inboundQueue.enqueue(RspMsg.ofDepthMarketData(depthMarketDataFunction.apply(depthMarketData)));
 	}
 
 	/**
@@ -282,11 +280,11 @@ public class CtpGateway {
 	private RspOrderInsertConverter orderInsertConverter = new RspOrderInsertConverter();
 
 	void onRspOrderInsert(CThostFtdcInputOrderField rspOrderInsert) {
-		inboundBuffer.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.apply(rspOrderInsert)));
+		inboundQueue.enqueue(RspMsg.ofRspOrderInsert(orderInsertConverter.apply(rspOrderInsert)));
 	}
 
 	void onErrRtnOrderInsert(CThostFtdcInputOrderField inputOrder) {
-		inboundBuffer.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
+		inboundQueue.enqueue(RspMsg.ofErrRtnOrderInsert(inputOrder));
 	}
 
 	private RtnOrderConverter rtnOrderConverter = new RtnOrderConverter();
@@ -294,7 +292,7 @@ public class CtpGateway {
 	void onRtnOrder(CThostFtdcOrderField rtnOrder) {
 		logger.debug("Gateway onRtnOrder -> AccountID==[{}], OrderRef==[{}]", rtnOrder.getAccountID(),
 				rtnOrder.getOrderRef());
-		inboundBuffer.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.apply(rtnOrder)));
+		inboundQueue.enqueue(RspMsg.ofRtnOrder(rtnOrderConverter.apply(rtnOrder)));
 	}
 
 	private RtnTradeConverter rtnTradeConverter = new RtnTradeConverter();
@@ -302,7 +300,7 @@ public class CtpGateway {
 	void onRtnTrade(CThostFtdcTradeField rtnTrade) {
 		logger.debug("Gateway onRtnTrade -> OrderRef==[{}], Price==[{}], Volume==[{}]", rtnTrade.getOrderRef(),
 				rtnTrade.getPrice(), rtnTrade.getVolume());
-		inboundBuffer.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.apply(rtnTrade)));
+		inboundQueue.enqueue(RspMsg.ofRtnTrade(rtnTradeConverter.apply(rtnTrade)));
 	}
 
 	/**
@@ -315,17 +313,17 @@ public class CtpGateway {
 			inputOrderAction.setBrokerID(connectionInfo.getBrokerId());
 			traderApi.ReqOrderAction(inputOrderAction, ++traderRequestId);
 		} else
-			logger.error("Trader Error :: TraderApi is not login");
+			logger.warn("TraderApi is not login, isTraderLogin==[false]");
 	}
 
 	private RspOrderActionConverter orderActionConverter = new RspOrderActionConverter();
 
 	void onRspOrderAction(CThostFtdcInputOrderActionField inputOrderAction) {
-		inboundBuffer.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.apply(inputOrderAction)));
+		inboundQueue.enqueue(RspMsg.ofRspOrderAction(orderActionConverter.apply(inputOrderAction)));
 	}
 
 	void onErrRtnOrderAction(CThostFtdcOrderActionField orderAction) {
-		inboundBuffer.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
+		inboundQueue.enqueue(RspMsg.ofErrRtnOrderAction(orderAction));
 	}
 
 	void onRspError(CThostFtdcRspInfoField rspInfo) {
