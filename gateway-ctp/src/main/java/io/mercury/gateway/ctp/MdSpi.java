@@ -11,7 +11,7 @@ import ctp.thostapi.CThostFtdcRspUserLoginField;
 import ctp.thostapi.CThostFtdcSpecificInstrumentField;
 import io.mercury.common.log.CommonLoggerFactory;
 
-public class MdSpi extends CThostFtdcMdSpi {
+public final class MdSpi extends CThostFtdcMdSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 

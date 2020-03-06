@@ -232,8 +232,7 @@ public class CtpGateway {
 		logger.info("SubscribeMarketData Success -> InstrumentCode==[{}]", specificInstrument);
 	}
 
-	private Function<CThostFtdcDepthMarketDataField, RspDepthMarketData> depthMarketDataFunction = (
-			CThostFtdcDepthMarketDataField from) -> {
+	private Function<CThostFtdcDepthMarketDataField, RspDepthMarketData> depthMarketDataFunction = from -> {
 		return new RspDepthMarketData().setTradingDay(from.getTradingDay()).setInstrumentID(from.getInstrumentID())
 				.setExchangeID(from.getExchangeID()).setExchangeInstID(from.getExchangeInstID())
 				.setLastPrice(from.getLastPrice()).setPreSettlementPrice(from.getPreSettlementPrice())

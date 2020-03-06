@@ -79,7 +79,6 @@ public class TraderSpiImpl0 extends CThostFtdcTraderSpi {
 			gateway.onQryTradingAccount(pTradingAccount);
 		else
 			logger.warn("OnRspQryTradingAccount return null");
-
 	}
 
 	@Override

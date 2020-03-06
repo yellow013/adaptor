@@ -21,7 +21,7 @@ import ctp.thostapi.CThostFtdcUserLogoutField;
 import io.mercury.common.log.CommonLoggerFactory;
 import io.mercury.common.util.StringUtil;
 
-public class TraderSpi extends CThostFtdcTraderSpi {
+public final class TraderSpi extends CThostFtdcTraderSpi {
 
 	private Logger logger = CommonLoggerFactory.getLogger(getClass());
 
