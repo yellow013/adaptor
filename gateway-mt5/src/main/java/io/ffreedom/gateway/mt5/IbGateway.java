@@ -1,4 +1,4 @@
-package io.ffreedom.gateway.ib;
+package io.ffreedom.gateway.mt5;
 
 public class IbGateway {
 
