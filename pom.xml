@@ -10,7 +10,7 @@
 
 	<name>gateway</name>
 
-	<url>https://github.com/yellow013/commons.git</url>
+	<url>https://github.com/yellow013/gateway.git</url>
 
 	<modules>
 		<module>gateway-ctp</module>
