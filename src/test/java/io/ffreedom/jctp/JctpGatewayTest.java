@@ -19,18 +19,18 @@ public class JctpGatewayTest {
 	private final Logger logger = CommonLoggerFactory.getLogger(JctpGatewayTest.class);
 
 	//标准CTP
-	//private String TradeAddress = "tcp://180.168.146.187:10100";
-	//private String MdAddress = "tcp://180.168.146.187:10110";
+	private String TradeAddress = "tcp://180.168.146.187:10100";
+	private String MdAddress = "tcp://180.168.146.187:10110";
 	
 	//7*24 CTP连通测试
-	private String TradeAddress = "tcp://180.168.146.187:10130";
-	private String MdAddress = "tcp://180.168.146.187:10131";
+//	private String TradeAddress = "tcp://180.168.146.187:10130";
+//	private String MdAddress = "tcp://180.168.146.187:10131";
 
 	private String BrokerId = "9999";
-	private String InvestorId = "005853";
-	private String UserId = "005853";
-	private String AccountId = "005853";
-	private String Password = "123456789";
+	private String InvestorId = "132796";
+	private String UserId = "132796";
+	private String AccountId = "132796";
+	private String Password = "tc311911";
 
 	private String TradingDay = "20190201";
 	private String CurrencyId = "CNY";
