@@ -1,5 +1,9 @@
 # gateway
 
+### project is deprecated 
+
+#### see https://github.com/yellow013/horizon
+
 trading-gateway implement.
 
 [gateway-ctp]: The china future broker in use CTP counter system of Java JNI implement.
