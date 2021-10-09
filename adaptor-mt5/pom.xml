@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>io.mercury</groupId>
-		<artifactId>gateway</artifactId>
-		<version>1.0</version>
+		<groupId>io.adaptor</groupId>
+		<artifactId>adaptor</artifactId>
+		<version>0.1</version>
 	</parent>
 
-	<artifactId>gateway-mt5</artifactId>
+	<artifactId>adaptor-mt5</artifactId>
 	<packaging>jar</packaging>
 
 	<name>gateway-mt5</name>
