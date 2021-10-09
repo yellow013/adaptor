@@ -3,24 +3,32 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.mercury</groupId>
-	<artifactId>gateway</artifactId>
-	<version>1.0</version>
+	<groupId>io.adaptor</groupId>
+	<artifactId>adaptor</artifactId>
+	<version>0.1</version>
 	<packaging>pom</packaging>
 
-	<name>gateway</name>
+	<name>adaptor</name>
 
-	<url>https://github.com/yellow013/gateway.git</url>
+	<url>https://github.com/yellow013/adaptor.git</url>
 
 	<modules>
-		<module>gateway-ctp</module>
-		<module>gateway-ib</module>
-		<module>gateway-mt5</module>
+		<module>adaptor-binance</module>
+		<module>adaptor-fix4j</module>
+		<module>adaptor-ftdc</module>
+		<module>adaptor-ftdc-service</module>
+		<module>adaptor-ib</module>
+		<module>adaptor-mt5</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<mercury.version>1.0-SNAPSHOT</mercury.version>
+		<horizon.version>0.1</horizon.version>
+		<spring.boot.version>2.5.5</spring.boot.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<build>
@@ -43,8 +51,15 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- commons -->
+		<!-- see https://github.com/yellow013/mercury.git -->
+		<dependency>
+			<groupId>io.mercury</groupId>
+			<artifactId>commons-concurrent</artifactId>
+			<version>${mercury.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -52,13 +67,41 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.mercury</groupId>
-				<artifactId>commons-core</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<artifactId>persistence-chronicle</artifactId>
+				<version>${mercury.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.mercury</groupId>
-				<artifactId>commons-concurrent</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<artifactId>transport-zmq</artifactId>
+				<version>${mercury.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.mercury</groupId>
+				<artifactId>transport-rabbitmq</artifactId>
+				<version>${mercury.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.mercury</groupId>
+				<artifactId>transport-socket</artifactId>
+				<version>${mercury.version}</version>
+			</dependency>
+
+			<!-- horizon -->
+			<dependency>
+				<groupId>io.horizon</groupId>
+				<artifactId>market-api</artifactId>
+				<version>${horizon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.horizon</groupId>
+				<artifactId>trader-api</artifactId>
+				<version>${horizon.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.20</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
