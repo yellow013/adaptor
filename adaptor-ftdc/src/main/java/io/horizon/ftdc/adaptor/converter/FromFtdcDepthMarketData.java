@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import org.slf4j.Logger;
 
-import io.horizon.ftdc.gateway.msg.rsp.FtdcDepthMarketData;
+import io.horizon.ftdc.gateway.rsp.FtdcDepthMarketData;
 import io.horizon.market.data.impl.BasicMarketData;
 import io.horizon.market.instrument.Instrument;
 import io.horizon.market.instrument.InstrumentKeeper;
@@ -35,7 +35,7 @@ public final class FromFtdcDepthMarketData implements Function<FtdcDepthMarketDa
 		log.info("Convert depthMarketData apply -> InstrumentCode==[{}], actionDay==[{}], updateTime==[{}]",
 				instrument.getInstrumentCode(), actionDay, updateTime);
 
-		PriceMultiplier multiplier = instrument.getPriceMultiplier();
+		PriceMultiplier multiplier = instrument.getSymbol().getPriceMultiplier();
 
 		return BasicMarketData.newLevel5(
 				// 交易标的

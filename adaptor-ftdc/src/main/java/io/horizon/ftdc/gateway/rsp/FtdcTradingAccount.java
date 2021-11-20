@@ -1,4 +1,4 @@
-package io.horizon.ftdc.gateway.msg.rsp;
+package io.horizon.ftdc.gateway.rsp;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package io.horizon.ftdc.gateway.converter;
 import java.util.function.Function;
 
 import ctp.thostapi.CThostFtdcOrderField;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcOrder;
+import io.horizon.ftdc.gateway.rsp.FtdcOrder;
 
 public class CThostFtdcOrderConverter implements Function<CThostFtdcOrderField, FtdcOrder> {
 

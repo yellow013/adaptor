@@ -1,6 +1,6 @@
 package io.horizon.ftdc.adaptor;
 
-import static io.mercury.common.thread.Threads.sleep;
+import static io.mercury.common.thread.SleepSupport.sleep;
 import static io.mercury.common.thread.Threads.startNewThread;
 
 import java.io.IOException;
@@ -20,15 +20,18 @@ import io.horizon.ftdc.adaptor.converter.ToCThostFtdcInputOrderAction;
 import io.horizon.ftdc.exception.OrderRefNotFoundException;
 import io.horizon.ftdc.gateway.FtdcConfig;
 import io.horizon.ftdc.gateway.FtdcGateway;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInputOrder;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInputOrderAction;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcMdConnect;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcOrder;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcOrderAction;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcTrade;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcTraderConnect;
+import io.horizon.ftdc.gateway.rsp.FtdcDepthMarketData;
+import io.horizon.ftdc.gateway.rsp.FtdcInputOrder;
+import io.horizon.ftdc.gateway.rsp.FtdcInputOrderAction;
+import io.horizon.ftdc.gateway.rsp.FtdcMdConnect;
+import io.horizon.ftdc.gateway.rsp.FtdcOrder;
+import io.horizon.ftdc.gateway.rsp.FtdcOrderAction;
+import io.horizon.ftdc.gateway.rsp.FtdcTrade;
+import io.horizon.ftdc.gateway.rsp.FtdcTraderConnect;
+import io.horizon.market.data.FastMarketDataBridge;
 import io.horizon.market.data.impl.BasicMarketData;
 import io.horizon.market.handler.MarketDataHandler;
+import io.horizon.market.handler.MarketDataMulticaster;
 import io.horizon.market.instrument.Instrument;
 import io.horizon.trader.account.Account;
 import io.horizon.trader.adaptor.AbstractAdaptor;
@@ -50,13 +53,19 @@ public class FtdcAdaptor extends AbstractAdaptor<BasicMarketData> {
 
 	private static final Logger log = CommonLoggerFactory.getLogger(FtdcAdaptor.class);
 
-	// 转换行情
+	/*
+	 * 转换行情
+	 */
 	private final FromFtdcDepthMarketData fromFtdcDepthMarketData = new FromFtdcDepthMarketData();
 
-	// 转换报单回报
+	/*
+	 * 转换报单回报
+	 */
 	private final FromFtdcOrder fromFtdcOrder = new FromFtdcOrder();
 
-	// 转换成交回报
+	/*
+	 * 转换成交回报
+	 */
 	private final FromFtdcTrade fromFtdcTrade = new FromFtdcTrade();
 
 	// FtdcConfig
@@ -76,6 +85,16 @@ public class FtdcAdaptor extends AbstractAdaptor<BasicMarketData> {
 
 	// 订单转换为FTDC报单操作请求
 	private final ToCThostFtdcInputOrderAction toCThostFtdcInputOrderAction;
+
+	private final MarketDataMulticaster<FtdcDepthMarketData, FastMarketDataBridge> multicaster = new MarketDataMulticaster<>(
+			getAdaptorId(), FastMarketDataBridge.FACTORY, (marketData, sequence, ftdcMarketData) -> {
+				marketData.setInstrumentCode(ftdcMarketData.getInstrumentID());
+				var multiplier = marketData.getInstrument().getSymbol().getPriceMultiplier();
+				var fastMarketData = marketData.getFastMarketData();
+				fastMarketData.setLastPrice(multiplier.toLong(ftdcMarketData.getLastPrice()));
+
+				marketData.updated();
+			});
 
 	public FtdcAdaptor(@Nonnull Account account, @Nonnull Params<FtdcAdaptorParamKey> params,
 			@Nonnull MarketDataHandler<BasicMarketData> marketDataHandler,
@@ -141,7 +160,7 @@ public class FtdcAdaptor extends AbstractAdaptor<BasicMarketData> {
 		return new FtdcGateway(gatewayId, ftdcConfig,
 				// 创建队列缓冲区
 				JctSingleConsumerQueue.multiProducer(queueName).setCapacity(64).buildWithProcessor(ftdcRspMsg -> {
-					switch (ftdcRspMsg.getRspType()) {
+					switch (ftdcRspMsg.getType()) {
 					case FtdcMdConnect:
 						FtdcMdConnect mdConnect = ftdcRspMsg.getFtdcMdConnect();
 						this.isMdAvailable = mdConnect.isAvailable();
@@ -172,6 +191,8 @@ public class FtdcAdaptor extends AbstractAdaptor<BasicMarketData> {
 						break;
 					case FtdcDepthMarketData:
 						// 行情处理
+						// TODO
+						multicaster.publish(ftdcRspMsg.getFtdcDepthMarketData());
 						BasicMarketData marketData = fromFtdcDepthMarketData.apply(ftdcRspMsg.getFtdcDepthMarketData());
 						marketDataHandler.onMarketData(marketData);
 						break;

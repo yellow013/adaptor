@@ -204,7 +204,7 @@ public final class ToCThostFtdcInputOrder implements Function<Order, CThostFtdcI
 		}
 
 		// 设置价格
-		double limitPrice = instrument.getPriceMultiplier().toDouble(order.getPrice().getOfferPrice());
+		double limitPrice = instrument.getSymbol().getPriceMultiplier().toDouble(order.getPrice().getOfferPrice());
 		field.setLimitPrice(limitPrice);
 		log.info("Set CThostFtdcInputOrderField -> LimitPrice == {}", limitPrice);
 

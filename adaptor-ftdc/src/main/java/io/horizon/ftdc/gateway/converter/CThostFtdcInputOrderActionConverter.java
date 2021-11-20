@@ -3,7 +3,7 @@ package io.horizon.ftdc.gateway.converter;
 import java.util.function.Function;
 
 import ctp.thostapi.CThostFtdcInputOrderActionField;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInputOrderAction;
+import io.horizon.ftdc.gateway.rsp.FtdcInputOrderAction;
 
 public final class CThostFtdcInputOrderActionConverter
 		implements Function<CThostFtdcInputOrderActionField, FtdcInputOrderAction> {

@@ -1,6 +1,6 @@
 package io.horizon.ftdc.adaptor.converter;
 
-import static io.mercury.common.util.StringUtil.removeNonDigits;
+import static io.mercury.common.util.StringSupport.removeNonDigits;
 
 import java.util.function.Function;
 
@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 import io.horizon.ftdc.adaptor.FtdcConstMapper;
 import io.horizon.ftdc.adaptor.OrderRefKeeper;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcTrade;
+import io.horizon.ftdc.gateway.rsp.FtdcTrade;
 import io.horizon.market.instrument.Instrument;
 import io.horizon.market.instrument.InstrumentKeeper;
 import io.horizon.market.instrument.PriceMultiplier;
@@ -59,7 +59,7 @@ public final class FromFtdcTrade implements Function<FtdcTrade, OrderReport> {
 		report.setFilledQty(ftdcTrade.getVolume());
 
 		// 成交价格
-		PriceMultiplier multiplier = instrument.getPriceMultiplier();
+		PriceMultiplier multiplier = instrument.getSymbol().getPriceMultiplier();
 		report.setTradePrice(multiplier.toLong(ftdcTrade.getPrice()));
 		
 		// 最后修改时间

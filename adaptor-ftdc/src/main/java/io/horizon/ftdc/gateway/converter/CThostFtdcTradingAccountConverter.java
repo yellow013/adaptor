@@ -3,7 +3,7 @@ package io.horizon.ftdc.gateway.converter;
 import java.util.function.Function;
 
 import ctp.thostapi.CThostFtdcTradingAccountField;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcTradingAccount;
+import io.horizon.ftdc.gateway.rsp.FtdcTradingAccount;
 
 public class CThostFtdcTradingAccountConverter implements Function<CThostFtdcTradingAccountField, FtdcTradingAccount> {
 

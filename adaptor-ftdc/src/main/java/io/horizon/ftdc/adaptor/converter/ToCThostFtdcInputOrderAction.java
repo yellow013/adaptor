@@ -114,7 +114,7 @@ public final class ToCThostFtdcInputOrderAction implements Function<Order, CThos
 		field.setInstrumentID(instrument.getInstrumentCode());
 
 		// 价格
-		field.setLimitPrice(instrument.getPriceMultiplier().toDouble(order.getPrice().getOfferPrice()));
+		field.setLimitPrice(instrument.getSymbol().getPriceMultiplier().toDouble(order.getPrice().getOfferPrice()));
 
 		// 数量变化
 		field.setVolumeChange(order.getQty().getLeavesQty());

@@ -1,20 +1,20 @@
-package io.horizon.ftdc.gateway.msg;
+package io.horizon.ftdc.gateway;
 
-import io.horizon.ftdc.gateway.msg.rsp.FtdcDepthMarketData;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInputOrder;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInputOrderAction;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInvestorPosition;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcMdConnect;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcOrder;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcOrderAction;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcTrade;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcTraderConnect;
+import io.horizon.ftdc.gateway.rsp.FtdcDepthMarketData;
+import io.horizon.ftdc.gateway.rsp.FtdcInputOrder;
+import io.horizon.ftdc.gateway.rsp.FtdcInputOrderAction;
+import io.horizon.ftdc.gateway.rsp.FtdcInvestorPosition;
+import io.horizon.ftdc.gateway.rsp.FtdcMdConnect;
+import io.horizon.ftdc.gateway.rsp.FtdcOrder;
+import io.horizon.ftdc.gateway.rsp.FtdcOrderAction;
+import io.horizon.ftdc.gateway.rsp.FtdcTrade;
+import io.horizon.ftdc.gateway.rsp.FtdcTraderConnect;
 import lombok.Getter;
 
 @Getter
-public final class FtdcRspMsg {
+public final class RspMsg {
 
-	private final RspType rspType;
+	private final RspType type;
 
 	// 返回交易接口连接信息
 	private FtdcTraderConnect ftdcTraderConnect;
@@ -46,56 +46,75 @@ public final class FtdcRspMsg {
 	// 是否最后一条
 	private boolean isLast = true;
 
-	public FtdcRspMsg(FtdcTraderConnect ftdcTraderConnect) {
-		this.rspType = RspType.FtdcTraderConnect;
+	public RspMsg(FtdcTraderConnect ftdcTraderConnect) {
+		this.type = RspType.FtdcTraderConnect;
 		this.ftdcTraderConnect = ftdcTraderConnect;
 	}
 
-	public FtdcRspMsg(FtdcMdConnect ftdcMdConnect) {
-		this.rspType = RspType.FtdcMdConnect;
+	public RspMsg(FtdcMdConnect ftdcMdConnect) {
+		this.type = RspType.FtdcMdConnect;
 		this.ftdcMdConnect = ftdcMdConnect;
 	}
 
-	public FtdcRspMsg(FtdcDepthMarketData ftdcDepthMarketData) {
-		this.rspType = RspType.FtdcDepthMarketData;
+	public RspMsg(FtdcDepthMarketData ftdcDepthMarketData) {
+		this.type = RspType.FtdcDepthMarketData;
 		this.ftdcDepthMarketData = ftdcDepthMarketData;
 	}
 
-	public FtdcRspMsg(FtdcInvestorPosition ftdcInvestorPosition, boolean isLast) {
-		this.rspType = RspType.FtdcInvestorPosition;
+	public RspMsg(FtdcInvestorPosition ftdcInvestorPosition, boolean isLast) {
+		this.type = RspType.FtdcInvestorPosition;
 		this.ftdcInvestorPosition = ftdcInvestorPosition;
 		this.isLast = isLast;
 	}
 
-	public FtdcRspMsg(FtdcOrder ftdcOrder, boolean isLast) {
-		this.rspType = RspType.FtdcOrder;
+	public RspMsg(FtdcOrder ftdcOrder, boolean isLast) {
+		this.type = RspType.FtdcOrder;
 		this.ftdcOrder = ftdcOrder;
 		this.isLast = isLast;
 	}
 
-	public FtdcRspMsg(FtdcTrade ftdcTrade) {
-		this.rspType = RspType.FtdcTrade;
+	public RspMsg(FtdcTrade ftdcTrade) {
+		this.type = RspType.FtdcTrade;
 		this.ftdcTrade = ftdcTrade;
 	}
 
-	public FtdcRspMsg(FtdcInputOrder ftdcInputOrder) {
-		this.rspType = RspType.FtdcInputOrder;
+	public RspMsg(FtdcInputOrder ftdcInputOrder) {
+		this.type = RspType.FtdcInputOrder;
 		this.ftdcInputOrder = ftdcInputOrder;
 	}
 
-	public FtdcRspMsg(FtdcInputOrderAction ftdcInputOrderAction) {
-		this.rspType = RspType.FtdcInputOrderAction;
+	public RspMsg(FtdcInputOrderAction ftdcInputOrderAction) {
+		this.type = RspType.FtdcInputOrderAction;
 		this.ftdcInputOrderAction = ftdcInputOrderAction;
 	}
 
-	public FtdcRspMsg(FtdcOrderAction ftdcOrderAction) {
-		this.rspType = RspType.FtdcOrderAction;
+	public RspMsg(FtdcOrderAction ftdcOrderAction) {
+		this.type = RspType.FtdcOrderAction;
 		this.ftdcOrderAction = ftdcOrderAction;
 	}
 
 	public static enum RspType {
-		FtdcDepthMarketData, FtdcTraderConnect, FtdcMdConnect, FtdcInvestorPosition, FtdcOrder, FtdcTrade,
-		FtdcInputOrder, FtdcInputOrderAction, FtdcOrderAction, Other;
+
+		FtdcDepthMarketData,
+
+		FtdcTraderConnect,
+
+		FtdcMdConnect,
+
+		FtdcInvestorPosition,
+
+		FtdcOrder,
+
+		FtdcTrade,
+
+		FtdcInputOrder,
+
+		FtdcInputOrderAction,
+
+		FtdcOrderAction,
+
+		Other;
+
 	}
 
 }

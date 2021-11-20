@@ -3,7 +3,7 @@ package io.horizon.ftdc.gateway.converter;
 import java.util.function.Function;
 
 import ctp.thostapi.CThostFtdcDepthMarketDataField;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcDepthMarketData;
+import io.horizon.ftdc.gateway.rsp.FtdcDepthMarketData;
 
 public final class CThostFtdcDepthMarketDataConverter implements Function<CThostFtdcDepthMarketDataField, FtdcDepthMarketData> {
 

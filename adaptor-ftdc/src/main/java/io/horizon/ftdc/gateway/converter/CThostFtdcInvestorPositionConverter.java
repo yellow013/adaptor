@@ -3,7 +3,7 @@ package io.horizon.ftdc.gateway.converter;
 import java.util.function.Function;
 
 import ctp.thostapi.CThostFtdcInvestorPositionField;
-import io.horizon.ftdc.gateway.msg.rsp.FtdcInvestorPosition;
+import io.horizon.ftdc.gateway.rsp.FtdcInvestorPosition;
 
 public class CThostFtdcInvestorPositionConverter implements Function<CThostFtdcInvestorPositionField, FtdcInvestorPosition> {
 

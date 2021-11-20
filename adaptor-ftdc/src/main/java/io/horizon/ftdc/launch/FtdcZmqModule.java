@@ -4,7 +4,8 @@ import io.mercury.transport.zmq.ZmqPublisher;
 
 public class FtdcZmqModule implements Runnable {
 
-	ZmqPublisher<String> publisher;
+	@SuppressWarnings("unused")
+	private ZmqPublisher<String> publisher;
 
 	public FtdcZmqModule() {
 

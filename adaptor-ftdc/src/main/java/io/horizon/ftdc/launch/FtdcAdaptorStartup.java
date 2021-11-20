@@ -8,8 +8,8 @@ import java.io.IOException;
 import com.rabbitmq.client.MessageProperties;
 
 import io.mercury.common.datetime.pattern.spec.DateTimePattern;
-import io.mercury.common.log.CommonLogConfigurator;
-import io.mercury.common.log.CommonLogConfigurator.LogLevel;
+import io.mercury.common.log.LogConfigurator;
+import io.mercury.common.log.LogConfigurator.LogLevel;
 import io.mercury.common.util.Assertor;
 import io.mercury.common.util.PropertiesUtil;
 import io.mercury.transport.rabbitmq.configurator.RabbitConnection;
@@ -19,9 +19,9 @@ import io.mercury.transport.rabbitmq.declare.ExchangeDefinition;
 public final class FtdcAdaptorStartup {
 
 	static {
-		CommonLogConfigurator.setLogLevel(LogLevel.INFO);
-		CommonLogConfigurator.setFolder("ftdc");
-		CommonLogConfigurator.setFolder(DateTimePattern.YYYYMMDD_HHMMSS.now());
+		LogConfigurator.setLogLevel(LogLevel.INFO);
+		LogConfigurator.setLogFolder("ftdc");
+		LogConfigurator.setLogFolder(DateTimePattern.YYYYMMDD_HHMMSS.now());
 	}
 
 	public static void main(String[] args) {
@@ -33,7 +33,7 @@ public final class FtdcAdaptorStartup {
 		File file = new File(propFile);
 
 		try {
-			PropertiesUtil.loadProperties(file);
+			PropertiesUtil.load(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
