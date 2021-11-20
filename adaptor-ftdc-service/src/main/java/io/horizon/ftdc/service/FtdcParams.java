@@ -1,5 +1,7 @@
 package io.horizon.ftdc.service;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import io.mercury.serialization.json.JsonWrapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class FtdcParams {
 
+	@Value("")
 	private String traderAddr;
 	private String mdAddr;
 
